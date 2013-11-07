@@ -13,7 +13,7 @@
 
 + (void)load {
     @autoreleasepool {
-        [SimpleAuth registerProviderClass:self];
+//        [SimpleAuth registerProviderClass:self];
     }
 }
 

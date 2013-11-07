@@ -6,10 +6,14 @@
 //  Copyright (c) 2013 SimpleAuth. All rights reserved.
 //
 
+#import "SimpleAuth.h"
+
 @interface SimpleAuthProvider : NSObject
 
 + (NSString *)type;
 
-+ (void)authorizeWithOptions:(NSDictionary *)options completion:(void (^) (id response))completion;
++ (SimpleAuthConfiguration *)configuration;
+
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
 
 @end

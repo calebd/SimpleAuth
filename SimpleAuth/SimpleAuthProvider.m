@@ -16,7 +16,12 @@
 }
 
 
-+ (void)authorizeWithOptions:(NSDictionary *)options completion:(void (^) (id response))completion {
++ (SimpleAuthConfiguration *)configuration {
+    return [SimpleAuth configuration][[self type]];
+}
+
+
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [self doesNotRecognizeSelector:_cmd];
 }
 

@@ -12,6 +12,19 @@
 
 @implementation SimpleAuthSystemProvider
 
+#pragma mark - SimpleAuthProvider
+
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+    [self loadSystemAccount:^(ACAccount *account, NSError *error) {
+        if (!account) {
+            
+            return;
+        }
+        [self authorizeWithSystemAccount:account completion:completion];
+    }];
+}
+
+
 #pragma mark - Public
 
 + (ACAccountStore *)accountStore {
@@ -21,6 +34,16 @@
         store = [[ACAccountStore alloc] init];
     });
     return store;
+}
+
+
+- (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+
+- (void)authorizeWithSystemAccount:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion {
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 @end

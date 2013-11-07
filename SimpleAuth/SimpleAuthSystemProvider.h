@@ -8,10 +8,17 @@
 
 #import "SimpleAuthProvider.h"
 
-@class ACAccountStore;
+@import Accounts;
+@import Social;
+
+typedef void (^SimpleAuthSystemAccountHandler) (ACAccount *account, NSError *error);
 
 @interface SimpleAuthSystemProvider : SimpleAuthProvider
 
 + (ACAccountStore *)accountStore;
+
+- (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion;
+
+- (void)authorizeWithSystemAccount:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion;
 
 @end

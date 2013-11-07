@@ -10,10 +10,10 @@
 
 @interface SimpleAuthTwitterProvider : SimpleAuthSystemProvider
 
-+ (void)requestTokenWithParameters:(NSDictionary *)parameters completion:(SKMSocialServiceRequestHandler)completion;
+- (void)requestTokenWithParameters:(NSDictionary *)parameters completion:(SimpleAuthRequestHandler)completion;
 
-+ (void)reverseAuthRequestToken:(SKMSocialServiceRequestHandler)completion;
+- (void)reverseAuthRequestToken:(SimpleAuthRequestHandler)completion;
 
-+ (void)accessTokenWithReverseAuthRequestToken:(NSString *)token account:(ACAccount *)account completion:(SKMSocialServiceRequestHandler)completion;
+- (void)accessTokenWithReverseAuthRequestToken:(NSString *)token account:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion;
 
 @end

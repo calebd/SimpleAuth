@@ -8,10 +8,12 @@
 
 #import "SimpleAuthConfiguration.h"
 
+typedef void (^SimpleAuthRequestHandler) (id responseObject, NSHTTPURLResponse *response, NSError *error);
+
 @interface SimpleAuth : NSObject
 
 + (SimpleAuthConfiguration *)configuration;
 
-+ (void)authorize:(NSString *)provider completion:(void (^) (id response))completion;
++ (void)authorize:(NSString *)provider completion:(SimpleAuthRequestHandler)completion;
 
 @end

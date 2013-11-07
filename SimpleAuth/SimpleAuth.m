@@ -13,19 +13,6 @@
 
 #pragma mark - Public
 
-//+ (void)configureProvider:(NSString *)provider block:(void (^) (NSMutableDictionary *options))block {
-//    NSMutableDictionary *providerOptions = [self providerOptions];
-//    NSMutableDictionary *options = providerOptions[provider];
-//    if (!options) {
-//        options = [NSMutableDictionary new];
-//        providerOptions[provider] = options;
-//    }
-//    
-//    // TODO: call this in a safe manner
-//    block(options);
-//}
-
-
 + (SimpleAuthConfiguration *)configuration {
     static dispatch_once_t token;
     static SimpleAuthConfiguration *configuration;
@@ -36,8 +23,13 @@
 }
 
 
-+ (void)authorize:(NSString *)provider completion:(void (^) (id response))completion {
-    
++ (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion {
+    Class klass = [self providers][type];
+    SimpleAuthProvider *provider = [klass new];
+    [provider authorizeWithCompletion:^(id responseObject, NSHTTPURLResponse *response, NSError *error) {
+        completion(responseObject, response, error);
+        [provider class]; // Keep the provider around until the work is done
+    }];
 }
 
 
@@ -47,10 +39,9 @@
     NSMutableDictionary *providers = [self providers];
     NSString *type = [klass type];
     if (providers[type]) {
-        Class klass = providers[type];
-        NSLog(@"%@ is already registered for %@", NSStringFromClass(klass), type);
+        NSLog(@"[SimpleAuth] Warning: multiple attempts to register profider: %@", type);
     }
-    
+    providers[type] = klass;
 }
 
 
@@ -64,28 +55,6 @@
     });
     return providers;
 }
-
-
-//+ (NSMutableDictionary *)optionsForProvider:(NSString *)provider {
-//    
-//    // Create provider options collection
-//    static dispatch_once_t token;
-//    static NSMutableDictionary *providerOptions;
-//    dispatch_once(&token, ^{
-//        providerOptions = [NSMutableDictionary new];
-//    });
-//    return providerOptions;
-//    
-//    // Find or create options
-//    NSMutableDictionary *options = providerOptions[provider];
-//    if (!options) {
-//        options = [NSMutableDictionary new];
-//        providerOptions[provider] = options;
-//    }
-//    
-//    // Return
-//    return options;
-//}
 
 
 + (NSMutableDictionary *)providerOptions {

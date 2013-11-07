@@ -19,6 +19,28 @@ The API for creating providers is likewise simple but it is not concrete yet. Ev
 
 Providers will be able to set fallbacks such that attempting to login with Facebook will fallback to Facebook web if no system account is present.
 
+## Usage
+
+Configuring  and using SimpleAuth is easy:
+
+````objc
+// Somewhere in your app boot process
+[SimpleAuth configuration][@"twitter"] = @{
+    @"consumer_key" : @"KEY",
+    @"consumer_secret" : @"SECRET"
+};
+[SimpleAuth configuration][@"facebook"] = @{
+    @"app_id" : @"APP_ID"
+};
+````
+
+````objc
+// Run the login process
+[SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSHTTPURLResponse *response, NSError *error) {
+    NSLog(@"%@", responseObject);
+}];
+````
+
 ## Challenges
 
 The biggest challenge I face at this point is enabling customization of the authentication process. Almost all of the above providers require presenting UI to the user. Twitter requires an action sheet for selecting an account from all present system accounts and Instagram requires a web view controller. I need a generic mechanism that can allow the caller to change the behavior of presented UI.

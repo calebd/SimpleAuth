@@ -10,6 +10,6 @@
 
 @interface SimpleAuthFacebookProvider : SimpleAuthSystemProvider
 
-
+- (void)facebookAccountWithSystemAccount:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion;
 
 @end

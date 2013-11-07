@@ -148,15 +148,17 @@
      parameters:parameters];
     request.account = account;
     [request performRequestWithHandler:^(NSData *data, NSHTTPURLResponse *HTTPResponse, NSError *error) {
-        NSInteger statusCode = [HTTPResponse statusCode];
-        if (statusCode == 200) {
-            NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
-            completion(dictionary, HTTPResponse, nil);
-        }
-        else {
-            completion(nil, HTTPResponse, error);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSInteger statusCode = [HTTPResponse statusCode];
+            if (statusCode == 200) {
+                NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
+                completion(dictionary, HTTPResponse, nil);
+            }
+            else {
+                completion(nil, HTTPResponse, error);
+            }
+        });
     }];
 }
 

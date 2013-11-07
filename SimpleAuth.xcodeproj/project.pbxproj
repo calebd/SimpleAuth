@@ -14,6 +14,9 @@
 		3BB32508182ABC8B00ACB555 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB32507182ABC8B00ACB555 /* Foundation.framework */; };
 		3BB3250D182ABC8B00ACB555 /* SimpleAuth.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BB3250C182ABC8B00ACB555 /* SimpleAuth.h */; };
 		3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */; };
+		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
+		3C0A5396182C4400002C050C /* SimpleAuthInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */; };
+		3C0A5399182C4416002C050C /* SimpleAuthInstagramProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */; };
 		8D148ACD647A46A5A5982D94 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +51,12 @@
 		3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAuth.m; sourceTree = "<group>"; };
 		3BB32515182ABC8C00ACB555 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3BB32518182ABC8C00ACB555 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		3C0A5391182C4217002C050C /* SimpleAuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthWebViewController.h; sourceTree = "<group>"; };
+		3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthWebViewController.m; sourceTree = "<group>"; };
+		3C0A5394182C4400002C050C /* SimpleAuthInstagramLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramLoginViewController.h; sourceTree = "<group>"; };
+		3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramLoginViewController.m; sourceTree = "<group>"; };
+		3C0A5397182C4416002C050C /* SimpleAuthInstagramProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramProvider.h; sourceTree = "<group>"; };
+		3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramProvider.m; sourceTree = "<group>"; };
 		AA6F82B0FA58446A93F41B5D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +84,8 @@
 				3B9AB066182AC2910011FB9E /* SimpleAuthFacebookProvider.m */,
 				3B9AB06F182AD2900011FB9E /* SimpleAuthTwitterProvider.h */,
 				3B9AB070182AD2900011FB9E /* SimpleAuthTwitterProvider.m */,
+				3C0A5397182C4416002C050C /* SimpleAuthInstagramProvider.h */,
+				3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */,
 			);
 			name = Providers;
 			sourceTree = "<group>";
@@ -115,6 +126,7 @@
 				3B9AB068182AC3680011FB9E /* SimpleAuth_Internal.h */,
 				3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */,
 				3B8F11B8182AC0E50035C4EA /* Providers */,
+				3C0A5390182C4206002C050C /* View Controllers */,
 				3BB3250A182ABC8B00ACB555 /* Supporting Files */,
 			);
 			path = SimpleAuth;
@@ -126,6 +138,17 @@
 				3BB3250B182ABC8B00ACB555 /* SimpleAuth-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3C0A5390182C4206002C050C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3C0A5391182C4217002C050C /* SimpleAuthWebViewController.h */,
+				3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */,
+				3C0A5394182C4400002C050C /* SimpleAuthInstagramLoginViewController.h */,
+				3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,7 +240,10 @@
 				3B9AB071182AD2900011FB9E /* SimpleAuthTwitterProvider.m in Sources */,
 				3B9AB067182AC2910011FB9E /* SimpleAuthFacebookProvider.m in Sources */,
 				3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */,
+				3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */,
 				3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */,
+				3C0A5399182C4416002C050C /* SimpleAuthInstagramProvider.m in Sources */,
+				3C0A5396182C4400002C050C /* SimpleAuthInstagramLoginViewController.m in Sources */,
 				3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

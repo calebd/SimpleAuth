@@ -32,6 +32,18 @@
 }
 
 
+- (BOOL)isTargetRedirectURL:(NSURL *)URL {
+    NSString *targetURLString = [self.configuration[@"redirect_uri"] lowercaseString];
+    NSString *actualURLString = [[URL absoluteString] lowercaseString];
+    return [actualURLString hasPrefix:targetURLString];
+}
+
+
+- (id)responseObjectFromRedirectURL:(NSURL *)URL {
+    return nil;
+}
+
+
 #pragma mark - Accessors
 
 - (UIWebView *)webView {
@@ -41,6 +53,31 @@
         _webView.delegate = self;
     }
     return _webView;
+}
+
+
+#pragma mark - UIWebViewDelegate
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    webView.delegate = nil;
+    if (self.completion) {
+        self.completion(nil, nil, error);
+    }
+    self.completion = nil;
+}
+
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)type {
+    NSURL *URL = [request URL];
+    if ([self isTargetRedirectURL:URL]) {
+        webView.delegate = nil;
+        if (self.completion) {
+            id responseObject = [self responseObjectFromRedirectURL:URL];
+            self.completion(responseObject, nil, nil);
+        }
+        return NO;
+    }
+    return YES;
 }
 
 @end

@@ -44,4 +44,10 @@
     return self;
 }
 
+
+- (id)responseObjectFromRedirectURL:(NSURL *)URL {
+    NSString *fragment = [URL fragment];
+    return [NSDictionary sam_dictionaryWithFormEncodedString:fragment];
+}
+
 @end

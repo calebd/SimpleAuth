@@ -8,7 +8,7 @@ I plan to ship the following providers at launch:
 - Facebook
 - Instagram
 
-I also have plans to provide
+I also have plans to provide:
 
 - Twitter web
 - Twitter xauth

@@ -1,4 +1,4 @@
-# SimpeAuth
+# SimpleAuth
 
 SimpleAuth is designed to do the hard work of social account login on iOS. It is designed with a small set of public APIs backed by a set of "providers" the implement the functionality needed to communicate with a given service.
 

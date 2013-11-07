@@ -48,3 +48,7 @@ The biggest challenge I face at this point is enabling customization of the auth
 ## License
 
 SimpleAuth is released under the MIT license.
+
+## Thanks
+
+Special thanks to my friend [@soffes](https://twitter.com/soffes) for advising on the SimpleAuth API design.

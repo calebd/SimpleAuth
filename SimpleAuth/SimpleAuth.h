@@ -6,13 +6,11 @@
 //  Copyright (c) 2013 SimpleAuth. All rights reserved.
 //
 
-#import "SimpleAuthConfiguration.h"
-
 typedef void (^SimpleAuthRequestHandler) (id responseObject, NSHTTPURLResponse *response, NSError *error);
 
 @interface SimpleAuth : NSObject
 
-+ (SimpleAuthConfiguration *)configuration;
++ (NSMutableDictionary *)configuration;
 
 + (void)authorize:(NSString *)provider completion:(SimpleAuthRequestHandler)completion;
 

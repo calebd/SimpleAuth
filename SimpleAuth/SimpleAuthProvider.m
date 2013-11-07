@@ -16,7 +16,7 @@
 }
 
 
-+ (SimpleAuthConfiguration *)configuration {
++ (NSDictionary *)configuration {
     return [SimpleAuth configuration][[self type]];
 }
 

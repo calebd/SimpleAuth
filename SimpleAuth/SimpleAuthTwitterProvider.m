@@ -96,7 +96,7 @@
 #pragma mark - Public
 
 - (void)requestTokenWithParameters:(NSDictionary *)parameters completion:(SimpleAuthRequestHandler)completion {
-    SimpleAuthConfiguration *configuration = [[self class] configuration];
+    NSDictionary *configuration = [[self class] configuration];
     
     NSURLRequest *request = [GCOAuth
      URLRequestForPath:@"/oauth/request_token"
@@ -134,7 +134,7 @@
 
 
 - (void)accessTokenWithReverseAuthRequestToken:(NSString *)token account:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion {
-    SimpleAuthConfiguration *configuration = [[self class] configuration];
+    NSDictionary *configuration = [[self class] configuration];
     
     NSURL *URL = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
     NSDictionary *parameters = @{

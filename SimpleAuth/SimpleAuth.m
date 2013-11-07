@@ -13,11 +13,11 @@
 
 #pragma mark - Public
 
-+ (SimpleAuthConfiguration *)configuration {
++ (NSMutableDictionary *)configuration {
     static dispatch_once_t token;
-    static SimpleAuthConfiguration *configuration;
+    static NSMutableDictionary *configuration;
     dispatch_once(&token, ^{
-        configuration = [SimpleAuthConfiguration new];
+        configuration = [NSMutableDictionary new];
     });
     return configuration;
 }

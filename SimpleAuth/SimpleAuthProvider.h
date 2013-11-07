@@ -12,7 +12,7 @@
 
 + (NSString *)type;
 
-+ (SimpleAuthConfiguration *)configuration;
++ (NSDictionary *)configuration;
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
 

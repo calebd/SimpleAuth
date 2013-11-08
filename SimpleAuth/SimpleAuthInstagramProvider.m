@@ -71,7 +71,7 @@
          NSInteger statusCode = [HTTPResponse statusCode];
          if (statusCode == 200 && data) {
              NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-             completion(dictionary, nil, nil);
+             completion(dictionary[@"data"], nil, nil);
          }
          else {
              completion(nil, HTTPResponse, error);

@@ -22,8 +22,8 @@
     [super viewDidAppear:animated];
     
     NSDictionary *parameters = @{
-        @"client_id" : self.configuration[@"client_id"],
-        @"redirect_uri" : self.configuration[@"redirect_uri"],
+        @"client_id" : self.options[@"client_id"],
+        @"redirect_uri" : self.options[@"redirect_uri"],
         @"response_type" : @"token"
     };
     NSString *URLString = [NSString stringWithFormat:
@@ -37,8 +37,8 @@
 
 #pragma mark - SimpleAuthWebViewController
 
-- (instancetype)initWithConfiguration:(NSDictionary *)configuration {
-    if ((self = [super initWithConfiguration:configuration])) {
+- (instancetype)initWithOptions:(NSDictionary *)options {
+    if ((self = [super initWithOptions:options])) {
         self.title = @"Instagram";
     }
     return self;

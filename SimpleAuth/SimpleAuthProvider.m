@@ -35,9 +35,4 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-
-+ (NSDictionary *)configuration {
-    return [SimpleAuth configuration][[self type]];
-}
-
 @end

@@ -24,16 +24,16 @@
 
 #pragma mark - Public
 
-- (instancetype)initWithConfiguration:(NSDictionary *)configuration {
+- (instancetype)initWithOptions:(NSDictionary *)options {
     if ((self = [super init])) {
-        _configuration = [configuration copy];
+        _options = [options copy];
     }
     return self;
 }
 
 
 - (BOOL)isTargetRedirectURL:(NSURL *)URL {
-    NSString *targetURLString = [self.configuration[@"redirect_uri"] lowercaseString];
+    NSString *targetURLString = [self.options[@"redirect_uri"] lowercaseString];
     NSString *actualURLString = [[URL absoluteString] lowercaseString];
     return [actualURLString hasPrefix:targetURLString];
 }

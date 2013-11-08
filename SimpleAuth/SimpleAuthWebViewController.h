@@ -11,10 +11,10 @@ typedef void (^SimpleAuthWebViewControllerCompletionHandler) (id responseObject,
 @interface SimpleAuthWebViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, readonly) UIWebView *webView;
-@property (nonatomic, readonly) NSDictionary *configuration;
+@property (nonatomic, readonly) NSDictionary *options;
 @property (nonatomic, copy) SimpleAuthWebViewControllerCompletionHandler completion;
 
-- (id)initWithConfiguration:(NSDictionary *)configuration;
+- (instancetype)initWithOptions:(NSDictionary *)options;
 
 - (BOOL)isTargetRedirectURL:(NSURL *)URL;
 - (id)responseObjectFromRedirectURL:(NSURL *)URL;

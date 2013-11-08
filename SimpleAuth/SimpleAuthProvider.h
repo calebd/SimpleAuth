@@ -32,6 +32,4 @@
  */
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
 
-+ (NSDictionary *)configuration DEPRECATED_ATTRIBUTE;
-
 @end

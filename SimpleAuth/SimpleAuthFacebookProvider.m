@@ -39,13 +39,11 @@
 #pragma mark - SimpleAuthSystemProvider
 
 - (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion {
-    NSDictionary *configuration = [[self class] configuration];
-    
     ACAccountStore *store = [[self class] accountStore];
     ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
     NSDictionary *options = @{
-        ACFacebookAppIdKey : configuration[@"app_id"],
-        ACFacebookPermissionsKey : @[ @"email" ]
+        ACFacebookAppIdKey : self.options[@"app_id"],
+        ACFacebookPermissionsKey : self.options[@"permissions"]
     };
     [store requestAccessToAccountsWithType:type options:options completion:^(BOOL granted, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{

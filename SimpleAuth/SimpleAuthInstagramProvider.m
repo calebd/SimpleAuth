@@ -31,8 +31,7 @@
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    NSDictionary *configuration = [[self class] configuration];
-    SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithConfiguration:configuration];
+    SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
     login.completion = ^(id accessTokenResponse, NSError *error) {
         
         // Check access token

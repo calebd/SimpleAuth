@@ -96,15 +96,13 @@
 #pragma mark - Public
 
 - (void)requestTokenWithParameters:(NSDictionary *)parameters completion:(SimpleAuthRequestHandler)completion {
-    NSDictionary *configuration = [[self class] configuration];
-    
     NSURLRequest *request = [GCOAuth
      URLRequestForPath:@"/oauth/request_token"
      POSTParameters:parameters
      scheme:@"https"
      host:@"api.twitter.com"
-     consumerKey:configuration[@"consumer_key"]
-     consumerSecret:configuration[@"consumer_secret"]
+     consumerKey:self.options[@"consumer_key"]
+     consumerSecret:self.options[@"consumer_secret"]
      accessToken:nil
      tokenSecret:nil];
     
@@ -134,12 +132,10 @@
 
 
 - (void)accessTokenWithReverseAuthRequestToken:(NSString *)token account:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion {
-    NSDictionary *configuration = [[self class] configuration];
-    
     NSURL *URL = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
     NSDictionary *parameters = @{
         @"x_reverse_auth_parameters" : token,
-        @"x_reverse_auth_target" : configuration[@"consumer_key"]
+        @"x_reverse_auth_target" : self.options[@"consumer_key"]
     };
     SLRequest *request = [SLRequest
      requestForServiceType:SLServiceTypeTwitter

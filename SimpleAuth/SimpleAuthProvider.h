@@ -10,10 +10,28 @@
 
 @interface SimpleAuthProvider : NSObject
 
+@property (nonatomic, readonly) NSDictionary *options;
+
+/**
+ 
+ */
+- (instancetype)initWithOptions:(NSDictionary *)options;
+
+/**
+ 
+ */
 + (NSString *)type;
 
-+ (NSDictionary *)configuration;
+/**
+ 
+ */
++ (NSDictionary *)defaultOptions;
 
+/**
+ 
+ */
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
+
++ (NSDictionary *)configuration DEPRECATED_ATTRIBUTE;
 
 @end

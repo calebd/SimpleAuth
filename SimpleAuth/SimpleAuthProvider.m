@@ -10,19 +10,34 @@
 
 @implementation SimpleAuthProvider
 
+#pragma mark - Public
+
+- (instancetype)initWithOptions:(NSDictionary *)options {
+    if ((self = [super init])) {
+        _options = [options copy];
+    }
+    return self;
+}
+
+
 + (NSString *)type {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
 
-+ (NSDictionary *)configuration {
-    return [SimpleAuth configuration][[self type]];
++ (NSDictionary *)defaultOptions {
+    return nil;
 }
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [self doesNotRecognizeSelector:_cmd];
+}
+
+
++ (NSDictionary *)configuration {
+    return [SimpleAuth configuration][[self type]];
 }
 
 @end

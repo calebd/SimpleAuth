@@ -29,6 +29,13 @@
 }
 
 
++ (NSDictionary *)defaultOptions {
+    return @{
+        @"permissions" : @[ @"email" ]
+    };
+}
+
+
 #pragma mark - SimpleAuthSystemProvider
 
 - (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion {

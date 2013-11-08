@@ -24,11 +24,29 @@
 
 
 + (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion {
+    [self authorize:type options:nil completion:completion];
+}
+
+
++ (void)authorize:(NSString *)type options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
+    
+    // Load the provider class
     Class klass = [self providers][type];
-    SimpleAuthProvider *provider = [klass new];
+    NSAssert(klass, @"There is no class registered to handle %@ requests.", type);
+    
+    // Create options dictionary
+    NSDictionary *defaultOptions = [klass defaultOptions];
+    NSDictionary *registeredOptions = [self configuration][type];
+    NSMutableDictionary *resolvedOptions = [NSMutableDictionary new];
+    [resolvedOptions addEntriesFromDictionary:defaultOptions];
+    [resolvedOptions addEntriesFromDictionary:registeredOptions];
+    [resolvedOptions addEntriesFromDictionary:options];
+    
+    // Create the provider and run authorization
+    SimpleAuthProvider *provider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
     [provider authorizeWithCompletion:^(id responseObject, NSHTTPURLResponse *response, NSError *error) {
         completion(responseObject, response, error);
-        [provider class]; // Keep the provider around until the work is done
+        [provider class]; // Kepp the provider around until the callback is complete
     }];
 }
 

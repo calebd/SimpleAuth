@@ -10,8 +10,19 @@ typedef void (^SimpleAuthRequestHandler) (id responseObject, NSHTTPURLResponse *
 
 @interface SimpleAuth : NSObject
 
+/**
+ 
+ */
 + (NSMutableDictionary *)configuration;
 
+/**
+ 
+ */
 + (void)authorize:(NSString *)provider completion:(SimpleAuthRequestHandler)completion;
+
+/**
+ 
+ */
++ (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 @end

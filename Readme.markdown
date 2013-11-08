@@ -38,6 +38,48 @@ Configuring  and using SimpleAuth is easy:
 }];
 ````
 
+## Implementing  a Provider
+
+Building your own provider is fairly straightforward. There are a handful of methods you'll need to implement:
+
+Register your provider with SimpleAuth:
+
+````objc
++ (void)load {
+    @autoreleasepool {
+        [SimpleAuth registerProviderClass:self];
+    }
+}
+````
+
+Let SimpleAuth know what type of provider you are registering:
+
+````objc
++ (NSString *)type {
+    return @"facebook";
+}
+````
+
+Optionally, you may return a set of default options for all authorization options to use:
+
+````objc
++ (NSDictionary *)defaultOptions {
+    return @{
+        @"permissions" : @[ @"email" ]
+    };
+}
+````
+
+Finally, provide a method for handling authorization:
+
+````objc
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+	// Use values in self.options to customize behavior
+	// Perform authentication
+	// Call the completion
+}
+````
+
 ## Challenges
 
 The biggest challenge I face at this point is enabling customization of the authentication process. Almost all of the above providers require presenting UI to the user. Twitter requires an action sheet for selecting an account from all present system accounts and Instagram requires a web view controller. I need a generic mechanism that can allow the caller to change the behavior of presented UI.

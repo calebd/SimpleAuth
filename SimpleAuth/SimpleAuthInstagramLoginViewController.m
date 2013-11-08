@@ -46,8 +46,8 @@
 
 
 - (id)responseObjectFromRedirectURL:(NSURL *)URL {
-    NSString *fragment = [URL fragment];
-    return [NSDictionary sam_dictionaryWithFormEncodedString:fragment];
+    NSString *response = [URL fragment] ?: [URL query];
+    return [NSDictionary sam_dictionaryWithFormEncodedString:response];
 }
 
 @end

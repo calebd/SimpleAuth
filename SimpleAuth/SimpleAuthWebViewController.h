@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 SimpleAuth. All rights reserved.
 //
 
-#import "SimpleAuth.h"
+typedef void (^SimpleAuthWebViewControllerCompletionHandler) (id responseObject, NSError *error);
 
 @interface SimpleAuthWebViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, readonly) UIWebView *webView;
 @property (nonatomic, readonly) NSDictionary *configuration;
-@property (nonatomic, copy) SimpleAuthRequestHandler completion;
+@property (nonatomic, copy) SimpleAuthWebViewControllerCompletionHandler completion;
 
 - (id)initWithConfiguration:(NSDictionary *)configuration;
 

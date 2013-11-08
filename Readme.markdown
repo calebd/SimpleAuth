@@ -29,9 +29,6 @@ Configuring  and using SimpleAuth is easy:
     @"consumer_key" : @"KEY",
     @"consumer_secret" : @"SECRET"
 };
-[SimpleAuth configuration][@"facebook"] = @{
-    @"app_id" : @"APP_ID"
-};
 ````
 
 ````objc

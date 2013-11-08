@@ -12,6 +12,8 @@ Pod::Spec.new do |s|
   s.dependency 'cocoa-oauth'
   s.dependency 'SAMCategories'
   
+  s.public_header_files = 'SimpleAuth/SimpleAuth.h'
+  
   s.ios.deployment_target = '6.0'
   s.ios.frameworks = 'Accounts', 'Social', 'Security', 'CoreGraphics'
 end

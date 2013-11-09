@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 SimpleAuth. All rights reserved.
 //
 
-#import "SimpleAuth_Internal.h"
 #import "SimpleAuthProvider.h"
 
 @implementation SimpleAuth

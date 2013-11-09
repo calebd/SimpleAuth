@@ -39,7 +39,6 @@
 		3B9AB063182AC2710011FB9E /* SimpleAuthProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthProvider.m; sourceTree = "<group>"; };
 		3B9AB065182AC2910011FB9E /* SimpleAuthFacebookProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFacebookProvider.h; sourceTree = "<group>"; };
 		3B9AB066182AC2910011FB9E /* SimpleAuthFacebookProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthFacebookProvider.m; sourceTree = "<group>"; };
-		3B9AB068182AC3680011FB9E /* SimpleAuth_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAuth_Internal.h; sourceTree = "<group>"; };
 		3B9AB06C182ACCBB0011FB9E /* SimpleAuthSystemProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSystemProvider.h; sourceTree = "<group>"; };
 		3B9AB06D182ACCBB0011FB9E /* SimpleAuthSystemProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthSystemProvider.m; sourceTree = "<group>"; };
 		3B9AB06F182AD2900011FB9E /* SimpleAuthTwitterProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthTwitterProvider.h; sourceTree = "<group>"; };
@@ -123,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				3BB3250C182ABC8B00ACB555 /* SimpleAuth.h */,
-				3B9AB068182AC3680011FB9E /* SimpleAuth_Internal.h */,
 				3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */,
 				3B8F11B8182AC0E50035C4EA /* Providers */,
 				3C0A5390182C4206002C050C /* View Controllers */,

@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthInstagramProvider.h"
-#import "SimpleAuth_Internal.h"
 #import "SimpleAuthInstagramLoginViewController.h"
 
 #import <SAMCategories/NSDictionary+SAMAdditions.h>

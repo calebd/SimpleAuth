@@ -18,6 +18,11 @@ typedef void (^SimpleAuthRequestHandler) (id responseObject, NSHTTPURLResponse *
 /**
  
  */
++ (void)registerProviderClass:(Class)klass;
+
+/**
+ 
+ */
 + (void)authorize:(NSString *)provider completion:(SimpleAuthRequestHandler)completion;
 
 /**

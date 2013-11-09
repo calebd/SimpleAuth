@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthTwitterProvider.h"
-#import "SimpleAuth_Internal.h"
 
 #import <cocoa-oauth/GCOAuth.h>
 #import <SAMCategories/NSDictionary+SAMAdditions.h>

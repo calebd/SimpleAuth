@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthFacebookProvider.h"
-#import "SimpleAuth_Internal.h"
 
 #import <SAMCategories/NSDictionary+SAMAdditions.h>
 

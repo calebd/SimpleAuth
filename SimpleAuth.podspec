@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.ios.frameworks = 'Accounts', 'Social', 'Security', 'CoreGraphics'
   
   s.subspec 'Provider' do |ss|
-    s.public_header_files = 'SimpleAuth/**/*.h'
+    ss.public_header_files = 'SimpleAuth/**/*.h'
   end
 end

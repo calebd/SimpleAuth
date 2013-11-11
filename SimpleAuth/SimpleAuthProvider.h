@@ -10,12 +10,10 @@
 
 @interface SimpleAuthProvider : NSObject
 
-@property (nonatomic, readonly) NSDictionary *options;
-
 /**
  
  */
-- (instancetype)initWithOptions:(NSDictionary *)options;
+@property (nonatomic, readonly) NSDictionary *options;
 
 /**
  
@@ -26,6 +24,14 @@
  
  */
 + (NSDictionary *)defaultOptions;
+
+/**
+ Default initializer. Create a provider with the given options.
+ @param options The options used to configure the receiver.
+ @return A provider object.
+ @see -options
+ */
+- (instancetype)initWithOptions:(NSDictionary *)options;
 
 /**
  

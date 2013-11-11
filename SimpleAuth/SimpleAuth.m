@@ -57,6 +57,7 @@
     NSString *type = [klass type];
     if (providers[type]) {
         NSLog(@"[SimpleAuth] Warning: multiple attempts to register profider: %@", type);
+        return;
     }
     providers[type] = klass;
 }
@@ -71,16 +72,6 @@
         providers = [NSMutableDictionary new];
     });
     return providers;
-}
-
-
-+ (NSMutableDictionary *)providerOptions {
-    static dispatch_once_t token;
-    static NSMutableDictionary *options;
-    dispatch_once(&token, ^{
-        options = [NSMutableDictionary new];
-    });
-    return options;
 }
 
 @end

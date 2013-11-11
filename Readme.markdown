@@ -4,8 +4,8 @@ SimpleAuth is designed to do the hard work of social account login on iOS. It is
 
 I plan to ship the following providers at launch:
 
-- Twitter
-- Facebook
+- [Facebook](https://github.com/SimpleAuth/SimpleAuth-Facebook.git)
+- [Twitter](https://github.com/SimpleAuth/SimpleAuth-Twitter.git)
 - Instagram
 
 I also have plans to provide:

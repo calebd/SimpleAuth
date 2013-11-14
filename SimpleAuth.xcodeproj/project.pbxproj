@@ -12,8 +12,6 @@
 		3BB3250D182ABC8B00ACB555 /* SimpleAuth.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BB3250C182ABC8B00ACB555 /* SimpleAuth.h */; };
 		3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */; };
 		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
-		3C0A5396182C4400002C050C /* SimpleAuthInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */; };
-		3C0A5399182C4416002C050C /* SimpleAuthInstagramProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */; };
 		3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */; };
 		3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */; };
 		8D148ACD647A46A5A5982D94 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
@@ -44,10 +42,6 @@
 		3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAuth.m; sourceTree = "<group>"; };
 		3C0A5391182C4217002C050C /* SimpleAuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthWebViewController.h; sourceTree = "<group>"; };
 		3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthWebViewController.m; sourceTree = "<group>"; };
-		3C0A5394182C4400002C050C /* SimpleAuthInstagramLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramLoginViewController.h; sourceTree = "<group>"; };
-		3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramLoginViewController.m; sourceTree = "<group>"; };
-		3C0A5397182C4416002C050C /* SimpleAuthInstagramProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramProvider.h; sourceTree = "<group>"; };
-		3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramProvider.m; sourceTree = "<group>"; };
 		3C611F431835352200D87E45 /* UIWindow+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
 		3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SimpleAuthAdditions.m"; sourceTree = "<group>"; };
 		3C611F46183535A400D87E45 /* UIViewController+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
@@ -74,8 +68,6 @@
 				3B9AB063182AC2710011FB9E /* SimpleAuthProvider.m */,
 				3B9AB06C182ACCBB0011FB9E /* SimpleAuthSystemProvider.h */,
 				3B9AB06D182ACCBB0011FB9E /* SimpleAuthSystemProvider.m */,
-				3C0A5397182C4416002C050C /* SimpleAuthInstagramProvider.h */,
-				3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */,
 			);
 			name = Providers;
 			sourceTree = "<group>";
@@ -132,8 +124,6 @@
 			children = (
 				3C0A5391182C4217002C050C /* SimpleAuthWebViewController.h */,
 				3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */,
-				3C0A5394182C4400002C050C /* SimpleAuthInstagramLoginViewController.h */,
-				3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -238,9 +228,7 @@
 				3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */,
 				3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */,
 				3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */,
-				3C0A5399182C4416002C050C /* SimpleAuthInstagramProvider.m in Sources */,
 				3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */,
-				3C0A5396182C4400002C050C /* SimpleAuthInstagramLoginViewController.m in Sources */,
 				3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */,
 				3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */,
 			);

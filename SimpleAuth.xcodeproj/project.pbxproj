@@ -15,6 +15,8 @@
 		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
 		3C0A5396182C4400002C050C /* SimpleAuthInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */; };
 		3C0A5399182C4416002C050C /* SimpleAuthInstagramProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */; };
+		3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */; };
+		3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */; };
 		8D148ACD647A46A5A5982D94 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +52,10 @@
 		3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramLoginViewController.m; sourceTree = "<group>"; };
 		3C0A5397182C4416002C050C /* SimpleAuthInstagramProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramProvider.h; sourceTree = "<group>"; };
 		3C0A5398182C4416002C050C /* SimpleAuthInstagramProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramProvider.m; sourceTree = "<group>"; };
+		3C611F431835352200D87E45 /* UIWindow+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
+		3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SimpleAuthAdditions.m"; sourceTree = "<group>"; };
+		3C611F46183535A400D87E45 /* UIViewController+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
+		3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+SimpleAuthAdditions.m"; sourceTree = "<group>"; };
 		AA6F82B0FA58446A93F41B5D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +121,7 @@
 				3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */,
 				3B8F11B8182AC0E50035C4EA /* Providers */,
 				3C0A5390182C4206002C050C /* View Controllers */,
+				3C611F421835350800D87E45 /* Categories */,
 				3BB3250A182ABC8B00ACB555 /* Supporting Files */,
 			);
 			path = SimpleAuth;
@@ -137,6 +144,17 @@
 				3C0A5395182C4400002C050C /* SimpleAuthInstagramLoginViewController.m */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		3C611F421835350800D87E45 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3C611F431835352200D87E45 /* UIWindow+SimpleAuthAdditions.h */,
+				3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */,
+				3C611F46183535A400D87E45 /* UIViewController+SimpleAuthAdditions.h */,
+				3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,7 +186,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = SimpleAuth;
+				ORGANIZATIONNAME = "Seesaw Decisions Corporation";
 			};
 			buildConfigurationList = 3BB324FF182ABC8B00ACB555 /* Build configuration list for PBXProject "SimpleAuth" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -229,7 +247,9 @@
 				3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */,
 				3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */,
 				3C0A5399182C4416002C050C /* SimpleAuthInstagramProvider.m in Sources */,
+				3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */,
 				3C0A5396182C4400002C050C /* SimpleAuthInstagramLoginViewController.m in Sources */,
+				3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */,
 				3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

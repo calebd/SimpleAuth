@@ -27,7 +27,7 @@
 
 
 + (NSDictionary *)defaultOptions {
-    return nil;
+    return @{};
 }
 
 

@@ -6,6 +6,9 @@
 //  Copyright (c) 2013 Seesaw Decisions Corporation. All rights reserved.
 //
 
+extern NSString * const SimpleAuthErrorDomain;
+extern NSInteger const SimpleAuthUserCancelledErrorCode;
+
 typedef void (^SimpleAuthRequestHandler) (id responseObject, NSError *error);
 typedef void (^SimpleAuthInterfaceHandler) (id userInterfaceElement);
 

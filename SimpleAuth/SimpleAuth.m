@@ -8,6 +8,9 @@
 
 #import "SimpleAuthProvider.h"
 
+NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
+NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
+
 @implementation SimpleAuth
 
 #pragma mark - Public

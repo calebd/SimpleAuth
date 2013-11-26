@@ -43,8 +43,8 @@
     
     // Create the provider and run authorization
     SimpleAuthProvider *provider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
-    [provider authorizeWithCompletion:^(id responseObject, NSHTTPURLResponse *response, NSError *error) {
-        completion(responseObject, response, error);
+    [provider authorizeWithCompletion:^(id responseObject, NSError *error) {
+        completion(responseObject, error);
         [provider class]; // Kepp the provider around until the callback is complete
     }];
 }

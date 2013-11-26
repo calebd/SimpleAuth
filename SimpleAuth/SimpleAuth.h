@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Seesaw Decisions Corporation. All rights reserved.
 //
 
-typedef void (^SimpleAuthRequestHandler) (id responseObject, NSHTTPURLResponse *response, NSError *error);
+typedef void (^SimpleAuthRequestHandler) (id responseObject, NSError *error);
 typedef void (^SimpleAuthInterfaceHandler) (id userInterfaceElement);
 
 @interface SimpleAuth : NSObject

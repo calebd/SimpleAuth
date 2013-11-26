@@ -17,7 +17,7 @@
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [self loadSystemAccount:^(ACAccount *account, NSError *error) {
         if (!account) {
-            completion(nil, nil, error);
+            completion(nil, error);
             return;
         }
         [self authorizeWithSystemAccount:account completion:completion];

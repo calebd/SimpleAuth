@@ -61,7 +61,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     webView.delegate = nil;
     if (self.completion) {
-        self.completion(nil, error);
+        self.completion(self, nil, error);
     }
     self.completion = nil;
 }
@@ -73,7 +73,7 @@
         webView.delegate = nil;
         if (self.completion) {
             id responseObject = [self responseObjectFromRedirectURL:URL];
-            self.completion(responseObject, nil);
+            self.completion(self, responseObject, nil);
         }
         return NO;
     }

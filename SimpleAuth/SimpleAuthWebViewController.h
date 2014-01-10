@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 Seesaw Decisions Corporation. All rights reserved.
 //
 
-typedef void (^SimpleAuthWebViewControllerCompletionHandler) (id responseObject, NSError *error);
+@class SimpleAuthWebViewController;
+
+typedef void (^SimpleAuthWebViewControllerCompletionHandler) (SimpleAuthWebViewController *controller, id responseObject, NSError *error);
 
 @interface SimpleAuthWebViewController : UIViewController <UIWebViewDelegate>
 

@@ -10,6 +10,8 @@
 
 NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
 NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
+NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block";
+NSString * const SimpleAuthDismissInterfaceBlockKey = @"dismiss_interface_block";
 
 @implementation SimpleAuth
 
@@ -47,6 +49,7 @@ NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
     // Create the provider and run authorization
     SimpleAuthProvider *provider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
     [provider authorizeWithCompletion:^(id responseObject, NSError *error) {
+        NSParameterAssert([NSThread isMainThread]);
         completion(responseObject, error);
         [provider class]; // Kepp the provider around until the callback is complete
     }];

@@ -59,7 +59,7 @@
 #pragma mark - Actions
 
 - (void)close {
-    SimpleAuthInterfaceHandler block = self.options[@"dismiss_interface_block"];
+    SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
     block(self);
 }
 

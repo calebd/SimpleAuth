@@ -43,8 +43,8 @@
     };
     
     NSMutableDictionary *options = [[super defaultOptions] mutableCopy];
-    options[@"present_interface_block"] = presentBlock;
-    options[@"dismiss_interface_block"] = dismissBlock;
+    options[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
+    options[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     return options;
 }
 
@@ -52,7 +52,7 @@
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
     login.completion = ^(SimpleAuthWebViewController *controller, id responseObject, NSError *error) {
-        SimpleAuthInterfaceHandler dismissBlock = self.options[@"dismiss_interface_block"];
+        SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
         dismissBlock(controller);
         
         // Check access token
@@ -68,7 +68,7 @@
         }
     };
     
-    SimpleAuthInterfaceHandler block = self.options[@"present_interface_block"];
+    SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
     block(login);
 }
 

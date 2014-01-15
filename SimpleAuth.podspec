@@ -24,4 +24,14 @@ Pod::Spec.new do |s|
     ss.dependency 'SAMCategories'
     ss.dependency 'ReactiveCocoa'
   end
+  
+  s.subspec 'Facebook' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/Facebook/**/*.{h,m}'
+    ss.frameworks = 'Accounts', 'Social'
+    
+    ss.dependency 'SAMCategories'
+    ss.dependency 'ReactiveCocoa'
+  end
 end

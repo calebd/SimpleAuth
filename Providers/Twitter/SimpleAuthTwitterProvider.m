@@ -38,7 +38,7 @@
         [sheet showInView:window];
     };
     
-    NSMutableDictionary *options = [[super defaultOptions] mutableCopy];
+    NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
     options[@"action_sheet_block"] = actionSheetBlock;
     
     return options;

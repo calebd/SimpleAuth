@@ -4,8 +4,8 @@ SimpleAuth is designed to do the hard work of social account login on iOS. It is
 
 I plan to ship the following providers at launch:
 
-- [Facebook](https://github.com/SimpleAuth/SimpleAuth-Facebook.git)
-- [Twitter](https://github.com/SimpleAuth/SimpleAuth-Twitter.git)
+- Facebook
+- Twitter
 - Instagram
 
 I also have plans to provide:
@@ -25,7 +25,7 @@ Configuring  and using SimpleAuth is easy:
 
 ````objc
 // Somewhere in your app boot process
-[SimpleAuth configuration][@"twitter"] = @{
+SimpleAuth.configuration[@"twitter"] = @{
     @"consumer_key" : @"KEY",
     @"consumer_secret" : @"SECRET"
 };
@@ -33,7 +33,7 @@ Configuring  and using SimpleAuth is easy:
 
 ````objc
 // Run the login process
-[SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSHTTPURLResponse *response, NSError *error) {
+[SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSError *error) {
     NSLog(@"%@", responseObject);
 }];
 ````

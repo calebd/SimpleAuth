@@ -6,10 +6,22 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'Caleb Davenport' => 'caleb@seesaw.co' }
   s.source       = { :git => 'https://github.com/SimpleAuth/SimpleAuth.git', :tag => "v#{s.version}" }
-
-  s.source_files = 'SimpleAuth/**/*.{h,m}'
   s.requires_arc = true
+  s.platform     = :ios, '6.0'
   
-  s.ios.deployment_target = '6.0'
-  s.ios.frameworks = 'Accounts', 'Social', 'Security', 'UIKit'
+  s.subspec 'Core' do |ss|
+    ss.source_files = 'SimpleAuth/**/*.{h,m}'
+    ss.public_header_files = 'SimpleAuth/SipmleAuth.h'
+  end
+  
+  s.subspec 'Twitter' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/Twitter/**/*.{h,m}'
+    ss.frameworks = 'Accounts', 'Social', 'UIKit'
+    
+    ss.dependency 'cocoa-oauth'
+    ss.dependency 'SAMCategories'
+    ss.dependency 'ReactiveCocoa'
+  end
 end

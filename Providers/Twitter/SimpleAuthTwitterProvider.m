@@ -14,14 +14,7 @@
 #import <SAMCategories/NSDictionary+SAMAdditions.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-@interface SimpleAuthTwitterProvider () <UIActionSheetDelegate>
-
-@end
-
-@implementation SimpleAuthTwitterProvider {
-    NSArray *_accounts;
-    SimpleAuthSystemAccountHandler _systemAccountCompletion;
-}
+@implementation SimpleAuthTwitterProvider
 
 #pragma mark - NSObject
 
@@ -71,45 +64,92 @@
 
 
 - (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion {
-    ACAccountStore *store = [[self class] accountStore];
-    ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (granted) {
-                NSArray *accounts = [store accountsWithAccountType:type];
-                NSUInteger numberOfAccounts = [accounts count];
-                if (numberOfAccounts == 0) {
-                    completion(nil, error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorAccountNotFound userInfo:nil]);
-                }
-                else if (numberOfAccounts == 1) {
-                    completion([accounts lastObject], nil);
-                }
-                else {
-                    _systemAccountCompletion = completion;
-                    _accounts = accounts;
-                    
-                    UIActionSheet *sheet = [UIActionSheet new];
-                    for (ACAccount *account in accounts) {
-                        NSString *title = [NSString stringWithFormat:@"@%@", account.username];
-                        [sheet addButtonWithTitle:title];
-                    }
-                    sheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-                    sheet.delegate = self;
-                    sheet.cancelButtonIndex = [sheet addButtonWithTitle:NSLocalizedString(@"GENERAL_CANCEL", nil)];
-                    
-                    void (^block) (UIActionSheet *) = self.options[@"action_sheet_block"];
-                    block(sheet);
-                }
-            }
-            else {
-                completion(nil, error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorPermissionDenied userInfo:nil]);
-            }
-        });
-    }];
+    [[[self selectedTwitterAccount]
+     deliverOn:[RACScheduler mainThreadScheduler]]
+     subscribeNext:^(ACAccount *account) {
+         completion(account, nil);
+     }
+     error:^(NSError *error) {
+         completion(nil, error);
+     }];
 }
 
 
 #pragma mark - Public
+
+- (RACSignal *)allTwitterAccounts {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        ACAccountStore *store = [[self class] accountStore];
+        ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted) {
+                NSArray *accounts = [store accountsWithAccountType:type];
+                NSUInteger numberOfAccounts = [accounts count];
+                if (numberOfAccounts) {
+                    [subscriber sendNext:accounts];
+                    [subscriber sendCompleted];
+                }
+                else {
+                    [subscriber sendError:(error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorAccountNotFound userInfo:nil])];
+                }
+            }
+            else {
+                [subscriber sendError:(error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorPermissionDenied userInfo:nil])];
+            }
+        }];
+        return nil;
+    }];
+}
+
+
+- (RACSignal *)selectedTwitterAccount {
+    return [[self allTwitterAccounts] flattenMap:^RACStream *(NSArray *accounts) {
+        if ([accounts count] == 1) {
+            ACAccount *account = [accounts lastObject];
+            return [RACSignal return:account];
+        }
+        else {
+            return [self twitterAccountFromAccounts:accounts];
+        }
+    }];
+}
+
+
+- (RACSignal *)twitterAccountFromAccounts:(NSArray *)accounts {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIActionSheet *sheet = [UIActionSheet new];
+            for (ACAccount *account in accounts) {
+                NSString *title = [NSString stringWithFormat:@"@%@", account.username];
+                [sheet addButtonWithTitle:title];
+            }
+            sheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            sheet.cancelButtonIndex = [sheet addButtonWithTitle:NSLocalizedString(@"GENERAL_CANCEL", nil)];
+            
+            SEL s = @selector(actionSheet:clickedButtonAtIndex:);
+            Protocol *p = @protocol(UIActionSheetDelegate);
+            [[sheet rac_signalForSelector:s fromProtocol:p] subscribeNext:^(RACTuple *tuple) {
+                RACTupleUnpack(UIActionSheet *sheet, NSNumber *number) = tuple;
+                NSInteger index = [number integerValue];
+                if (index == sheet.cancelButtonIndex) {
+                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthUserCancelledErrorCode userInfo:nil];
+                    [subscriber sendError:error];
+                }
+                else {
+                    ACAccount *account = accounts[index];
+                    [subscriber sendNext:account];
+                    [subscriber sendCompleted];
+                }
+            }];
+            
+            sheet.delegate = (id)sheet;
+            void (^block) (UIActionSheet *) = self.options[@"action_sheet_block"];
+            block(sheet);
+        });
+        return nil;
+    }];
+}
+
 
 - (RACSignal *)requestTokenWithParameters:(NSDictionary *)parameters {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -130,11 +170,11 @@
              if (statusCode == 200 && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                  [subscriber sendNext:string];
+                 [subscriber sendCompleted];
              }
              else {
                  [subscriber sendError:error];
              }
-             [subscriber sendCompleted];
          }];
         return nil;
     }];
@@ -162,11 +202,11 @@
             if (statusCode == 200 && data) {
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                 [subscriber sendNext:dictionary];
+                [subscriber sendCompleted];
             }
             else {
                 [subscriber sendError:error];
             }
-            [subscriber sendCompleted];
         }];
         return nil;
     }];
@@ -201,11 +241,11 @@
                 NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
                 [subscriber sendNext:dictionary];
+                [subscriber sendCompleted];
             }
             else {
                 [subscriber sendError:error];
             }
-            [subscriber sendCompleted];
         }];
         return nil;
     }];
@@ -254,21 +294,6 @@
     dictionary[@"info"] = user;
     
     return dictionary;
-}
-
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthUserCancelledErrorCode userInfo:nil];
-        _systemAccountCompletion(nil, error);
-    }
-    else {
-        ACAccount *account = _accounts[buttonIndex];
-        _systemAccountCompletion(account, nil);
-    }
-    _systemAccountCompletion = nil;
 }
 
 @end

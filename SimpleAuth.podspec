@@ -32,6 +32,14 @@ Pod::Spec.new do |s|
     ss.frameworks = 'Accounts', 'Social'
     
     ss.dependency 'SAMCategories'
-    ss.dependency 'ReactiveCocoa'
+  end
+  
+  s.subspec 'Instagram' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/Instagram/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+    
+    ss.dependency 'SAMCategories'
   end
 end

@@ -55,7 +55,7 @@
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    [[[[[[self requestToken]
+    [[[[[self requestToken]
      flattenMap:^(NSDictionary *response) {
          return [self authenticateWithRequestToken:response];
      }]
@@ -63,12 +63,9 @@
          return [self accessTokenWithAuthenticationResponse:response];
      }]
      flattenMap:^(NSDictionary *response) {
-         return [self accountWithAccessToken:response];
-     }]
-     flattenMap:^(NSDictionary *response) {
          NSArray *signals = @[
-             [RACSignal return:response],
-             [RACSignal return:nil]
+            [self accountWithAccessToken:response],
+            [RACSignal return:response]
          ];
          return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
      }]
@@ -223,8 +220,8 @@
     
     // Credentials
     dictionary[@"credentials"] = @{
-//        @"token" : accessToken[@"oauth_token"],
-//        @"secret" : accessToken[@"oauth_token_secret"]
+        @"token" : accessToken[@"oauth_token"],
+        @"secret" : accessToken[@"oauth_token_secret"]
     };
     
     // User ID

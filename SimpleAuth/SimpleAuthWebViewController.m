@@ -44,7 +44,7 @@
 
 
 - (BOOL)isTargetRedirectURL:(NSURL *)URL {
-    NSString *targetURLString = [self.options[@"redirect_uri"] lowercaseString];
+    NSString *targetURLString = [self.options[SimpleAuthRedirectURIKey] lowercaseString];
     NSString *actualURLString = [[URL absoluteString] lowercaseString];
     return [actualURLString hasPrefix:targetURLString];
 }

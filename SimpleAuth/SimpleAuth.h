@@ -42,6 +42,17 @@ extern NSString * const SimpleAuthDismissInterfaceBlockKey;
  */
 typedef void (^SimpleAuthInterfaceHandler) (id userInterfaceElement);
 
+/**
+ Key used to define the redirect URI for OAuth style providers.
+ 
+ @see +configuration
+ @see +authorize:options:completion:
+ */
+extern NSString * const SimpleAuthRedirectURIKey;
+
+extern NSString * const SimpleAuthBeginActivityBlockKey;
+extern NSString * const SimpleAuthEndActivityBlockKey;
+
 @interface SimpleAuth : NSObject
 
 /**

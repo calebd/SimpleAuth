@@ -24,7 +24,7 @@
     
     NSDictionary *parameters = @{
         @"client_id" : self.options[@"client_id"],
-        @"redirect_uri" : self.options[@"redirect_uri"],
+        @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
         @"response_type" : @"token"
     };
     NSString *URLString = [NSString stringWithFormat:

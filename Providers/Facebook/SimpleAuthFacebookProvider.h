@@ -8,10 +8,6 @@
 
 #import "SimpleAuthSystemProvider.h"
 
-@class RACSignal;
-
 @interface SimpleAuthFacebookProvider : SimpleAuthSystemProvider
-
-- (void)facebookAccountWithSystemAccount:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion;
 
 @end

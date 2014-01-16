@@ -51,8 +51,9 @@ NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
     // Create the provider and run authorization
     SimpleAuthProvider *provider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
     [provider authorizeWithCompletion:^(id responseObject, NSError *error) {
-        NSParameterAssert([NSThread isMainThread]);
-        completion(responseObject, error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(responseObject, error);
+        });
         [provider class]; // Kepp the provider around until the callback is complete
     }];
 }

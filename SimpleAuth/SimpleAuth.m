@@ -9,9 +9,10 @@
 #import "SimpleAuthProvider.h"
 
 NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
-NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
 NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block";
 NSString * const SimpleAuthDismissInterfaceBlockKey = @"dismiss_interface_block";
+
+NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
 
 @implementation SimpleAuth
 

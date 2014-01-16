@@ -7,6 +7,13 @@
 //
 
 #import "SimpleAuthWebViewController.h"
+#import "SimpleAuth.h"
+
+@interface SimpleAuthWebViewController ()
+
+@property (nonatomic, copy) NSDictionary *options;
+
+@end
 
 @implementation SimpleAuthWebViewController
 
@@ -26,7 +33,11 @@
 
 - (instancetype)initWithOptions:(NSDictionary *)options {
     if ((self = [super init])) {
-        _options = [options copy];
+        self.options = options;
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                                 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                 target:self
+                                                 action:@selector(dismiss)];
     }
     return self;
 }
@@ -41,6 +52,12 @@
 
 - (id)responseObjectFromRedirectURL:(NSURL *)URL {
     return nil;
+}
+
+
+- (void)dismiss {
+    SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
+    block(self);
 }
 
 
@@ -60,10 +77,7 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     webView.delegate = nil;
-    if (self.completion) {
-        self.completion(self, nil, error);
-    }
-    self.completion = nil;
+    self.completion(self, nil, error);
 }
 
 
@@ -71,10 +85,7 @@
     NSURL *URL = [request URL];
     if ([self isTargetRedirectURL:URL]) {
         webView.delegate = nil;
-        if (self.completion) {
-            id responseObject = [self responseObjectFromRedirectURL:URL];
-            self.completion(self, responseObject, nil);
-        }
+        self.completion(self, URL, nil);
         return NO;
     }
     return YES;

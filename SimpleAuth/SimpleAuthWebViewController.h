@@ -6,19 +6,18 @@
 //  Copyright (c) 2013 Seesaw Decisions Corporation. All rights reserved.
 //
 
-@class SimpleAuthWebViewController;
-
-typedef void (^SimpleAuthWebViewControllerCompletionHandler) (SimpleAuthWebViewController *controller, id responseObject, NSError *error);
+typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *controller, NSURL *URL, NSError *error);
 
 @interface SimpleAuthWebViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, readonly) UIWebView *webView;
-@property (nonatomic, readonly) NSDictionary *options;
+@property (nonatomic, readonly, copy) NSDictionary *options;
 @property (nonatomic, copy) SimpleAuthWebViewControllerCompletionHandler completion;
 
 - (instancetype)initWithOptions:(NSDictionary *)options;
 
 - (BOOL)isTargetRedirectURL:(NSURL *)URL;
-- (id)responseObjectFromRedirectURL:(NSURL *)URL;
+
+- (void)dismiss;
 
 @end

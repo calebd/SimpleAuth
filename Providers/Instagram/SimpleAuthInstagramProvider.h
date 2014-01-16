@@ -10,6 +10,7 @@
 
 @interface SimpleAuthInstagramProvider : SimpleAuthProvider
 
+- (void)accessTokenWithCompletion:(SimpleAuthRequestHandler)completion;
 - (void)instagramAccountWithAccessToken:(NSString *)accessToken completion:(SimpleAuthRequestHandler)completion;
 
 @end

@@ -12,6 +12,8 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.source_files = 'SimpleAuth/**/*.{h,m}'
     ss.public_header_files = 'SimpleAuth/SipmleAuth.h'
+    ss.dependency 'ReactiveCocoa'
+    ss.dependency 'SAMCategories'
   end
   
   s.subspec 'Twitter' do |ss|
@@ -21,8 +23,6 @@ Pod::Spec.new do |s|
     ss.frameworks = 'Accounts', 'Social', 'UIKit'
     
     ss.dependency 'cocoa-oauth'
-    ss.dependency 'SAMCategories'
-    ss.dependency 'ReactiveCocoa'
   end
   
   s.subspec 'Facebook' do |ss|
@@ -30,8 +30,6 @@ Pod::Spec.new do |s|
     
     ss.source_files = 'Providers/Facebook/**/*.{h,m}'
     ss.frameworks = 'Accounts', 'Social'
-    
-    ss.dependency 'SAMCategories'
   end
   
   s.subspec 'Instagram' do |ss|
@@ -39,7 +37,5 @@ Pod::Spec.new do |s|
     
     ss.source_files = 'Providers/Instagram/**/*.{h,m}'
     ss.frameworks = 'UIKit'
-    
-    ss.dependency 'SAMCategories'
   end
 end

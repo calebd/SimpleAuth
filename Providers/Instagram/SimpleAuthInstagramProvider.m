@@ -32,17 +32,21 @@
 
 
 + (NSDictionary *)defaultOptions {
+    
+    // Default present block
     SimpleAuthInterfaceHandler presentBlock = ^(UIViewController *controller) {
         UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
         navigation.modalPresentationStyle = UIModalPresentationFormSheet;
         UIViewController *presented = [UIViewController sa_presentedViewController];
         [presented presentViewController:navigation animated:YES completion:nil];
     };
+    
+    // Default dismiss block
     SimpleAuthInterfaceHandler dismissBlock = ^(id controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
     };
     
-    NSMutableDictionary *options = [[super defaultOptions] mutableCopy];
+    NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
     options[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     options[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     return options;
@@ -50,18 +54,39 @@
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
-    login.completion = ^(SimpleAuthWebViewController *controller, id responseObject, NSError *error) {
-        SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
-        dismissBlock(controller);
+    [self accessTokenWithCompletion:^(NSString *accessToken, NSError *error) {
+        if (!accessToken) {
+            completion(nil, error);
+        }
         
-        // Check access token
-        NSString *accessToken = responseObject[@"access_token"];
-        if (accessToken) {
-            [self instagramAccountWithAccessToken:accessToken completion:^(id accountResponse, NSError *error) {
-                completion(accountResponse, nil);
-            }];
-            return;
+        [self instagramAccountWithAccessToken:accessToken completion:^(NSDictionary *account, NSError *error) {
+            if (!account) {
+                completion(nil, error);
+            }
+            
+            NSDictionary *dictionary = [self dictionaryWithAccount:account accessToken:accessToken];
+            completion(dictionary, nil);
+        }];
+    }];
+}
+
+
+#pragma mark - Public
+
+- (void)accessTokenWithCompletion:(SimpleAuthRequestHandler)completion {
+    SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
+    login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
+        
+        // Dismiss controller
+        SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
+        dismissBlock(login);
+        
+        // Check for access token
+        NSString *fragment = [URL fragment];
+        if ([fragment length]) {
+            NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:fragment];
+            NSString *string = dictionary[@"access_token"];
+            completion(string, nil);
         }
         else {
             completion(nil, error);
@@ -73,8 +98,6 @@
 }
 
 
-#pragma mark - Public
-
 - (void)instagramAccountWithAccessToken:(NSString *)accessToken completion:(SimpleAuthRequestHandler)completion {
     NSDictionary *parameters = @{ @"access_token" : accessToken };
     NSString *query = [parameters sam_stringWithFormEncodedComponents];
@@ -85,12 +108,16 @@
      sendAsynchronousRequest:request
      queue:[NSOperationQueue mainQueue]
      completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+         NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
          NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-         if (statusCode == 200 && data) {
+         if ([indexSet containsIndex:statusCode] && data) {
              NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-             dictionary = dictionary[@"data"];
-             dictionary = [self dictionaryWithResponseObject:dictionary accessToken:accessToken];
-             completion(dictionary, nil);
+             if (dictionary) {
+                 completion(dictionary, nil);
+             }
+             else {
+                 completion(nil, error);
+             }
          }
          else {
              completion(nil, error);
@@ -101,8 +128,9 @@
 
 #pragma mark - Private
 
-- (NSDictionary *)dictionaryWithResponseObject:(NSDictionary *)responseObject accessToken:(NSString *)accessToken {
+- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSString *)accessToken {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    NSDictionary *data = account[@"data"];
     
     // Provider
     dictionary[@"provider"] = [[self class] type];
@@ -113,16 +141,16 @@
     };
     
     // User ID
-    dictionary[@"uid"] = responseObject[@"id"];
+    dictionary[@"uid"] = data[@"id"];
     
     // Raw response
-    dictionary[@"raw_info"] = responseObject;
+    dictionary[@"raw_info"] = account;
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"name"] = responseObject[@"full_name"];
-    user[@"username"] = responseObject[@"username"];
-    user[@"image"] = responseObject[@"profile_picture"];
+    user[@"name"] = data[@"full_name"];
+    user[@"username"] = data[@"username"];
+    user[@"image"] = data[@"profile_picture"];
     dictionary[@"user_info"] = user;
     
     return dictionary;

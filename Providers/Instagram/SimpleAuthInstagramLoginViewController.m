@@ -41,26 +41,8 @@
 - (instancetype)initWithOptions:(NSDictionary *)options {
     if ((self = [super initWithOptions:options])) {
         self.title = @"Instagram";
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                                 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                 target:self
-                                                 action:@selector(close)];
     }
     return self;
-}
-
-
-- (id)responseObjectFromRedirectURL:(NSURL *)URL {
-    NSString *response = [URL fragment] ?: [URL query];
-    return [NSDictionary sam_dictionaryWithFormEncodedString:response];
-}
-
-
-#pragma mark - Actions
-
-- (void)close {
-    SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-    block(self);
 }
 
 @end

@@ -66,7 +66,11 @@
          return [self accountWithAccessToken:response];
      }]
      flattenMap:^(NSDictionary *response) {
-         return [self dictionaryWithAccount:response accessToken:nil];
+         NSArray *signals = @[
+             [RACSignal return:response],
+             [RACSignal return:nil]
+         ];
+         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
          completion(response, nil);
@@ -211,53 +215,48 @@
 }
 
 
-- (RACSignal *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSMutableDictionary *dictionary = [NSMutableDictionary new];
-        
-        // Provider
-        dictionary[@"provider"] = [[self class] type];
-        
-        // Credentials
-//        dictionary[@"credentials"] = @{
-//            @"token" : accessToken[@"oauth_token"],
-//            @"secret" : accessToken[@"oauth_token_secret"]
-//        };
-        
-        // User ID
-        dictionary[@"uid"] = account[@"id"];
-        
-        // Extra
-        dictionary[@"extra"] = @{
-            @"raw_info" : account,
-        };
-        
-        // Profile image
-        NSString *avatar = account[@"profile_image_url_https"];
-        avatar = [avatar stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
-        
-        // URLs
-        NSMutableDictionary *URLs = [NSMutableDictionary dictionary];
-        URLs[@"Twitter"] = [NSString stringWithFormat:@"https://twitter.com/%@", account[@"screen_name"]];
-        if (account[@"url"]) {
-            URLs[@"Website"] = account[@"url"];
-        }
-        
-        // User info
-        NSMutableDictionary *user = [NSMutableDictionary new];
-        user[@"nickname"] = account[@"screen_name"];
-        user[@"name"] = account[@"name"];
-        user[@"location"] = account[@"location"];
-        user[@"image"] = avatar;
-        user[@"description"] = account[@"description"];
-        user[@"urls"] = URLs;
-        dictionary[@"info"] = user;
-        
-        [subscriber sendNext:dictionary];
-        [subscriber sendCompleted];
-        
-        return nil;
-    }];
+- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    
+    // Provider
+    dictionary[@"provider"] = [[self class] type];
+    
+    // Credentials
+    dictionary[@"credentials"] = @{
+//        @"token" : accessToken[@"oauth_token"],
+//        @"secret" : accessToken[@"oauth_token_secret"]
+    };
+    
+    // User ID
+    dictionary[@"uid"] = account[@"id"];
+    
+    // Extra
+    dictionary[@"extra"] = @{
+        @"raw_info" : account,
+    };
+    
+    // Profile image
+    NSString *avatar = account[@"profile_image_url_https"];
+    avatar = [avatar stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+    
+    // URLs
+    NSMutableDictionary *URLs = [NSMutableDictionary dictionary];
+    URLs[@"Twitter"] = [NSString stringWithFormat:@"https://twitter.com/%@", account[@"screen_name"]];
+    if (account[@"url"]) {
+        URLs[@"Website"] = account[@"url"];
+    }
+    
+    // User info
+    NSMutableDictionary *user = [NSMutableDictionary new];
+    user[@"nickname"] = account[@"screen_name"];
+    user[@"name"] = account[@"name"];
+    user[@"location"] = account[@"location"];
+    user[@"image"] = avatar;
+    user[@"description"] = account[@"description"];
+    user[@"urls"] = URLs;
+    dictionary[@"info"] = user;
+    
+    return dictionary;
 }
 
 @end

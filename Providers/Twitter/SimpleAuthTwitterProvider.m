@@ -39,7 +39,7 @@
     };
     
     NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
-    options[@"action_sheet_block"] = actionSheetBlock;
+    options[SimpleAuthPresentInterfaceBlockKey] = actionSheetBlock;
     
     return options;
 }
@@ -75,7 +75,7 @@
 }
 
 
-#pragma mark - Public
+#pragma mark - Private
 
 - (RACSignal *)allTwitterAccounts {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -212,8 +212,6 @@
     }];
 }
 
-
-#pragma mark - Private
 
 - (RACSignal *)reverseAuthRequestToken {
     return [self requestTokenWithParameters:@{

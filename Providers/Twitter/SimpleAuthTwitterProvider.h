@@ -8,18 +8,6 @@
 
 #import "SimpleAuthSystemProvider.h"
 
-@class RACSignal;
-
 @interface SimpleAuthTwitterProvider : SimpleAuthSystemProvider
-
-- (RACSignal *)allTwitterAccounts;
-- (RACSignal *)selectedTwitterAccount;
-- (RACSignal *)twitterAccountFromAccounts:(NSArray *)accounts;
-
-- (RACSignal *)requestTokenWithParameters:(NSDictionary *)parameters;
-
-- (RACSignal *)accessTokenWithAccount:(ACAccount *)account;
-
-- (RACSignal *)twitterAccountWithAccount:(ACAccount *)account;
 
 @end

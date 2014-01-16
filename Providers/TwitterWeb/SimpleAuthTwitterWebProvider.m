@@ -11,6 +11,9 @@
 
 #import "UIViewController+SimpleAuthAdditions.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import <cocoa-oauth/GCOAuth.h>
+
 @implementation SimpleAuthTwitterWebProvider
 
 #pragma mark - SimpleAuthProvider
@@ -38,6 +41,7 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
     dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
+    dictionary[SimpleAuthRedirectURIKey] = @"simple-auth://twitter-web.auth";
     return dictionary;
 }
 
@@ -50,6 +54,38 @@
 
 
 #pragma mark - Private
+
+- (RACSignal *)requestToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSDictionary *parameters = @{ @"oauth_callback" : self.options[SimpleAuthRedirectURIKey] };
+        NSURLRequest *request = [GCOAuth
+                                 URLRequestForPath:@"/oauth/request_token"
+                                 POSTParameters:parameters
+                                 scheme:@"https"
+                                 host:@"api.twitter.com"
+                                 consumerKey:self.options[@"consumer_key"]
+                                 consumerSecret:self.options[@"consumer_secret"]
+                                 accessToken:nil
+                                 tokenSecret:nil];
+        [NSURLConnection
+         sendAsynchronousRequest:request
+         queue:[NSOperationQueue mainQueue]
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                 [subscriber sendNext:string];
+                 [subscriber sendCompleted];
+             }
+             else {
+                 [subscriber sendError:error];
+             }
+         }];
+        return nil;
+    }];
+}
+
 
 - (void)accessTokenWithCompletion:(SimpleAuthRequestHandler)completion {
     SimpleAuthTwitterWebLoginViewController *login = [SimpleAuthTwitterWebLoginViewController new];

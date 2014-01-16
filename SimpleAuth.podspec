@@ -38,4 +38,13 @@ Pod::Spec.new do |s|
     ss.source_files = 'Providers/Instagram/**/*.{h,m}'
     ss.frameworks = 'UIKit'
   end
+  
+  s.subspec 'TwitterWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/TwitterWeb/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+    
+    ss.dependency 'cocoa-oauth'
+  end
 end

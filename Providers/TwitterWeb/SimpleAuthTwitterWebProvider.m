@@ -13,10 +13,18 @@
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <cocoa-oauth/GCOAuth.h>
+#import <SAMCategories/NSDictionary+SAMAdditions.h>
 
 @implementation SimpleAuthTwitterWebProvider
 
 #pragma mark - SimpleAuthProvider
+
++ (void)load {
+    @autoreleasepool {
+        [SimpleAuth registerProviderClass:self];
+    }
+}
+
 
 + (NSString *)type {
     return @"twitter-web";
@@ -47,9 +55,25 @@
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    [self accessTokenWithCompletion:^(id responseObject, NSError *error) {
-        
-    }];
+    [[[[[[self requestToken]
+     flattenMap:^(NSDictionary *response) {
+         return [self authenticateWithRequestToken:response];
+     }]
+     flattenMap:^(NSDictionary *response) {
+         return [self accessTokenWithAuthenticationResponse:response];
+     }]
+     flattenMap:^(NSDictionary *response) {
+         return [self accountWithAccessToken:response];
+     }]
+     flattenMap:^(NSDictionary *response) {
+         return [self dictionaryWithAccount:response accessToken:nil];
+     }]
+     subscribeNext:^(NSDictionary *response) {
+         completion(response, nil);
+     }
+     error:^(NSError *error) {
+         completion(nil, error);
+     }];
 }
 
 
@@ -75,7 +99,8 @@
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                 [subscriber sendNext:string];
+                 NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
+                 [subscriber sendNext:dictionary];
                  [subscriber sendCompleted];
              }
              else {
@@ -87,18 +112,152 @@
 }
 
 
-- (void)accessTokenWithCompletion:(SimpleAuthRequestHandler)completion {
-    SimpleAuthTwitterWebLoginViewController *login = [SimpleAuthTwitterWebLoginViewController new];
-    
-    login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
-        SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-        block(controller);
+- (RACSignal *)authenticateWithRequestToken:(NSDictionary *)requestToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        SimpleAuthTwitterWebLoginViewController *login = [[SimpleAuthTwitterWebLoginViewController alloc] initWithOptions:self.options requestToken:requestToken];
         
-        NSLog(@"%@", URL);
-    };
-    
-    SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-    block(login);
+        login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
+            SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
+            block(controller);
+            
+            // Parse URL
+            NSString *query = [URL query];
+            NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:query];
+            NSString *token = dictionary[@"oauth_token"];
+            NSString *verifier = dictionary[@"oauth_verifier"];
+            
+            // Check for error
+            if (![token length] || ![verifier length]) {
+                [subscriber sendError:nil];
+                return;
+            }
+            
+            // Send completion
+            [subscriber sendNext:dictionary];
+            [subscriber sendCompleted];
+        };
+        
+        SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
+        block(login);
+        
+        return nil;
+    }];
+}
+
+
+- (RACSignal *)accessTokenWithAuthenticationResponse:(NSDictionary *)authenticationResponse {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSDictionary *parameters = @{ @"oauth_verifier" : authenticationResponse[@"oauth_verifier"] };
+        NSURLRequest *request = [GCOAuth
+                                 URLRequestForPath:@"/oauth/access_token"
+                                 POSTParameters:parameters
+                                 scheme:@"https"
+                                 host:@"api.twitter.com"
+                                 consumerKey:self.options[@"consumer_key"]
+                                 consumerSecret:self.options[@"consumer_secret"]
+                                 accessToken:authenticationResponse[@"oauth_token"]
+                                 tokenSecret:nil];
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                 NSDictionary *dictinoary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
+                 [subscriber sendNext:dictinoary];
+                 [subscriber sendCompleted];
+             }
+             else {
+                 [subscriber sendError:connectionError];
+             }
+         }];
+        return nil;
+    }];
+}
+
+
+- (RACSignal *)accountWithAccessToken:(NSDictionary *)accessToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSURLRequest *request = [GCOAuth
+                                 URLRequestForPath:@"/1.1/account/verify_credentials.json"
+                                 GETParameters:nil
+                                 scheme:@"https"
+                                 host:@"api.twitter.com"
+                                 consumerKey:self.options[@"consumer_key"]
+                                 consumerSecret:self.options[@"consumer_secret"]
+                                 accessToken:accessToken[@"oauth_token"]
+                                 tokenSecret:accessToken[@"oauth_token_secret"]];
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSError *parseError = nil;
+                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                 if (dictionary) {
+                     [subscriber sendNext:dictionary];
+                     [subscriber sendCompleted];
+                 }
+                 else {
+                     [subscriber sendError:parseError];
+                 }
+             }
+             else {
+                 [subscriber sendError:connectionError];
+             }
+         }];
+        return nil;
+    }];
+}
+
+
+- (RACSignal *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        
+        // Provider
+        dictionary[@"provider"] = [[self class] type];
+        
+        // Credentials
+//        dictionary[@"credentials"] = @{
+//            @"token" : accessToken[@"oauth_token"],
+//            @"secret" : accessToken[@"oauth_token_secret"]
+//        };
+        
+        // User ID
+        dictionary[@"uid"] = account[@"id"];
+        
+        // Extra
+        dictionary[@"extra"] = @{
+            @"raw_info" : account,
+        };
+        
+        // Profile image
+        NSString *avatar = account[@"profile_image_url_https"];
+        avatar = [avatar stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+        
+        // URLs
+        NSMutableDictionary *URLs = [NSMutableDictionary dictionary];
+        URLs[@"Twitter"] = [NSString stringWithFormat:@"https://twitter.com/%@", account[@"screen_name"]];
+        if (account[@"url"]) {
+            URLs[@"Website"] = account[@"url"];
+        }
+        
+        // User info
+        NSMutableDictionary *user = [NSMutableDictionary new];
+        user[@"nickname"] = account[@"screen_name"];
+        user[@"name"] = account[@"name"];
+        user[@"location"] = account[@"location"];
+        user[@"image"] = avatar;
+        user[@"description"] = account[@"description"];
+        user[@"urls"] = URLs;
+        dictionary[@"info"] = user;
+        
+        [subscriber sendNext:dictionary];
+        [subscriber sendCompleted];
+        
+        return nil;
+    }];
 }
 
 @end

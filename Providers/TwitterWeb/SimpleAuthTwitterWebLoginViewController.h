@@ -10,4 +10,6 @@
 
 @interface SimpleAuthTwitterWebLoginViewController : SimpleAuthWebViewController
 
+- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken;
+
 @end

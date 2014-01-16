@@ -12,6 +12,7 @@
 #import "UIViewController+SimpleAuthAdditions.h"
 
 #import <SAMCategories/NSDictionary+SAMAdditions.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthInstagramProvider
 
@@ -54,75 +55,84 @@
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    [self accessTokenWithCompletion:^(NSString *accessToken, NSError *error) {
-        if (!accessToken) {
-            completion(nil, error);
-        }
-        
-        [self instagramAccountWithAccessToken:accessToken completion:^(NSDictionary *account, NSError *error) {
-            if (!account) {
-                completion(nil, error);
+    [[[self accessToken]
+     flattenMap:^RACStream *(NSString *response) {
+         NSArray *signals = @[
+             [RACSignal return:response],
+             [self accountWithAccessToken:response]
+         ];
+         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+     }]
+     subscribeNext:^(NSDictionary *response) {
+         completion(response, nil);
+     }
+     error:^(NSError *error) {
+         completion(nil, error);
+     }];
+}
+
+
+#pragma mark - Private
+
+- (RACSignal *)accessToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
+        login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
+            SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
+            dismissBlock(login);
+            
+            // Parse URL
+            NSString *fragment = [URL fragment];
+            NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:fragment];
+            NSString *token = dictionary[@"access_token"];
+            
+            // Check for error
+            if (![token length]) {
+                [subscriber sendError:nil];
+                return;
             }
             
-            NSDictionary *dictionary = [self dictionaryWithAccount:account accessToken:accessToken];
-            completion(dictionary, nil);
-        }];
+            // Send completion
+            [subscriber sendNext:token];
+            [subscriber sendCompleted];
+        };
+        
+        SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
+        block(login);
+        
+        return nil;
     }];
 }
 
 
-#pragma mark - Public
-
-- (void)accessTokenWithCompletion:(SimpleAuthRequestHandler)completion {
-    SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
-    login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
-        
-        // Dismiss controller
-        SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
-        dismissBlock(login);
-        
-        // Check for access token
-        NSString *fragment = [URL fragment];
-        if ([fragment length]) {
-            NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:fragment];
-            NSString *string = dictionary[@"access_token"];
-            completion(string, nil);
-        }
-        else {
-            completion(nil, error);
-        }
-    };
-    
-    SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-    block(login);
-}
-
-
-- (void)instagramAccountWithAccessToken:(NSString *)accessToken completion:(SimpleAuthRequestHandler)completion {
-    NSDictionary *parameters = @{ @"access_token" : accessToken };
-    NSString *query = [parameters sam_stringWithFormEncodedComponents];
-    NSString *URLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/users/self?%@", query];
-    NSURL *URL = [NSURL URLWithString:URLString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    [NSURLConnection
-     sendAsynchronousRequest:request
-     queue:[NSOperationQueue mainQueue]
-     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-         NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
-         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-         if ([indexSet containsIndex:statusCode] && data) {
-             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-             if (dictionary) {
-                 completion(dictionary, nil);
+- (RACSignal *)accountWithAccessToken:(NSString *)accessToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSDictionary *parameters = @{ @"access_token" : accessToken };
+        NSString *query = [parameters sam_stringWithFormEncodedComponents];
+        NSString *URLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/users/self?%@", query];
+        NSURL *URL = [NSURL URLWithString:URLString];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSError *parseError = nil;
+                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                 if (dictionary) {
+                     [subscriber sendNext:dictionary];
+                     [subscriber sendCompleted];
+                 }
+                 else {
+                     [subscriber sendError:parseError];
+                 }
              }
              else {
-                 completion(nil, error);
+                 [subscriber sendError:connectionError];
              }
-         }
-         else {
-             completion(nil, error);
-         }
-     }];
+         }];
+        return nil;
+    }];
 }
 
 

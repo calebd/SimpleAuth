@@ -11,6 +11,12 @@
 		3B52BB9518871F6200C73329 /* SimpleAuthFacebookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB9418871F6200C73329 /* SimpleAuthFacebookProvider.m */; };
 		3B52BB9B188731A300C73329 /* SimpleAuthInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB98188731A300C73329 /* SimpleAuthInstagramLoginViewController.m */; };
 		3B52BB9C188731A300C73329 /* SimpleAuthInstagramProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB9A188731A300C73329 /* SimpleAuthInstagramProvider.m */; };
+		3B658435188892FE00D59100 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B658433188892FE00D59100 /* InfoPlist.strings */; };
+		3B658437188892FE00D59100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B658436188892FE00D59100 /* main.m */; };
+		3B65843B188892FE00D59100 /* SADAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65843A188892FE00D59100 /* SADAppDelegate.m */; };
+		3B65843D188892FE00D59100 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B65843C188892FE00D59100 /* Images.xcassets */; };
+		3B6584581888931F00D59100 /* SADProviderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6584571888931F00D59100 /* SADProviderListViewController.m */; };
+		3B65845C188895E400D59100 /* libSimpleAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB32504182ABC8B00ACB555 /* libSimpleAuth.a */; };
 		3B8C408E188792A9007DC578 /* SimpleAuthTwitterWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8C408D188792A9007DC578 /* SimpleAuthTwitterWebProvider.m */; };
 		3B8C409118879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8C409018879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m */; };
 		3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AB063182AC2710011FB9E /* SimpleAuthProvider.m */; };
@@ -21,6 +27,16 @@
 		3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */; };
 		F435E27FC62B4584BF9DBF2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3B65845A1888947500D59100 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3BB324FC182ABC8B00ACB555 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3BB32503182ABC8B00ACB555;
+			remoteInfo = SimpleAuth;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0D4998CFA03844FB99EE78AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,6 +49,20 @@
 		3B52BB98188731A300C73329 /* SimpleAuthInstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramLoginViewController.m; sourceTree = "<group>"; };
 		3B52BB99188731A300C73329 /* SimpleAuthInstagramProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramProvider.h; sourceTree = "<group>"; };
 		3B52BB9A188731A300C73329 /* SimpleAuthInstagramProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramProvider.m; sourceTree = "<group>"; };
+		3B658429188892FD00D59100 /* SimpleAuthDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleAuthDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B65842A188892FE00D59100 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3B65842C188892FE00D59100 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3B65842E188892FE00D59100 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3B658432188892FE00D59100 /* SimpleAuthDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleAuthDemo-Info.plist"; sourceTree = "<group>"; };
+		3B658434188892FE00D59100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3B658436188892FE00D59100 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3B658438188892FE00D59100 /* SimpleAuthDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleAuthDemo-Prefix.pch"; sourceTree = "<group>"; };
+		3B658439188892FE00D59100 /* SADAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SADAppDelegate.h; sourceTree = "<group>"; };
+		3B65843A188892FE00D59100 /* SADAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SADAppDelegate.m; sourceTree = "<group>"; };
+		3B65843C188892FE00D59100 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3B658443188892FE00D59100 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		3B6584571888931F00D59100 /* SADProviderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SADProviderListViewController.m; sourceTree = "<group>"; };
+		3B6584591888933200D59100 /* SADProviderListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SADProviderListViewController.h; sourceTree = "<group>"; };
 		3B8C408C188792A9007DC578 /* SimpleAuthTwitterWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthTwitterWebProvider.h; sourceTree = "<group>"; };
 		3B8C408D188792A9007DC578 /* SimpleAuthTwitterWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthTwitterWebProvider.m; sourceTree = "<group>"; };
 		3B8C408F18879347007DC578 /* SimpleAuthTwitterWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthTwitterWebLoginViewController.h; sourceTree = "<group>"; };
@@ -54,6 +84,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3B658426188892FD00D59100 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B65845C188895E400D59100 /* libSimpleAuth.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		681A563A05114C23AD83043F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -105,6 +143,30 @@
 			path = Instagram;
 			sourceTree = "<group>";
 		};
+		3B658430188892FE00D59100 /* SimpleAuthDemo */ = {
+			isa = PBXGroup;
+			children = (
+				3B658439188892FE00D59100 /* SADAppDelegate.h */,
+				3B65843A188892FE00D59100 /* SADAppDelegate.m */,
+				3B6584591888933200D59100 /* SADProviderListViewController.h */,
+				3B6584571888931F00D59100 /* SADProviderListViewController.m */,
+				3B65843C188892FE00D59100 /* Images.xcassets */,
+				3B658431188892FE00D59100 /* Supporting Files */,
+			);
+			path = SimpleAuthDemo;
+			sourceTree = "<group>";
+		};
+		3B658431188892FE00D59100 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B658432188892FE00D59100 /* SimpleAuthDemo-Info.plist */,
+				3B658433188892FE00D59100 /* InfoPlist.strings */,
+				3B658436188892FE00D59100 /* main.m */,
+				3B658438188892FE00D59100 /* SimpleAuthDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		3B8C408B18879296007DC578 /* TwitterWeb */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +194,7 @@
 			children = (
 				3BB32509182ABC8B00ACB555 /* SimpleAuth */,
 				3B52BB8D1887088400C73329 /* Providers */,
+				3B658430188892FE00D59100 /* SimpleAuthDemo */,
 				3BB32506182ABC8B00ACB555 /* Frameworks */,
 				3BB32505182ABC8B00ACB555 /* Products */,
 				0FCEF85A832046CDB0CCBF25 /* Pods.xcconfig */,
@@ -142,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				3BB32504182ABC8B00ACB555 /* libSimpleAuth.a */,
+				3B658429188892FD00D59100 /* SimpleAuthDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +214,10 @@
 			isa = PBXGroup;
 			children = (
 				0D4998CFA03844FB99EE78AA /* libPods.a */,
+				3B65842A188892FE00D59100 /* Foundation.framework */,
+				3B65842C188892FE00D59100 /* CoreGraphics.framework */,
+				3B65842E188892FE00D59100 /* UIKit.framework */,
+				3B658443188892FE00D59100 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,6 +266,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3B658428188892FD00D59100 /* SimpleAuthDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B658455188892FE00D59100 /* Build configuration list for PBXNativeTarget "SimpleAuthDemo" */;
+			buildPhases = (
+				3B658425188892FD00D59100 /* Sources */,
+				3B658426188892FD00D59100 /* Frameworks */,
+				3B658427188892FD00D59100 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3B65845B1888947500D59100 /* PBXTargetDependency */,
+			);
+			name = SimpleAuthDemo;
+			productName = SimpleAuthDemo;
+			productReference = 3B658429188892FD00D59100 /* SimpleAuthDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 		3BB32503182ABC8B00ACB555 /* SimpleAuth */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3BB32527182ABC8C00ACB555 /* Build configuration list for PBXNativeTarget "SimpleAuth" */;
@@ -238,9 +324,22 @@
 			projectRoot = "";
 			targets = (
 				3BB32503182ABC8B00ACB555 /* SimpleAuth */,
+				3B658428188892FD00D59100 /* SimpleAuthDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3B658427188892FD00D59100 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B658435188892FE00D59100 /* InfoPlist.strings in Resources */,
+				3B65843D188892FE00D59100 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		5220918F16EE4E09993F918E /* Check Pods Manifest.lock */ = {
@@ -276,6 +375,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3B658425188892FD00D59100 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B6584581888931F00D59100 /* SADProviderListViewController.m in Sources */,
+				3B658437188892FE00D59100 /* main.m in Sources */,
+				3B65843B188892FE00D59100 /* SADAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3BB32500182ABC8B00ACB555 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,7 +406,66 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3B65845B1888947500D59100 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3BB32503182ABC8B00ACB555 /* SimpleAuth */;
+			targetProxy = 3B65845A1888947500D59100 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3B658433188892FE00D59100 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3B658434188892FE00D59100 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		3B658451188892FE00D59100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SimpleAuthDemo/SimpleAuthDemo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SimpleAuthDemo/SimpleAuthDemo-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3B658452188892FE00D59100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SimpleAuthDemo/SimpleAuthDemo-Prefix.pch";
+				INFOPLIST_FILE = "SimpleAuthDemo/SimpleAuthDemo-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		3BB32525182ABC8C00ACB555 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -397,6 +565,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3B658455188892FE00D59100 /* Build configuration list for PBXNativeTarget "SimpleAuthDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B658451188892FE00D59100 /* Debug */,
+				3B658452188892FE00D59100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3BB324FF182ABC8B00ACB555 /* Build configuration list for PBXProject "SimpleAuth" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

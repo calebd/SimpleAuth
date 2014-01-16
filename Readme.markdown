@@ -20,8 +20,8 @@ I also have plans to provide:
 Install SimpleAuth with CocoaPods. For example, to use Facebook and Twitter authentication, add
 
 ```ruby
-pod ‘SimpleAuth/Facebook’
-pod ‘SimpleAuth/Twitter’
+pod 'SimpleAuth/Facebook'
+pod 'SimpleAuth/Twitter'
 ```
 
 to your `Podfile`.

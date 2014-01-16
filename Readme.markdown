@@ -1,8 +1,8 @@
 # SimpleAuth
 
-SimpleAuth is designed to do the hard work of social account login on iOS. It is designed with a small set of public APIs backed by a set of "providers" the implement the functionality needed to communicate with a given service.
+SimpleAuth is designed to do the hard work of social account login on iOS. It has a small set of public APIs backed by a set of "providers" that implement the functionality needed to communicate with various social services. You can read more about it [here](http://blog.calebd.me/introducing-simpleauth).
 
-I plan to ship the following providers at launch:
+SimpleAuth currently has the following providers:
 
 - Facebook (system)
 - Twitter (system)
@@ -15,9 +15,16 @@ I also have plans to provide:
 - Facebook web
 - Tumblr
 
-The API for creating providers is likewise simple but it is not concrete yet. Every provider will be in its own git repository and CocoaPod so that you can install just the components you need.
+## Installing
 
-Providers will be able to set fallbacks such that attempting to login with Facebook will fallback to Facebook web if no system account is present.
+Install SimpleAuth with CocoaPods. For example, to use Facebook and Twitter authentication, add
+
+```ruby
+pod ‘SimpleAuth/Facebook’
+pod ‘SimpleAuth/Twitter’
+```
+
+to your `Podfile`.
 
 ## Usage
 
@@ -32,15 +39,17 @@ SimpleAuth.configuration[@"twitter"] = @{
 ````
 
 ````objc
-// Run the login process
-[SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSError *error) {
-    NSLog(@"%@", responseObject);
-}];
+// Authorize
+- (void)loginWithTwitter {
+    [SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSError *error) {
+        NSLog(@"%@", responseObject);
+    }];
+}
 ````
 
 ## Implementing  a Provider
 
-Building your own provider is fairly straightforward. There are a handful of methods you'll need to implement:
+The API for creating providers is pretty simple. Providers should be stored in `Providers/` and have an appropriately named folder and sub spec. There are a handful of methods you'll need to implement:
 
 Register your provider with SimpleAuth:
 
@@ -80,9 +89,7 @@ Finally, provide a method for handling authorization:
 }
 ````
 
-## Challenges
-
-The biggest challenge I face at this point is enabling customization of the authentication process. Almost all of the above providers require presenting UI to the user. Twitter requires an action sheet for selecting an account from all present system accounts and Instagram requires a web view controller. I need a generic mechanism that can allow the caller to change the behavior of presented UI.
+The rest is up to you! I welcome contributions to SimpleAuth, both improvements to the library itself and new providers.
 
 ## License
 

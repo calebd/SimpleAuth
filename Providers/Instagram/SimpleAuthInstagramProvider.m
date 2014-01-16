@@ -1,6 +1,6 @@
 //
 //  SimpleAuthInstagramProvider.m
-//  SimpleAuthInstagram
+//  SimpleAuth
 //
 //  Created by Caleb Davenport on 11/7/13.
 //  Copyright (c) 2013 Seesaw Decisions Corporation. All rights reserved.
@@ -58,8 +58,8 @@
     [[[self accessToken]
      flattenMap:^RACStream *(NSString *response) {
          NSArray *signals = @[
-             [RACSignal return:response],
-             [self accountWithAccessToken:response]
+             [self accountWithAccessToken:response],
+             [RACSignal return:response]
          ];
          return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
      }]
@@ -112,7 +112,7 @@
         NSString *URLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/users/self?%@", query];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
          completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];

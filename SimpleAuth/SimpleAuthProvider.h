@@ -10,32 +10,13 @@
 
 @interface SimpleAuthProvider : NSObject
 
-/**
- 
- */
-@property (nonatomic, readonly) NSDictionary *options;
+@property (nonatomic, readonly, copy) NSDictionary *options;
+@property (nonatomic, readonly) NSOperationQueue *operationQueue;
 
-/**
- 
- */
 + (NSString *)type;
-
-/**
- 
- */
 + (NSDictionary *)defaultOptions;
 
-/**
- Default initializer. Create a provider with the given options.
- @param options The options used to configure the receiver.
- @return A provider object.
- @see -options
- */
 - (instancetype)initWithOptions:(NSDictionary *)options;
-
-/**
- 
- */
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
 
 @end

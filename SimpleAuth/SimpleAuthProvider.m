@@ -8,17 +8,17 @@
 
 #import "SimpleAuthProvider.h"
 
+@interface SimpleAuthProvider ()
+
+@property (nonatomic, copy) NSDictionary *options;
+
+@end
+
 @implementation SimpleAuthProvider
 
+@synthesize operationQueue = _operationQueue;
+
 #pragma mark - Public
-
-- (instancetype)initWithOptions:(NSDictionary *)options {
-    if ((self = [super init])) {
-        _options = [options copy];
-    }
-    return self;
-}
-
 
 + (NSString *)type {
     [self doesNotRecognizeSelector:_cmd];
@@ -31,8 +31,26 @@
 }
 
 
+- (instancetype)initWithOptions:(NSDictionary *)options {
+    if ((self = [super init])) {
+        self.options = options;
+    }
+    return self;
+}
+
+
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [self doesNotRecognizeSelector:_cmd];
+}
+
+
+#pragma mark - Accessors
+
+- (NSOperationQueue *)operationQueue {
+    if (!_operationQueue) {
+        _operationQueue = [NSOperationQueue new];
+    }
+    return _operationQueue;
 }
 
 @end

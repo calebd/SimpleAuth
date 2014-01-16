@@ -92,9 +92,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:nil
                                  tokenSecret:nil];
-        [NSURLConnection
-         sendAsynchronousRequest:request
-         queue:[NSOperationQueue mainQueue]
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
          completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
@@ -158,7 +156,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:authenticationResponse[@"oauth_token"]
                                  tokenSecret:nil];
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
          completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
@@ -188,7 +186,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:accessToken[@"oauth_token"]
                                  tokenSecret:accessToken[@"oauth_token_secret"]];
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
          completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];

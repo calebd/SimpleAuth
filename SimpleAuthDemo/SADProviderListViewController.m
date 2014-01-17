@@ -46,7 +46,8 @@
             @"twitter",
             @"twitter-web",
             @"facebook",
-            @"instagram"
+            @"instagram",
+            @"meetup"
         ];
     });
     return array;

@@ -9,11 +9,16 @@ SimpleAuth currently has the following providers:
 - Instagram
 - Twitter web
 
-I also have plans to provide:
+I would like to have:
 
 - Twitter xauth
+- Tumblr xauth
+- GitHub
+- Foursquare
+- Dropbox
+- App Dot Net
 - Facebook web
-- Tumblr
+- Tumblr web
 
 ## Installing
 

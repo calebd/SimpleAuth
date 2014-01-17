@@ -54,4 +54,13 @@ Pod::Spec.new do |s|
     ss.source_files = 'Providers/Meetup/**/*.{h,m}'
     ss.frameworks = 'UIKit'
   end
+  
+  s.subspec 'Tumblr' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/Tumblr/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+    
+    ss.dependency 'cocoa-oauth'
+  end
 end

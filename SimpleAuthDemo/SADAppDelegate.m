@@ -57,6 +57,7 @@
 #pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self configureAuthorizaionProviders];
     [self.window makeKeyAndVisible];
     return YES;
 }

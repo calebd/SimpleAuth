@@ -47,4 +47,11 @@ Pod::Spec.new do |s|
     
     ss.dependency 'cocoa-oauth'
   end
+  
+  s.subspec 'Meetup' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/Meetup/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+  end
 end

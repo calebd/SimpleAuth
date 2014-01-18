@@ -25,6 +25,8 @@
 		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
 		3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */; };
 		3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */; };
+		4D149A411889B3DF0024639C /* SimpleAuthMeetupProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D149A401889B3DF0024639C /* SimpleAuthMeetupProvider.m */; };
+		4D149A441889B4390024639C /* SimpleAuthMeetupLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D149A431889B4390024639C /* SimpleAuthMeetupLoginViewController.m */; };
 		F435E27FC62B4584BF9DBF2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +83,10 @@
 		3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SimpleAuthAdditions.m"; sourceTree = "<group>"; };
 		3C611F46183535A400D87E45 /* UIViewController+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
 		3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+SimpleAuthAdditions.m"; sourceTree = "<group>"; };
+		4D149A3F1889B3DF0024639C /* SimpleAuthMeetupProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAuthMeetupProvider.h; path = Meetup/SimpleAuthMeetupProvider.h; sourceTree = "<group>"; };
+		4D149A401889B3DF0024639C /* SimpleAuthMeetupProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAuthMeetupProvider.m; path = Meetup/SimpleAuthMeetupProvider.m; sourceTree = "<group>"; };
+		4D149A421889B4390024639C /* SimpleAuthMeetupLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAuthMeetupLoginViewController.h; path = Meetup/SimpleAuthMeetupLoginViewController.h; sourceTree = "<group>"; };
+		4D149A431889B4390024639C /* SimpleAuthMeetupLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAuthMeetupLoginViewController.m; path = Meetup/SimpleAuthMeetupLoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,7 @@
 				3B52BB8E1887088400C73329 /* Twitter */,
 				3B8C408B18879296007DC578 /* TwitterWeb */,
 				3B52BB96188731A300C73329 /* Instagram */,
+				4D149A3E1889B38C0024639C /* Meetup */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -263,6 +270,17 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		4D149A3E1889B38C0024639C /* Meetup */ = {
+			isa = PBXGroup;
+			children = (
+				4D149A3F1889B3DF0024639C /* SimpleAuthMeetupProvider.h */,
+				4D149A401889B3DF0024639C /* SimpleAuthMeetupProvider.m */,
+				4D149A421889B4390024639C /* SimpleAuthMeetupLoginViewController.h */,
+				4D149A431889B4390024639C /* SimpleAuthMeetupLoginViewController.m */,
+			);
+			name = Meetup;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -390,12 +408,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B8C408E188792A9007DC578 /* SimpleAuthTwitterWebProvider.m in Sources */,
+				4D149A411889B3DF0024639C /* SimpleAuthMeetupProvider.m in Sources */,
 				3B8C409118879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m in Sources */,
 				3B52BB9518871F6200C73329 /* SimpleAuthFacebookProvider.m in Sources */,
 				3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */,
 				3B52BB9B188731A300C73329 /* SimpleAuthInstagramLoginViewController.m in Sources */,
 				3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */,
 				3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */,
+				4D149A441889B4390024639C /* SimpleAuthMeetupLoginViewController.m in Sources */,
 				3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */,
 				3B52BB911887088400C73329 /* SimpleAuthTwitterProvider.m in Sources */,
 				3B52BB9C188731A300C73329 /* SimpleAuthInstagramProvider.m in Sources */,

@@ -51,6 +51,9 @@
     
     // app_id is required
     SimpleAuth.configuration[@"facebook"] = @{};
+    
+    // client_id and redirect_uri are required
+    SimpleAuth.configuration[@"meetup"] = @{};
 }
 
 

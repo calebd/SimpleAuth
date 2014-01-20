@@ -7,8 +7,9 @@ SimpleAuth currently has the following providers:
 - Facebook (system)
 - Twitter (system)
 - Instagram
-- Twitter web
+- Twitter (web)
 - Meetup
+- Tumblr
 
 I would like to have:
 
@@ -18,8 +19,7 @@ I would like to have:
 - Foursquare
 - Dropbox
 - App Dot Net
-- Facebook web
-- Tumblr web
+- Facebook (web)
 
 ## Installing
 

@@ -203,6 +203,7 @@
                  NSError *parseError = nil;
                  NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
                  if (dictionary) {
+                     dictionary = dictionary[@"response"][@"user"];
                      [subscriber sendNext:dictionary];
                      [subscriber sendCompleted];
                  }
@@ -232,33 +233,32 @@
     };
     
     // User ID
-//    dictionary[@"uid"] = account[@"id"];
+    dictionary[@"uid"] = account[@"name"];
     
     // Extra
     dictionary[@"extra"] = @{
         @"raw_info" : account,
     };
     
-//    // Profile image
-//    NSString *avatar = account[@"profile_image_url_https"];
-//    avatar = [avatar stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
-//    
-//    // URLs
-//    NSMutableDictionary *URLs = [NSMutableDictionary dictionary];
-//    URLs[@"Twitter"] = [NSString stringWithFormat:@"https://twitter.com/%@", account[@"screen_name"]];
-//    if (account[@"url"]) {
-//        URLs[@"Website"] = account[@"url"];
-//    }
-//    
-//    // User info
-//    NSMutableDictionary *user = [NSMutableDictionary new];
-//    user[@"nickname"] = account[@"screen_name"];
-//    user[@"name"] = account[@"name"];
-//    user[@"location"] = account[@"location"];
-//    user[@"image"] = avatar;
-//    user[@"description"] = account[@"description"];
-//    user[@"urls"] = URLs;
-//    dictionary[@"info"] = user;
+    // Blogs
+    NSArray *blogs = account[@"blogs"];
+    blogs = [[blogs.rac_sequence map:^(NSDictionary *dictionary) {
+        return [dictionary dictionaryWithValuesForKeys:@[ @"name", @"url", @"title" ]];
+    }] array];
+    
+    // Profile image
+    NSString *blogURLString = blogs[0][@"url"];
+    NSURL *blogURL = [NSURL URLWithString:blogURLString];
+    NSString *host = [blogURL host];
+    NSString *avatar = [NSString stringWithFormat:@"https://api.tumblr.com/v2/blog/%@/avatar", host];
+    
+    // User info
+    NSMutableDictionary *user = [NSMutableDictionary new];
+    user[@"nickname"] = account[@"name"];
+    user[@"name"] = account[@"name"];
+    user[@"blogs"] = blogs;
+    user[@"image"] = avatar;
+    dictionary[@"info"] = user;
     
     return dictionary;
 }

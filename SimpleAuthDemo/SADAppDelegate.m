@@ -51,9 +51,12 @@
     
     // app_id is required
     SimpleAuth.configuration[@"facebook"] = @{};
-    
+	
     // client_id and redirect_uri are required
     SimpleAuth.configuration[@"meetup"] = @{};
+	
+    // consumer_key and consumer_secret are required
+    SimpleAuth.configuration[@"tumblr"] = @{};
 }
 
 

@@ -98,7 +98,7 @@ NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
         return YES;
     }
     Class superclass = class_getSuperclass(klass);
-    if (superclass == nil) {
+    if (superclass == Nil) {
         return NO;
     }
     else {

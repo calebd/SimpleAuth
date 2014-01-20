@@ -8,6 +8,8 @@
 
 #import "SimpleAuthProvider.h"
 
+#import <objc/runtime.h>
+
 NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
 NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block";
 NSString * const SimpleAuthDismissInterfaceBlockKey = @"dismiss_interface_block";
@@ -16,6 +18,13 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
 
 @implementation SimpleAuth
+
+#pragma mark - NSObject
+
++ (void)initialize {
+    [self loadProviders];
+}
+
 
 #pragma mark - Public
 
@@ -81,6 +90,36 @@ NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
         providers = [NSMutableDictionary new];
     });
     return providers;
+}
+
+
++ (BOOL)isProviderClass:(Class)klass {
+    if (klass == [SimpleAuthProvider class]) {
+        return YES;
+    }
+    Class superclass = class_getSuperclass(klass);
+    if (superclass == nil) {
+        return NO;
+    }
+    else {
+        return [self isProviderClass:superclass];
+    }
+}
+
+
++ (void)loadProviders {
+    int count = objc_getClassList(NULL, 0);
+    Class classes[count];
+    objc_getClassList(classes, count);
+    for (int i = 0; i < count; i++) {
+        Class klass = classes[i];
+        if ([self isProviderClass:klass]) {
+            NSString *type = [klass type];
+            if (type) {
+                [self registerProviderClass:klass];
+            }
+        }
+    }
 }
 
 @end

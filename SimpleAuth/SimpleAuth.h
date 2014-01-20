@@ -70,16 +70,6 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
 + (NSMutableDictionary *)configuration;
 
 /**
- Register a class as a provider. Ideally, this would be a subclass of
- SimpleAuthProvider but it doesn't necessarily have to be. Minimally, it must
- have the same interface as the SimpleAuthProvider class. Multiple calls to
- this with classes that return the same provider type will be ignored.
- 
- @param klass The class to register.
- */
-+ (void)registerProviderClass:(Class)klass;
-
-/**
  Perform authorization with the given provider and all previously configured
  and default provider options.
  

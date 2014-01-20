@@ -19,13 +19,6 @@
 
 #pragma mark - SimpleAuthProvider
 
-+ (void)load {
-    @autoreleasepool {
-        [SimpleAuth registerProviderClass:self];
-    }
-}
-
-
 + (NSString *)type {
     return @"twitter-web";
 }

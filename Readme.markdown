@@ -8,6 +8,7 @@ SimpleAuth currently has the following providers:
 - Twitter (system)
 - Instagram
 - Twitter web
+- Meetup
 
 I would like to have:
 

@@ -19,10 +19,8 @@
 
 #pragma mark - SimpleAuthProvider
 
-+ (void)load {
-    @autoreleasepool {
-        [SimpleAuth registerProviderClass:self];
-    }
++ (void)initialize {
+    [SimpleAuth registerProviderClass:self];
 }
 
 

@@ -18,10 +18,8 @@
 
 #pragma mark - NSObject
 
-+ (void)load {
-    @autoreleasepool {
-        [SimpleAuth registerProviderClass:self];
-    }
++ (void)initialize {
+    [SimpleAuth registerProviderClass:self];
 }
 
 

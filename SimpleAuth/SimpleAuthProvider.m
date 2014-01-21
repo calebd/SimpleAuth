@@ -21,6 +21,7 @@
 #pragma mark - Public
 
 + (NSString *)type {
+    [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 

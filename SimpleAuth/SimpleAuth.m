@@ -7,8 +7,11 @@
 //
 
 #import "SimpleAuthProvider.h"
+#import "SimpleAuthSystemProvider.h"
 
-#import <objc/runtime.h>
+#import "NSObject+SimpleAuthAdditions.h"
+
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
 NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block";
@@ -93,33 +96,13 @@ NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
 }
 
 
-+ (BOOL)isProviderClass:(Class)klass {
-    if (klass == [SimpleAuthProvider class]) {
-        return YES;
-    }
-    Class superclass = class_getSuperclass(klass);
-    if (superclass == Nil) {
-        return NO;
-    }
-    else {
-        return [self isProviderClass:superclass];
-    }
-}
-
-
 + (void)loadProviders {
-    int count = objc_getClassList(NULL, 0);
-    Class classes[count];
-    objc_getClassList(classes, count);
-    for (int i = 0; i < count; i++) {
-        Class klass = classes[i];
-        if ([self isProviderClass:klass]) {
-            NSString *type = [klass type];
-            if (type) {
-                [self registerProviderClass:klass];
-            }
-        }
-    }
+    NSSet *set = [NSSet setWithArray:@[
+        [SimpleAuthProvider class], [SimpleAuthSystemProvider class]
+    ]];
+    [SimpleAuthProvider SimpleAuth_enumerateSubclassesExcludingClasses:set withBlock:^(Class klass) {
+        [self registerProviderClass:klass];
+    }];
 }
 
 @end

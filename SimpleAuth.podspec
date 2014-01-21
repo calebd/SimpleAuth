@@ -13,7 +13,6 @@ Pod::Spec.new do |s|
     ss.source_files = 'SimpleAuth/**/*.{h,m}'
     ss.public_header_files = 'SimpleAuth/SipmleAuth.h'
     ss.dependency 'ReactiveCocoa'
-    ss.dependency 'SAMCategories'
   end
   
   s.subspec 'Twitter' do |ss|

@@ -11,7 +11,6 @@
 #import "UIWindow+SimpleAuthAdditions.h"
 
 #import <cocoa-oauth/GCOAuth.h>
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthTwitterProvider
@@ -228,7 +227,7 @@
             NSInteger statusCode = [response statusCode];
             if (statusCode == 200 && data) {
                 NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
+                NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:string];
                 [subscriber sendNext:dictionary];
                 [subscriber sendCompleted];
             }

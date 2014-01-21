@@ -23,6 +23,7 @@
 		3B8C409118879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8C409018879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m */; };
 		3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AB063182AC2710011FB9E /* SimpleAuthProvider.m */; };
 		3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AB06D182ACCBB0011FB9E /* SimpleAuthSystemProvider.m */; };
+		3B9EF198188F018800A6667A /* SimpleAuthFormSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF197188F018800A6667A /* SimpleAuthFormSerialization.m */; };
 		3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */; };
 		3BBDA068188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBDA067188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m */; };
 		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
@@ -80,6 +81,8 @@
 		3B9AB063182AC2710011FB9E /* SimpleAuthProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthProvider.m; sourceTree = "<group>"; };
 		3B9AB06C182ACCBB0011FB9E /* SimpleAuthSystemProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSystemProvider.h; sourceTree = "<group>"; };
 		3B9AB06D182ACCBB0011FB9E /* SimpleAuthSystemProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthSystemProvider.m; sourceTree = "<group>"; };
+		3B9EF196188F018800A6667A /* SimpleAuthFormSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFormSerialization.h; sourceTree = "<group>"; };
+		3B9EF197188F018800A6667A /* SimpleAuthFormSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthFormSerialization.m; sourceTree = "<group>"; };
 		3BB32504182ABC8B00ACB555 /* libSimpleAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSimpleAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BB3250B182ABC8B00ACB555 /* SimpleAuth-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleAuth-Prefix.pch"; sourceTree = "<group>"; };
 		3BB3250C182ABC8B00ACB555 /* SimpleAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAuth.h; sourceTree = "<group>"; };
@@ -217,6 +220,15 @@
 			name = Providers;
 			sourceTree = "<group>";
 		};
+		3B9EF195188F016900A6667A /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				3B9EF196188F018800A6667A /* SimpleAuthFormSerialization.h */,
+				3B9EF197188F018800A6667A /* SimpleAuthFormSerialization.m */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		3BB324FB182ABC8B00ACB555 = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +269,7 @@
 				3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */,
 				3B8F11B8182AC0E50035C4EA /* Providers */,
 				3C0A5390182C4206002C050C /* View Controllers */,
+				3B9EF195188F016900A6667A /* Other */,
 				3C611F421835350800D87E45 /* Categories */,
 				3BB3250A182ABC8B00ACB555 /* Supporting Files */,
 			);
@@ -436,6 +449,7 @@
 				3B6584631888ABFB00D59100 /* SimpleAuthTumblrLoginViewController.m in Sources */,
 				3B52BB9518871F6200C73329 /* SimpleAuthFacebookProvider.m in Sources */,
 				3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */,
+				3B9EF198188F018800A6667A /* SimpleAuthFormSerialization.m in Sources */,
 				3B52BB9B188731A300C73329 /* SimpleAuthInstagramLoginViewController.m in Sources */,
 				3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */,
 				3B6584601888A94200D59100 /* SimpleAuthTumblrProvider.m in Sources */,

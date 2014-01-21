@@ -7,6 +7,7 @@
 //
 
 #import "SimpleAuth.h"
+#import "SimpleAuthFormSerialization.h"
 
 @interface SimpleAuthProvider : NSObject
 

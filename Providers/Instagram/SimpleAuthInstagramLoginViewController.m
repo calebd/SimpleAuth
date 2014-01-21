@@ -9,8 +9,6 @@
 #import "SimpleAuthInstagramLoginViewController.h"
 #import "SimpleAuth.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
-
 @interface SimpleAuthInstagramLoginViewController ()
 
 @end
@@ -29,7 +27,7 @@
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://instagram.com/oauth/authorize/?%@",
-                           [parameters sam_stringWithFormEncodedComponents]];
+                           [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

@@ -9,8 +9,6 @@
 #import "SimpleAuthMeetupLoginViewController.h"
 #import "SimpleAuth.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
-
 @implementation SimpleAuthMeetupLoginViewController
 
 #pragma mark - UIViewController
@@ -21,7 +19,9 @@
                                  @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
                                  @"response_type" : @"token",
                                  @"scope" : @"ageless"};
-    NSString *URLString = [NSString stringWithFormat:@"https://secure.meetup.com/oauth2/authorize?%@", [parameters sam_stringWithFormEncodedComponents]];
+    NSString *URLString = [NSString stringWithFormat:
+                           @"https://secure.meetup.com/oauth2/authorize?%@",
+                           [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters]];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URLString]]];
 }
 

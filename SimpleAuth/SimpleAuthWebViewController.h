@@ -6,6 +6,8 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
+#import "SimpleAuthFormSerialization.h"
+
 typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *controller, NSURL *URL, NSError *error);
 
 @interface SimpleAuthWebViewController : UIViewController <UIWebViewDelegate>

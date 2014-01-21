@@ -13,7 +13,6 @@
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <cocoa-oauth/GCOAuth.h>
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
 
 @implementation SimpleAuthTumblrProvider
 
@@ -95,7 +94,7 @@
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                 NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
+                 NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:string];
                  [subscriber sendNext:dictionary];
                  [subscriber sendCompleted];
              }
@@ -119,7 +118,7 @@
                 
                 // Parse URL
                 NSString *query = [URL query];
-                NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:query];
+                NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:query];
                 NSString *token = dictionary[@"oauth_token"];
                 NSString *verifier = dictionary[@"oauth_verifier"];
                 
@@ -160,8 +159,8 @@
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                 NSDictionary *dictinoary = [NSDictionary sam_dictionaryWithFormEncodedString:string];
-                 [subscriber sendNext:dictinoary];
+                 NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:string];
+                 [subscriber sendNext:dictionary];
                  [subscriber sendCompleted];
              }
              else {

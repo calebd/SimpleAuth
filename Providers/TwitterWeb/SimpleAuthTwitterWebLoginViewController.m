@@ -8,8 +8,6 @@
 
 #import "SimpleAuthTwitterWebLoginViewController.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
-
 @interface SimpleAuthTwitterWebLoginViewController ()
 
 @property (nonatomic, copy) NSDictionary *requestToken;
@@ -28,7 +26,7 @@
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://api.twitter.com/oauth/authenticate?%@",
-                           [parameters sam_stringWithFormEncodedComponents]];
+                           [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

@@ -26,7 +26,7 @@
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"http://www.tumblr.com/oauth/authorize?%@",
-                           [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters]];
+                           [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

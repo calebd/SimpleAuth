@@ -227,7 +227,7 @@
             NSInteger statusCode = [response statusCode];
             if (statusCode == 200 && data) {
                 NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:string];
+                NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:string];
                 [subscriber sendNext:dictionary];
                 [subscriber sendCompleted];
             }

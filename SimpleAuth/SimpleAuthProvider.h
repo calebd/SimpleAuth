@@ -6,8 +6,9 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
+#import <CMDQueryStringSerialization/CMDQueryStringSerialization.h>
+
 #import "SimpleAuth.h"
-#import "SimpleAuthFormSerialization.h"
 
 @interface SimpleAuthProvider : NSObject
 

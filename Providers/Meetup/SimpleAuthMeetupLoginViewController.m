@@ -21,7 +21,7 @@
                                  @"scope" : @"ageless"};
     NSString *URLString = [NSString stringWithFormat:
                            @"https://secure.meetup.com/oauth2/authorize?%@",
-                           [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters]];
+                           [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URLString]]];
 }
 

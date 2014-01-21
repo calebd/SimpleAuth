@@ -26,7 +26,7 @@
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://api.twitter.com/oauth/authenticate?%@",
-                           [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters]];
+                           [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

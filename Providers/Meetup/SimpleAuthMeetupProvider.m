@@ -50,7 +50,7 @@
         dismissBlock(viewController);
         
         NSString *fragment = [URL fragment];
-        NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:fragment];
+        NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
         NSString *token = dictionary[@"access_token"];
         if ([token length] > 0) {
             NSDictionary *credentials = @{@"token": token,
@@ -70,7 +70,7 @@
 
 - (void)userWithCredentials:(NSDictionary *)credentials completion:(SimpleAuthRequestHandler)completion {
     NSDictionary *parameters = @{ @"member_id" : @"self" };
-    NSString *query = [SimpleAuthFormSerialization formEncodedStringWithDictionary:parameters];
+    NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
     NSString *URLString = [NSString stringWithFormat:@"https://api.meetup.com/2/members?%@", query];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials[@"token"]] forHTTPHeaderField:@"Authorization"];

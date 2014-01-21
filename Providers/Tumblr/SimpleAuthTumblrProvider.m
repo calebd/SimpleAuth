@@ -94,7 +94,7 @@
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                 NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:string];
+                 NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:string];
                  [subscriber sendNext:dictionary];
                  [subscriber sendCompleted];
              }
@@ -118,7 +118,7 @@
                 
                 // Parse URL
                 NSString *query = [URL query];
-                NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:query];
+                NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:query];
                 NSString *token = dictionary[@"oauth_token"];
                 NSString *verifier = dictionary[@"oauth_verifier"];
                 
@@ -159,7 +159,7 @@
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                 NSDictionary *dictionary = [SimpleAuthFormSerialization dictionaryWithFormEncodedString:string];
+                 NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:string];
                  [subscriber sendNext:dictionary];
                  [subscriber sendCompleted];
              }

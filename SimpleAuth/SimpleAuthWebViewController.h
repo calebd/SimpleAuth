@@ -3,7 +3,7 @@
 //  SimpleAuth
 //
 //  Created by Caleb Davenport on 11/7/13.
-//  Copyright (c) 2013 Seesaw Decisions Corporation. All rights reserved.
+//  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
 typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *controller, NSURL *URL, NSError *error);

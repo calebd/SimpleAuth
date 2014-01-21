@@ -3,7 +3,7 @@
 //  SimpleAuth
 //
 //  Created by Mouhcine El Amine on 17/01/14.
-//  Copyright (c) 2014 Seesaw Decisions Corporation. All rights reserved.
+//  Copyright (c) 2014 Byliner, Inc. All rights reserved.
 //
 
 #import "SimpleAuthMeetupLoginViewController.h"

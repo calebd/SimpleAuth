@@ -350,7 +350,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = "Seesaw Decisions Corporation";
+				ORGANIZATIONNAME = "Byliner, Inc";
 			};
 			buildConfigurationList = 3BB324FF182ABC8B00ACB555 /* Build configuration list for PBXProject "SimpleAuth" */;
 			compatibilityVersion = "Xcode 3.2";

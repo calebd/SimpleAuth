@@ -55,9 +55,7 @@ SimpleAuth.configuration[@"twitter"] = @{
 
 ## Implementing  a Provider
 
-The API for creating providers is pretty simple. Providers should be stored in `Providers/` and have an appropriately named folder and sub spec. All providers are automatically registered with the framework. There are a handful of methods you'll need to implement:
-
-Register your provider with SimpleAuth:
+The API for creating providers is pretty simple. Be sure to look at `SimpleAuthProvider` and `SimpleAuthWebLoginViewController`. These classes will help you simplify your authentiction process. Providers should be stored in `Providers/` and have an appropriately named folder and sub spec. All providers are automatically registered with the framework. There are a handful of methods you'll need to implement:
 
 Let SimpleAuth know what type of provider you are registering:
 

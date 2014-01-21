@@ -10,6 +10,4 @@
 
 @interface SimpleAuthTumblrLoginViewController : SimpleAuthWebViewController
 
-- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken;
-
 @end

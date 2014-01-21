@@ -12,6 +12,7 @@
 @interface SimpleAuthWebViewController ()
 
 @property (nonatomic, copy) NSDictionary *options;
+@property (nonatomic, copy) NSDictionary *requestToken;
 
 @end
 
@@ -31,14 +32,21 @@
 
 #pragma mark - Public
 
-- (instancetype)initWithOptions:(NSDictionary *)options {
+- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
     if ((self = [super init])) {
         self.options = options;
+        self.requestToken = requestToken;
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                  target:self
                                                  action:@selector(dismiss)];
     }
+    return self;
+}
+
+
+- (instancetype)initWithOptions:(NSDictionary *)options {
+    self = [self initWithOptions:options requestToken:nil];
     return self;
 }
 

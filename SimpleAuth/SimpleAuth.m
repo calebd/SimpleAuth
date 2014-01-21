@@ -7,6 +7,11 @@
 //
 
 #import "SimpleAuthProvider.h"
+#import "SimpleAuthSystemProvider.h"
+
+#import "NSObject+SimpleAuthAdditions.h"
+
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
 NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block";
@@ -16,6 +21,13 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
 
 @implementation SimpleAuth
+
+#pragma mark - NSObject
+
++ (void)initialize {
+    [self loadProviders];
+}
+
 
 #pragma mark - Public
 
@@ -81,6 +93,16 @@ NSInteger const SimpleAuthUserCancelledErrorCode = NSUserCancelledError;
         providers = [NSMutableDictionary new];
     });
     return providers;
+}
+
+
++ (void)loadProviders {
+    NSSet *set = [NSSet setWithArray:@[
+        [SimpleAuthProvider class], [SimpleAuthSystemProvider class]
+    ]];
+    [SimpleAuthProvider SimpleAuth_enumerateSubclassesExcludingClasses:set withBlock:^(Class klass) {
+        [self registerProviderClass:klass];
+    }];
 }
 
 @end

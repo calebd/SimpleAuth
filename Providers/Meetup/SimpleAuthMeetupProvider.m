@@ -15,14 +15,6 @@
 
 @implementation SimpleAuthMeetupProvider
 
-#pragma mark - NSObject
-
-+ (void)load {
-    @autoreleasepool {
-        [SimpleAuth registerProviderClass:self];
-    }
-}
-
 #pragma mark - SimpleAuthProvider
 
 + (NSString *)type {

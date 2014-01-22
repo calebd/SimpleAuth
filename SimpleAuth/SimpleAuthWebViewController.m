@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthWebViewController.h"
-#import "SimpleAuth.h"
 
 @interface SimpleAuthWebViewController ()
 
@@ -16,7 +15,9 @@
 
 @end
 
-@implementation SimpleAuthWebViewController
+@implementation SimpleAuthWebViewController {
+    BOOL _hasInitialLoad;
+}
 
 @synthesize webView = _webView;
 
@@ -27,6 +28,17 @@
     
     self.webView.frame = self.view.bounds;
     [self.view addSubview:self.webView];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (!_hasInitialLoad) {
+        _hasInitialLoad = YES;
+        NSURLRequest *request = [self initialRequest];
+        [self.webView loadRequest:request];
+    }
 }
 
 
@@ -66,6 +78,12 @@
 - (void)dismiss {
     SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
     block(self);
+}
+
+
+- (NSURLRequest *)initialRequest {
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 

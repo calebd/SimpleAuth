@@ -8,19 +8,19 @@
 
 #import "SimpleAuthTumblrLoginViewController.h"
 
-@interface SimpleAuthTumblrLoginViewController ()
-
-@property (nonatomic, copy) NSDictionary *requestToken;
-
-@end
-
 @implementation SimpleAuthTumblrLoginViewController
 
-#pragma mark - UIViewController
+#pragma mark - SimpleAuthWebViewController
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
+    if ((self = [super initWithOptions:options])) {
+        self.title = @"tumblr";
+    }
+    return self;
+}
+
+
+- (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
         @"oauth_token" : self.requestToken[@"oauth_token"],
     };
@@ -29,19 +29,7 @@
                            [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    [self.webView loadRequest:request];
-}
-
-
-#pragma mark - Public
-
-- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
-    if ((self = [super initWithOptions:options])) {
-        self.requestToken = requestToken;
-        self.title = @"tumblr";
-    }
-    return self;
+    return [NSURLRequest requestWithURL:URL];
 }
 
 @end

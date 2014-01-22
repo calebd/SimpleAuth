@@ -8,6 +8,8 @@
 
 #import <CMDQueryStringSerialization/CMDQueryStringSerialization.h>
 
+#import "SimpleAuth.h"
+
 typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *controller, NSURL *URL, NSError *error);
 
 @interface SimpleAuthWebViewController : UIViewController <UIWebViewDelegate>
@@ -31,6 +33,13 @@ typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *
  @see -initWithOptions:
  */
 - (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken;
+
+/**
+ Subclasses should override this to provide the request that will be loaded the
+ first time that the web view appears.
+ @return A URL request.
+ */
+- (NSURLRequest *)initialRequest;
 
 /**
  Subclasses may override this to determine if the a given URL is the desired

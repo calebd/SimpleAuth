@@ -7,32 +7,32 @@
 //
 
 #import "SimpleAuthMeetupLoginViewController.h"
-#import "SimpleAuth.h"
 
 @implementation SimpleAuthMeetupLoginViewController
 
-#pragma mark - UIViewController
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSDictionary *parameters = @{@"client_id" : self.options[@"client_id"],
-                                 @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
-                                 @"response_type" : @"token",
-                                 @"scope" : @"ageless"};
-    NSString *URLString = [NSString stringWithFormat:
-                           @"https://secure.meetup.com/oauth2/authorize?%@",
-                           [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URLString]]];
-}
-
 #pragma mark - SimpleAuthWebViewController
 
-- (instancetype)initWithOptions:(NSDictionary *)options {
-    self = [super initWithOptions:options];
-    if (self) {
+- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
+    if ((self = [super initWithOptions:options requestToken:requestToken])) {
         self.title = @"Meetup";
     }
     return self;
+}
+
+
+- (NSURLRequest *)initialRequest {
+    NSDictionary *parameters = @{
+        @"client_id" : self.options[@"client_id"],
+        @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
+        @"response_type" : @"token",
+        @"scope" : @"ageless"
+    };
+    NSString *URLString = [NSString stringWithFormat:
+                           @"https://secure.meetup.com/oauth2/authorize?%@",
+                           [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+    NSURL *URL = [NSURL URLWithString:URLString];
+    
+    return [NSURLRequest requestWithURL:URL];
 }
 
 @end

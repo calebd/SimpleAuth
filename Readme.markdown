@@ -4,18 +4,14 @@ SimpleAuth is designed to do the hard work of social account login on iOS. It ha
 
 SimpleAuth currently has the following providers:
 
-- Facebook (system)
-- Facebook (web)
-- Twitter (system)
-- Twitter (web)
-- Instagram
-- Meetup
-- Tumblr
+- [Twitter](https://github.com/calebd/SimpleAuth/wiki/Twitter)
+- [Facebook](https://github.com/calebd/SimpleAuth/wiki/Facebook)
+- [Instagram](https://github.com/calebd/SimpleAuth/wiki/Instagram)
+- [Tumblr](https://github.com/calebd/SimpleAuth/wiki/Tumblr)
+- [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
 
 I would like to have:
 
-- Twitter xauth
-- Tumblr xauth
 - GitHub
 - Foursquare
 - Dropbox

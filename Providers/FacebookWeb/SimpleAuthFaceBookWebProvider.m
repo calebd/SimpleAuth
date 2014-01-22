@@ -41,6 +41,7 @@
     dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     dictionary[SimpleAuthRedirectURIKey] = @"https://www.facebook.com/connect/login_success.html";
+    dictionary[@"permissions"] = @[ @"email" ];
     return dictionary;
 }
 

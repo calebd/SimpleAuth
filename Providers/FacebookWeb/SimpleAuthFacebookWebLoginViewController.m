@@ -24,7 +24,8 @@
     NSDictionary *parameters = @{
         @"client_id" : self.options[@"app_id"],
         @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
-        @"response_type" : @"token"
+        @"response_type" : @"token",
+        @"permissions" : [self.options[@"permissions"] componentsJoinedByString:@","]
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://www.facebook.com/dialog/oauth?%@",

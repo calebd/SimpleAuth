@@ -24,7 +24,7 @@
 
 + (NSDictionary *)defaultOptions {
     void (^actionSheetBlock) (UIActionSheet *) = ^(UIActionSheet *sheet) {
-        UIWindow *window = [UIWindow sa_mainWindow];
+        UIWindow *window = [UIWindow SimpleAuth_mainWindow];
         [sheet showInView:window];
     };
     

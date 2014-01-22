@@ -8,6 +8,6 @@
 
 @interface UIWindow (SimpleAuthAdditions)
 
-+ (instancetype)sa_mainWindow;
++ (instancetype)SimpleAuth_mainWindow;
 
 @end

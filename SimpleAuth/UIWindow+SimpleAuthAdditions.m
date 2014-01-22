@@ -10,7 +10,7 @@
 
 @implementation UIWindow (SimpleAuthAdditions)
 
-+ (instancetype)sa_mainWindow {
++ (instancetype)SimpleAuth_mainWindow {
     return [[[UIApplication sharedApplication] delegate] window];
 }
 

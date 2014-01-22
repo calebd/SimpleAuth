@@ -8,6 +8,6 @@
 
 @interface UIViewController (SimpleAuthAdditions)
 
-+ (instancetype)sa_presentedViewController;
++ (instancetype)SimpleAuth_presentedViewController;
 
 @end

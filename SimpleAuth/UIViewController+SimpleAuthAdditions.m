@@ -11,8 +11,8 @@
 
 @implementation UIViewController (SimpleAuthAdditions)
 
-+ (instancetype)sa_presentedViewController {
-    UIWindow *window = [UIWindow sa_mainWindow];
++ (instancetype)SimpleAuth_presentedViewController {
+    UIWindow *window = [UIWindow SimpleAuth_mainWindow];
     UIViewController *controller = window.rootViewController;
     while (controller.presentedViewController) {
         controller = controller.presentedViewController;

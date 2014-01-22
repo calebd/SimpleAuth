@@ -7,19 +7,20 @@
 //
 
 #import "SimpleAuthFacebookWebLoginViewController.h"
-#import "SimpleAuth.h"
-
-@interface SimpleAuthFacebookWebLoginViewController ()
-
-@end
 
 @implementation SimpleAuthFacebookWebLoginViewController
 
-#pragma mark - UIViewController
+#pragma mark - SimpleAuthWebViewController
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
+    if ((self = [super initWithOptions:options requestToken:requestToken])) {
+        self.title = @"Facebook";
+    }
+    return self;
+}
+
+
+- (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
         @"client_id" : self.options[@"app_id"],
         @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
@@ -30,18 +31,7 @@
                            [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    [self.webView loadRequest:request];
-}
-
-
-#pragma mark - SimpleAuthWebViewController
-
-- (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
-    if ((self = [super initWithOptions:options requestToken:requestToken])) {
-        self.title = @"Facebook";
-    }
-    return self;
+    return [NSURLRequest requestWithURL:URL];
 }
 
 @end

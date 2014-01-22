@@ -102,8 +102,9 @@
 - (RACSignal *)accountWithAccessToken:(NSDictionary *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSDictionary *parameters = @{ @"access_token" : accessToken[@"access_token"] };
-        NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
-        NSString *URLString = [NSString stringWithFormat:@"https://graph.facebook.com/me?%@", query];
+        NSString *URLString = [NSString stringWithFormat:
+                               @"https://graph.facebook.com/me?%@",
+                               [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue

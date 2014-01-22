@@ -8,7 +8,6 @@
 
 #import "SimpleAuthFacebookProvider.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthFacebookProvider

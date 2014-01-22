@@ -11,8 +11,6 @@
 
 #import "UIViewController+SimpleAuthAdditions.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
-
 @implementation SimpleAuthMeetupProvider
 
 #pragma mark - SimpleAuthProvider
@@ -51,7 +49,8 @@
         SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
         dismissBlock(viewController);
         
-        NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:[URL fragment]];
+        NSString *fragment = [URL fragment];
+        NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
         NSString *token = dictionary[@"access_token"];
         if ([token length] > 0) {
             NSDictionary *credentials = @{@"token": token,
@@ -70,7 +69,8 @@
 #pragma mark - Private
 
 - (void)userWithCredentials:(NSDictionary *)credentials completion:(SimpleAuthRequestHandler)completion {
-    NSString *query = [@{ @"member_id" : @"self"} sam_stringWithFormEncodedComponents];
+    NSDictionary *parameters = @{ @"member_id" : @"self" };
+    NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
     NSString *URLString = [NSString stringWithFormat:@"https://api.meetup.com/2/members?%@", query];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", credentials[@"token"]] forHTTPHeaderField:@"Authorization"];

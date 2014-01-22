@@ -11,7 +11,6 @@
 
 #import "UIViewController+SimpleAuthAdditions.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthInstagramProvider
@@ -74,7 +73,7 @@
             
             // Parse URL
             NSString *fragment = [URL fragment];
-            NSDictionary *dictionary = [NSDictionary sam_dictionaryWithFormEncodedString:fragment];
+            NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
             NSString *token = dictionary[@"access_token"];
             
             // Check for error
@@ -99,7 +98,7 @@
 - (RACSignal *)accountWithAccessToken:(NSString *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSDictionary *parameters = @{ @"access_token" : accessToken };
-        NSString *query = [parameters sam_stringWithFormEncodedComponents];
+        NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
         NSString *URLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/users/self?%@", query];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];

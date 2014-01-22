@@ -8,8 +8,6 @@
 
 #import "SimpleAuthTumblrLoginViewController.h"
 
-#import <SAMCategories/NSDictionary+SAMAdditions.h>
-
 @interface SimpleAuthTumblrLoginViewController ()
 
 @property (nonatomic, copy) NSDictionary *requestToken;
@@ -28,7 +26,7 @@
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"http://www.tumblr.com/oauth/authorize?%@",
-                           [parameters sam_stringWithFormEncodedComponents]];
+                           [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
     NSURL *URL = [NSURL URLWithString:URLString];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

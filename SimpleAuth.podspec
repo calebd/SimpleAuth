@@ -32,6 +32,13 @@ Pod::Spec.new do |s|
     ss.frameworks = 'Accounts', 'Social'
   end
   
+  s.subspec 'FacebookWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/FacebookWeb/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+  end
+  
   s.subspec 'Instagram' do |ss|
     ss.dependency 'SimpleAuth/Core'
     

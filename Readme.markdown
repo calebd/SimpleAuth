@@ -5,9 +5,10 @@ SimpleAuth is designed to do the hard work of social account login on iOS. It ha
 SimpleAuth currently has the following providers:
 
 - Facebook (system)
+- Facebook (web)
 - Twitter (system)
-- Instagram
 - Twitter (web)
+- Instagram
 - Meetup
 - Tumblr
 
@@ -19,7 +20,6 @@ I would like to have:
 - Foursquare
 - Dropbox
 - App Dot Net
-- Facebook (web)
 
 ## Installing
 

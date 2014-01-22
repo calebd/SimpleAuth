@@ -46,6 +46,7 @@
             @"twitter",
             @"twitter-web",
             @"facebook",
+            @"facebook-web",
             @"instagram",
             @"meetup",
             @"tumblr"

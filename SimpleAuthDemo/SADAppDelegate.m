@@ -58,6 +58,9 @@
 	
     // consumer_key and consumer_secret are required
     SimpleAuth.configuration[@"tumblr"] = @{};
+	
+    // client_id and redirect_uri are required
+    SimpleAuth.configuration[@"foursquare-web"] = @{};
 }
 
 

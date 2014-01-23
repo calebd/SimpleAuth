@@ -49,7 +49,8 @@
             @"facebook-web",
             @"instagram",
             @"meetup",
-            @"tumblr"
+            @"tumblr",
+			@"foursquare-web"
         ];
     });
     return array;

@@ -8,12 +8,12 @@ SimpleAuth currently has the following providers:
 - [Facebook](https://github.com/calebd/SimpleAuth/wiki/Facebook)
 - [Instagram](https://github.com/calebd/SimpleAuth/wiki/Instagram)
 - [Tumblr](https://github.com/calebd/SimpleAuth/wiki/Tumblr)
+- [Foursquare](https://github.com/calebd/SimpleAuth/wiki/Foursquare)
 - [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
 
 I would like to have:
 
 - GitHub
-- Foursquare
 - Dropbox
 - App Dot Net
 

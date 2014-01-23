@@ -90,3 +90,8 @@ SimpleAuth is released under the MIT license.
 ## Thanks
 
 Special thanks to my friend [@soffes](https://twitter.com/soffes) for advising on the SimpleAuth API design.
+
+## Contributors
+
+- [kornifex](https://github.com/kornifex): Foursquare provider
+- [mouhcine](https://github.com/mouhcine): Meetup provider

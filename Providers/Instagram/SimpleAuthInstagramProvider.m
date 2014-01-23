@@ -66,30 +66,31 @@
 
 - (RACSignal *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
-        login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
-            SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
-            dismissBlock(login);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
+            login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
+                SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
+                dismissBlock(login);
+                
+                // Parse URL
+                NSString *fragment = [URL fragment];
+                NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
+                NSString *token = dictionary[@"access_token"];
+                
+                // Check for error
+                if (![token length]) {
+                    [subscriber sendError:nil];
+                    return;
+                }
+                
+                // Send completion
+                [subscriber sendNext:token];
+                [subscriber sendCompleted];
+            };
             
-            // Parse URL
-            NSString *fragment = [URL fragment];
-            NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
-            NSString *token = dictionary[@"access_token"];
-            
-            // Check for error
-            if (![token length]) {
-                [subscriber sendError:nil];
-                return;
-            }
-            
-            // Send completion
-            [subscriber sendNext:token];
-            [subscriber sendCompleted];
-        };
-        
-        SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-        block(login);
-        
+            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
+            block(login);
+        });
         return nil;
     }];
 }

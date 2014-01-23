@@ -44,26 +44,28 @@
 }
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    SimpleAuthMeetupLoginViewController *loginViewController = [[SimpleAuthMeetupLoginViewController alloc] initWithOptions:self.options];
-    loginViewController.completion = ^(UIViewController *viewController, NSURL *URL, NSError *error) {
-        SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
-        dismissBlock(viewController);
-        
-        NSString *fragment = [URL fragment];
-        NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
-        NSString *token = dictionary[@"access_token"];
-        if ([token length] > 0) {
-            NSDictionary *credentials = @{@"token": token,
-                                          @"type" : @"bearer",
-                                          @"expireDate" : [NSDate dateWithTimeIntervalSinceNow:[dictionary[@"expires_in"] doubleValue]]};
-            [self userWithCredentials:credentials
-                           completion:completion];
-        } else {
-            completion(nil, error);
-        }
-    };
-    SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-    block(loginViewController);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        SimpleAuthMeetupLoginViewController *loginViewController = [[SimpleAuthMeetupLoginViewController alloc] initWithOptions:self.options];
+        loginViewController.completion = ^(UIViewController *viewController, NSURL *URL, NSError *error) {
+            SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
+            dismissBlock(viewController);
+            
+            NSString *fragment = [URL fragment];
+            NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
+            NSString *token = dictionary[@"access_token"];
+            if ([token length] > 0) {
+                NSDictionary *credentials = @{@"token": token,
+                                              @"type" : @"bearer",
+                                              @"expireDate" : [NSDate dateWithTimeIntervalSinceNow:[dictionary[@"expires_in"] doubleValue]]};
+                [self userWithCredentials:credentials
+                               completion:completion];
+            } else {
+                completion(nil, error);
+            }
+        };
+        SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
+        block(loginViewController);
+    });
 }
 
 #pragma mark - Private

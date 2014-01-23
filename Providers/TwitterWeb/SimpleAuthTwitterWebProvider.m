@@ -105,32 +105,33 @@
 
 - (RACSignal *)authenticateWithRequestToken:(NSDictionary *)requestToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        SimpleAuthTwitterWebLoginViewController *login = [[SimpleAuthTwitterWebLoginViewController alloc] initWithOptions:self.options requestToken:requestToken];
-        
-        login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
-            SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-            block(controller);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SimpleAuthTwitterWebLoginViewController *login = [[SimpleAuthTwitterWebLoginViewController alloc] initWithOptions:self.options requestToken:requestToken];
             
-            // Parse URL
-            NSString *query = [URL query];
-            NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:query];
-            NSString *token = dictionary[@"oauth_token"];
-            NSString *verifier = dictionary[@"oauth_verifier"];
+            login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
+                SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
+                block(controller);
+                
+                // Parse URL
+                NSString *query = [URL query];
+                NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:query];
+                NSString *token = dictionary[@"oauth_token"];
+                NSString *verifier = dictionary[@"oauth_verifier"];
+                
+                // Check for error
+                if (![token length] || ![verifier length]) {
+                    [subscriber sendError:nil];
+                    return;
+                }
+                
+                // Send completion
+                [subscriber sendNext:dictionary];
+                [subscriber sendCompleted];
+            };
             
-            // Check for error
-            if (![token length] || ![verifier length]) {
-                [subscriber sendError:nil];
-                return;
-            }
-            
-            // Send completion
-            [subscriber sendNext:dictionary];
-            [subscriber sendCompleted];
-        };
-        
-        SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-        block(login);
-        
+            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
+            block(login);
+        });
         return nil;
     }];
 }

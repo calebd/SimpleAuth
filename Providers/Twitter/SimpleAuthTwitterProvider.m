@@ -133,7 +133,7 @@
             }];
             
             sheet.delegate = (id)sheet;
-            void (^block) (UIActionSheet *) = self.options[@"action_sheet_block"];
+            void (^block) (UIActionSheet *) = self.options[SimpleAuthPresentInterfaceBlockKey];
             block(sheet);
         });
         return nil;

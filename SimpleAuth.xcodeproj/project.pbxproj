@@ -27,6 +27,8 @@
 		3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AB06D182ACCBB0011FB9E /* SimpleAuthSystemProvider.m */; };
 		3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */; };
 		3BBDA068188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBDA067188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m */; };
+		3BC5FC701891D86A00523166 /* SimpleAuthDropboxWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC5FC6F1891D86A00523166 /* SimpleAuthDropboxWebProvider.m */; };
+		3BC5FC731891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC5FC721891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.m */; };
 		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
 		3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F441835352200D87E45 /* UIWindow+SimpleAuthAdditions.m */; };
 		3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */; };
@@ -94,6 +96,10 @@
 		3BB3250E182ABC8B00ACB555 /* SimpleAuth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAuth.m; sourceTree = "<group>"; };
 		3BBDA066188E02A70045D1EA /* NSObject+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
 		3BBDA067188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SimpleAuthAdditions.m"; sourceTree = "<group>"; };
+		3BC5FC6E1891D86A00523166 /* SimpleAuthDropboxWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthDropboxWebProvider.h; sourceTree = "<group>"; };
+		3BC5FC6F1891D86A00523166 /* SimpleAuthDropboxWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthDropboxWebProvider.m; sourceTree = "<group>"; };
+		3BC5FC711891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthDropboxWebLoginViewController.h; sourceTree = "<group>"; };
+		3BC5FC721891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthDropboxWebLoginViewController.m; sourceTree = "<group>"; };
 		3C0A5391182C4217002C050C /* SimpleAuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthWebViewController.h; sourceTree = "<group>"; };
 		3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthWebViewController.m; sourceTree = "<group>"; };
 		3C611F431835352200D87E45 /* UIWindow+SimpleAuthAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SimpleAuthAdditions.h"; sourceTree = "<group>"; };
@@ -141,6 +147,7 @@
 				3B52BB96188731A300C73329 /* Instagram */,
 				4D149A3E1889B38C0024639C /* Meetup */,
 				3B65845D1888A93200D59100 /* Tumblr */,
+				3BC5FC6D1891D80E00523166 /* DropboxWeb */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -294,6 +301,17 @@
 				3BB3250B182ABC8B00ACB555 /* SimpleAuth-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3BC5FC6D1891D80E00523166 /* DropboxWeb */ = {
+			isa = PBXGroup;
+			children = (
+				3BC5FC6E1891D86A00523166 /* SimpleAuthDropboxWebProvider.h */,
+				3BC5FC6F1891D86A00523166 /* SimpleAuthDropboxWebProvider.m */,
+				3BC5FC711891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.h */,
+				3BC5FC721891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.m */,
+			);
+			path = DropboxWeb;
 			sourceTree = "<group>";
 		};
 		3C0A5390182C4206002C050C /* View Controllers */ = {
@@ -466,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BC5FC701891D86A00523166 /* SimpleAuthDropboxWebProvider.m in Sources */,
 				3B8C408E188792A9007DC578 /* SimpleAuthTwitterWebProvider.m in Sources */,
 				F9BE4F3E189139E900AE303A /* SimpleAuthFoursquareWebProvider.m in Sources */,
 				4D149A411889B3DF0024639C /* SimpleAuthMeetupProvider.m in Sources */,
@@ -480,6 +499,7 @@
 				3B9AB06E182ACCBB0011FB9E /* SimpleAuthSystemProvider.m in Sources */,
 				4D149A441889B4390024639C /* SimpleAuthMeetupLoginViewController.m in Sources */,
 				3B66656F18903F8400F3BF58 /* SimpleAuthFacebookWebLoginViewController.m in Sources */,
+				3BC5FC731891D87B00523166 /* SimpleAuthDropboxWebLoginViewController.m in Sources */,
 				3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */,
 				3B52BB911887088400C73329 /* SimpleAuthTwitterProvider.m in Sources */,
 				3B52BB9C188731A300C73329 /* SimpleAuthInstagramProvider.m in Sources */,

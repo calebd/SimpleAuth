@@ -514,6 +514,7 @@
 /* Begin XCBuildConfiguration section */
 		3B658451188892FE00D59100 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FCEF85A832046CDB0CCBF25 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -536,6 +537,7 @@
 		};
 		3B658452188892FE00D59100 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FCEF85A832046CDB0CCBF25 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

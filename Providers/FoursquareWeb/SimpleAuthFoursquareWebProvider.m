@@ -45,13 +45,13 @@
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
-	  flattenMap:^RACStream *(NSString *response) {
-		  NSArray *signals = @[
-							   [self accountWithAccessToken:response],
-							   [RACSignal return:response]
-							   ];
-		  return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
-	  }]
+     flattenMap:^RACStream *(NSString *response) {
+         NSArray *signals = @[
+             [self accountWithAccessToken:response],
+             [RACSignal return:response]
+         ];
+         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+     }]
      subscribeNext:^(NSDictionary *response) {
          completion(response, nil);
      }
@@ -64,30 +64,31 @@
 
 - (RACSignal *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        SimpleAuthFoursquareWebLoginViewController *login = [[SimpleAuthFoursquareWebLoginViewController alloc] initWithOptions:self.options];
-        login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
-            SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
-            dismissBlock(login);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SimpleAuthFoursquareWebLoginViewController *login = [[SimpleAuthFoursquareWebLoginViewController alloc] initWithOptions:self.options];
+            login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
+                SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
+                dismissBlock(login);
+                
+                // Parse URL
+                NSString *fragment = [URL fragment];
+                NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
+                NSString *token = dictionary[@"access_token"];
+                
+                // Check for error
+                if (![token length]) {
+                    [subscriber sendError:nil];
+                    return;
+                }
+                
+                // Send completion
+                [subscriber sendNext:token];
+                [subscriber sendCompleted];
+            };
             
-            // Parse URL
-            NSString *fragment = [URL fragment];
-            NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:fragment];
-            NSString *token = dictionary[@"access_token"];
-            
-            // Check for error
-            if (![token length]) {
-                [subscriber sendError:nil];
-                return;
-            }
-            
-            // Send completion
-            [subscriber sendNext:token];
-            [subscriber sendCompleted];
-        };
-        
-        SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-        block(login);
-        
+            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
+            block(login);
+        });
         return nil;
     }];
 }
@@ -101,24 +102,24 @@
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-							   completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-								   NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
-								   NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-								   if ([indexSet containsIndex:statusCode] && data) {
-									   NSError *parseError = nil;
-									   NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-									   if (dictionary) {
-										   [subscriber sendNext:dictionary];
-										   [subscriber sendCompleted];
-									   }
-									   else {
-										   [subscriber sendError:parseError];
-									   }
-								   }
-								   else {
-									   [subscriber sendError:connectionError];
-								   }
-							   }];
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSError *parseError = nil;
+                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                 if (dictionary) {
+                     [subscriber sendNext:dictionary];
+                     [subscriber sendCompleted];
+                 }
+                 else {
+                     [subscriber sendError:parseError];
+                 }
+             }
+             else {
+                 [subscriber sendError:connectionError];
+             }
+         }];
         return nil;
     }];
 }
@@ -133,8 +134,8 @@
     
     // Credentials
     dictionary[@"credentials"] = @{
-								   @"token" : accessToken
-								   };
+        @"token" : accessToken
+    };
     
     // User ID
     dictionary[@"uid"] = userData[@"id"];

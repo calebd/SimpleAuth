@@ -61,6 +61,9 @@
 	
     // client_id and redirect_uri are required
     SimpleAuth.configuration[@"foursquare-web"] = @{};
+    
+    // client_id and redirect_uri are required
+    SimpleAuth.configuration[@"dropbox-web"] = @{};
 }
 
 

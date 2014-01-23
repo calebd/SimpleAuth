@@ -77,4 +77,11 @@ Pod::Spec.new do |s|
     ss.source_files = 'Providers/FoursquareWeb/**/*.{h,m}'
     ss.frameworks = 'UIKit'
   end
+  
+  s.subspec 'DropboxWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/DropboxWeb/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+  end
 end

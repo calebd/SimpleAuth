@@ -50,7 +50,8 @@
             @"instagram",
             @"meetup",
             @"tumblr",
-			@"foursquare-web"
+			@"foursquare-web",
+            @"dropbox-web"
         ];
     });
     return array;

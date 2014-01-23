@@ -70,4 +70,11 @@ Pod::Spec.new do |s|
     
     ss.dependency 'cocoa-oauth'
   end
+  
+  s.subspec 'Foursquare' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    
+    ss.source_files = 'Providers/FoursquareWeb/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+  end
 end

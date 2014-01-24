@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Byliner, Inc. All rights reserved.
 //
 
-#import "SimpleAuthLinkedInWebLoginViewController.h"
+#import "SimpleAuthLinkedInLoginViewController.h"
 
-@interface SimpleAuthLinkedInWebLoginViewController ()
+@interface SimpleAuthLinkedInLoginViewController ()
 
 @end
 
-@implementation SimpleAuthLinkedInWebLoginViewController
+@implementation SimpleAuthLinkedInLoginViewController
 
 #pragma mark - SimpleAuthWebViewController
 

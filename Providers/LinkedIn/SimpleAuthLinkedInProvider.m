@@ -7,7 +7,7 @@
 //
 
 #import "SimpleAuthLinkedInProvider.h"
-#import "SimpleAuthLinkedInWebLoginViewController.h"
+#import "SimpleAuthLinkedInLoginViewController.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "UIViewController+SimpleAuthAdditions.h"
@@ -64,7 +64,7 @@
 - (RACSignal *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SimpleAuthLinkedInWebLoginViewController *login = [[SimpleAuthLinkedInWebLoginViewController alloc] initWithOptions:self.options];
+            SimpleAuthLinkedInLoginViewController *login = [[SimpleAuthLinkedInLoginViewController alloc] initWithOptions:self.options];
             login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
                 SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
                 dismissBlock(login);

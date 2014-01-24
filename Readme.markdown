@@ -1,6 +1,6 @@
 # SimpleAuth
 
-SimpleAuth is designed to do the hard work of social account login on iOS. It has a small set of public APIs backed by a set of "providers" that implement the functionality needed to communicate with various social services. You can read more about it [here](http://blog.calebd.me/introducing-simpleauth).
+SimpleAuth is designed to do the hard work of social account login on iOS. It has a small set of public APIs backed by a set of "providers" that implement the functionality needed to communicate with various social services.
 
 SimpleAuth currently has the following providers:
 
@@ -11,11 +11,6 @@ SimpleAuth currently has the following providers:
 - [Dropbox](https://github.com/calebd/SimpleAuth/wiki/Dropbox)
 - [Foursquare](https://github.com/calebd/SimpleAuth/wiki/Foursquare)
 - [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
-
-I would like to have:
-
-- GitHub
-- App Dot Net
 
 ## Installing
 

@@ -8,6 +8,6 @@
 
 #import "SimpleAuthWebViewController.h"
 
-@interface SimpleAuthLinkedInWebLoginViewController : SimpleAuthWebViewController
+@interface SimpleAuthLinkedInLoginViewController : SimpleAuthWebViewController
 
 @end

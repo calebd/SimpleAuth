@@ -140,7 +140,7 @@
     
     // Credentials
     NSTimeInterval expiresAtInterval = [accessToken[@"expires_in"] doubleValue];
-    NSData *expiresAtDate = [NSDate dateWithTimeIntervalSinceNow:expiresAtInterval];
+    NSDate *expiresAtDate = [NSDate dateWithTimeIntervalSinceNow:expiresAtInterval];
     dictionary[@"credentials"] = @{
         @"token" : accessToken[@"access_token"],
         @"expires_at" : expiresAtDate

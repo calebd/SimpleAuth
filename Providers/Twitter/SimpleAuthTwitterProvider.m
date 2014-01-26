@@ -9,7 +9,7 @@
 #import "SimpleAuthTwitterProvider.h"
 
 #import "UIWindow+SimpleAuthAdditions.h"
-
+#import "ACAccountStore+SimpleAuth.h"
 #import <cocoa-oauth/GCOAuth.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
@@ -43,7 +43,7 @@
     RACSignal *zipSignal = [RACSignal zip:@[ accountSignal, accessTokenSignal ] reduce:^(NSDictionary *accountDictionary, NSDictionary *accessTokenDictionary) {
         return [self responseWithAccount:account accountDictionary:accountDictionary accessTokenDictionary:accessTokenDictionary];
     }];
-    [[zipSignal deliverOn:[RACScheduler mainThreadScheduler]]
+    [zipSignal
      subscribeNext:^(NSDictionary *dictionary) {
          completion(dictionary, nil);
      }
@@ -54,8 +54,7 @@
 
 
 - (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion {
-    [[[self selectedTwitterAccount]
-     deliverOn:[RACScheduler mainThreadScheduler]]
+    [[self systemAccount]
      subscribeNext:^(ACAccount *account) {
          completion(account, nil);
      }
@@ -67,45 +66,25 @@
 
 #pragma mark - Private
 
-- (RACSignal *)allTwitterAccounts {
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        ACAccountStore *store = [[self class] accountStore];
-        ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-        [store requestAccessToAccountsWithType:type options:nil completion:^(BOOL granted, NSError *error) {
-            if (granted) {
-                NSArray *accounts = [store accountsWithAccountType:type];
-                NSUInteger numberOfAccounts = [accounts count];
-                if (numberOfAccounts) {
-                    [subscriber sendNext:accounts];
-                    [subscriber sendCompleted];
-                }
-                else {
-                    [subscriber sendError:(error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorAccountNotFound userInfo:nil])];
-                }
-            }
-            else {
-                [subscriber sendError:(error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorPermissionDenied userInfo:nil])];
-            }
-        }];
-        return nil;
-    }];
+- (RACSignal *)allSystemAccounts {
+    return [ACAccountStore SimpleAuth_accountsWithTypeIdentifier:ACAccountTypeIdentifierTwitter options:nil];
 }
 
 
-- (RACSignal *)selectedTwitterAccount {
-    return [[self allTwitterAccounts] flattenMap:^RACStream *(NSArray *accounts) {
+- (RACSignal *)systemAccount {
+    return [[self allSystemAccounts] flattenMap:^RACStream *(NSArray *accounts) {
         if ([accounts count] == 1) {
             ACAccount *account = [accounts lastObject];
             return [RACSignal return:account];
         }
         else {
-            return [self twitterAccountFromAccounts:accounts];
+            return [self systemAccountFromAccounts:accounts];
         }
     }];
 }
 
 
-- (RACSignal *)twitterAccountFromAccounts:(NSArray *)accounts {
+- (RACSignal *)systemAccountFromAccounts:(NSArray *)accounts {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIActionSheet *sheet = [UIActionSheet new];
@@ -133,7 +112,7 @@
             }];
             
             sheet.delegate = (id)sheet;
-            void (^block) (UIActionSheet *) = self.options[SimpleAuthPresentInterfaceBlockKey];
+            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
             block(sheet);
         });
         return nil;
@@ -141,29 +120,29 @@
 }
 
 
-- (RACSignal *)requestTokenWithParameters:(NSDictionary *)parameters {
+- (RACSignal *)reverseAuthRequestToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSDictionary *parameters = @{ @"x_auth_mode" : @"reverse_auth" };
         NSURLRequest *request = [GCOAuth
-         URLRequestForPath:@"/oauth/request_token"
-         POSTParameters:parameters
-         scheme:@"https"
-         host:@"api.twitter.com"
-         consumerKey:self.options[@"consumer_key"]
-         consumerSecret:self.options[@"consumer_secret"]
-         accessToken:nil
-         tokenSecret:nil];
-        [NSURLConnection
-         sendAsynchronousRequest:request
-         queue:[NSOperationQueue mainQueue]
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                 URLRequestForPath:@"/oauth/request_token"
+                                 POSTParameters:parameters
+                                 scheme:@"https"
+                                 host:@"api.twitter.com"
+                                 consumerKey:self.options[@"consumer_key"]
+                                 consumerSecret:self.options[@"consumer_secret"]
+                                 accessToken:nil
+                                 tokenSecret:nil];
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-             if (statusCode == 200 && data) {
+             if ([indexSet containsIndex:statusCode] && data) {
                  NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                  [subscriber sendNext:string];
                  [subscriber sendCompleted];
              }
              else {
-                 [subscriber sendError:error];
+                 [subscriber sendError:connectionError];
              }
          }];
         return nil;
@@ -181,31 +160,27 @@
 - (RACSignal *)twitterAccountWithAccount:(ACAccount *)account {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *URL = [NSURL URLWithString:@"https://api.twitter.com/1.1/account/verify_credentials.json"];
-        SLRequest *request = [SLRequest
-         requestForServiceType:SLServiceTypeTwitter
-         requestMethod:SLRequestMethodGET
-         URL:URL
-         parameters:nil];
+        SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:URL parameters:nil];
         request.account = account;
-        [request performRequestWithHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+        [request performRequestWithHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *connectionError) {
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
             NSInteger statusCode = [response statusCode];
-            if (statusCode == 200 && data) {
-                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-                [subscriber sendNext:dictionary];
-                [subscriber sendCompleted];
+            if ([indexSet containsIndex:statusCode] && data) {
+                NSError *parseError = nil;
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                if (dictionary) {
+                    [subscriber sendNext:dictionary];
+                    [subscriber sendCompleted];
+                }
+                else {
+                    [subscriber sendNext:parseError];
+                }
             }
             else {
-                [subscriber sendError:error];
+                [subscriber sendError:connectionError];
             }
         }];
         return nil;
-    }];
-}
-
-
-- (RACSignal *)reverseAuthRequestToken {
-    return [self requestTokenWithParameters:@{
-        @"x_auth_mode" : @"reverse_auth"
     }];
 }
 
@@ -217,22 +192,19 @@
             @"x_reverse_auth_parameters" : token,
             @"x_reverse_auth_target" : self.options[@"consumer_key"]
         };
-        SLRequest *request = [SLRequest
-         requestForServiceType:SLServiceTypeTwitter
-         requestMethod:SLRequestMethodPOST
-         URL:URL
-         parameters:parameters];
+        SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:URL parameters:parameters];
         request.account = account;
-        [request performRequestWithHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
+        [request performRequestWithHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *connectionError) {
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
             NSInteger statusCode = [response statusCode];
-            if (statusCode == 200 && data) {
+            if ([indexSet containsIndex:statusCode] && data) {
                 NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:string];
                 [subscriber sendNext:dictionary];
                 [subscriber sendCompleted];
             }
             else {
-                [subscriber sendError:error];
+                [subscriber sendError:connectionError];
             }
         }];
         return nil;

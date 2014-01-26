@@ -49,7 +49,7 @@
 
 #pragma mark - Private
 
-- (RACSignal *)systemAccounts {
+- (RACSignal *)allSystemAccounts {
     NSDictionary *options = @{
         ACFacebookAppIdKey : self.options[@"app_id"],
         ACFacebookPermissionsKey : self.options[@"permissions"]
@@ -59,7 +59,7 @@
 
 
 - (RACSignal *)systemAccount {
-    return [[self systemAccounts] map:^(NSArray *accounts) {
+    return [[self allSystemAccounts] map:^(NSArray *accounts) {
         return [accounts lastObject];
     }];
 }

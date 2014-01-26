@@ -8,7 +8,10 @@
 
 #import "SimpleAuthFacebookProvider.h"
 
+#import "ACAccountStore+SimpleAuth.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+
+@import Social;
 
 @implementation SimpleAuthFacebookProvider
 
@@ -47,40 +50,17 @@
 #pragma mark - Private
 
 - (RACSignal *)systemAccounts {
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        ACAccountStore *store = [[self class] accountStore];
-        ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-        NSDictionary *options = @{
-            ACFacebookAppIdKey : self.options[@"app_id"],
-            ACFacebookPermissionsKey : self.options[@"permissions"]
-        };
-        [store requestAccessToAccountsWithType:type options:options completion:^(BOOL granted, NSError *error) {
-            if (granted) {
-                NSArray *accounts = [store accountsWithAccountType:type];
-                NSUInteger numberOfAccounts = [accounts count];
-                if (numberOfAccounts == 0) {
-                    error = (error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorAccountNotFound userInfo:nil]);
-                    [subscriber sendError:error];
-                }
-                else {
-                    [subscriber sendNext:accounts];
-                    [subscriber sendCompleted];
-                }
-            }
-            else {
-                error = (error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorPermissionDenied userInfo:nil]);
-                [subscriber sendError:error];
-            }
-        }];
-        return nil;
-    }];
+    NSDictionary *options = @{
+        ACFacebookAppIdKey : self.options[@"app_id"],
+        ACFacebookPermissionsKey : self.options[@"permissions"]
+    };
+    return [ACAccountStore SimpleAuth_accountsWithTypeIdentifier:ACAccountTypeIdentifierFacebook options:options];
 }
 
 
 - (RACSignal *)systemAccount {
-    return [[self systemAccounts] flattenMap:^RACStream *(NSArray *accounts) {
-        ACAccount *account = [accounts lastObject];
-        return [RACSignal return:account];
+    return [[self systemAccounts] map:^(NSArray *accounts) {
+        return [accounts lastObject];
     }];
 }
 

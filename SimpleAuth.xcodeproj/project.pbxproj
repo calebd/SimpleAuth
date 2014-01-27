@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B35369A1894C5710044EA0E /* ACAccountStore+SimpleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3536991894C5710044EA0E /* ACAccountStore+SimpleAuth.m */; };
 		3B52BB911887088400C73329 /* SimpleAuthTwitterProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB901887088400C73329 /* SimpleAuthTwitterProvider.m */; };
 		3B52BB9518871F6200C73329 /* SimpleAuthFacebookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB9418871F6200C73329 /* SimpleAuthFacebookProvider.m */; };
 		3B52BB9B188731A300C73329 /* SimpleAuthInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB98188731A300C73329 /* SimpleAuthInstagramLoginViewController.m */; };
@@ -52,6 +53,8 @@
 /* Begin PBXFileReference section */
 		0D4998CFA03844FB99EE78AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FCEF85A832046CDB0CCBF25 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		3B3536981894C5710044EA0E /* ACAccountStore+SimpleAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ACAccountStore+SimpleAuth.h"; sourceTree = "<group>"; };
+		3B3536991894C5710044EA0E /* ACAccountStore+SimpleAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ACAccountStore+SimpleAuth.m"; sourceTree = "<group>"; };
 		3B52BB8F1887088400C73329 /* SimpleAuthTwitterProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthTwitterProvider.h; sourceTree = "<group>"; };
 		3B52BB901887088400C73329 /* SimpleAuthTwitterProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthTwitterProvider.m; sourceTree = "<group>"; };
 		3B52BB9318871F6200C73329 /* SimpleAuthFacebookProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFacebookProvider.h; sourceTree = "<group>"; };
@@ -332,6 +335,8 @@
 				3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */,
 				3BBDA066188E02A70045D1EA /* NSObject+SimpleAuthAdditions.h */,
 				3BBDA067188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m */,
+				3B3536981894C5710044EA0E /* ACAccountStore+SimpleAuth.h */,
+				3B3536991894C5710044EA0E /* ACAccountStore+SimpleAuth.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -505,6 +510,7 @@
 				3B52BB9C188731A300C73329 /* SimpleAuthInstagramProvider.m in Sources */,
 				3C611F451835352200D87E45 /* UIWindow+SimpleAuthAdditions.m in Sources */,
 				3B66656C18903F5400F3BF58 /* SimpleAuthFaceBookWebProvider.m in Sources */,
+				3B35369A1894C5710044EA0E /* ACAccountStore+SimpleAuth.m in Sources */,
 				3BB3250F182ABC8B00ACB555 /* SimpleAuth.m in Sources */,
 				3BBDA068188E02A70045D1EA /* NSObject+SimpleAuthAdditions.m in Sources */,
 			);

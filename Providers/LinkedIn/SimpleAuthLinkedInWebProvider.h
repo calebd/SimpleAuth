@@ -8,6 +8,6 @@
 
 #import "SimpleAuthProvider.h"
 
-@interface SimpleAuthLinkedInProvider : SimpleAuthProvider
+@interface SimpleAuthLinkedInWebProvider : SimpleAuthProvider
 
 @end

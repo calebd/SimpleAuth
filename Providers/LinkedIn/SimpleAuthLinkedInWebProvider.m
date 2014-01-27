@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 Byliner, Inc. All rights reserved.
 //
 
-#import "SimpleAuthLinkedInProvider.h"
-#import "SimpleAuthLinkedInLoginViewController.h"
+#import "SimpleAuthLinkedInWebProvider.h"
+#import "SimpleAuthLinkedInWebLoginViewController.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "UIViewController+SimpleAuthAdditions.h"
 
-@implementation SimpleAuthLinkedInProvider
+@implementation SimpleAuthLinkedInWebProvider
 
 #pragma mark - SimpleAuthProvider
 
 + (NSString *)type {
-    return @"linkedin";
+    return @"linkedin-web";
 }
 
 
@@ -65,7 +65,7 @@
 - (RACSignal *)authorizationCode {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SimpleAuthLinkedInLoginViewController *login = [[SimpleAuthLinkedInLoginViewController alloc] initWithOptions:self.options];
+            SimpleAuthLinkedInWebLoginViewController *login = [[SimpleAuthLinkedInWebLoginViewController alloc] initWithOptions:self.options];
             login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
                 SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
                 dismissBlock(login);

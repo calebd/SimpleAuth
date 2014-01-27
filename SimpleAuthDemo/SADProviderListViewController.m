@@ -52,7 +52,7 @@
             @"tumblr",
 			@"foursquare-web",
             @"dropbox-web",
-            @"linkedin"
+            @"linkedin-web"
         ];
     });
     return array;

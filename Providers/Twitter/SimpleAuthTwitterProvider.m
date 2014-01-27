@@ -13,6 +13,8 @@
 #import <cocoa-oauth/GCOAuth.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
+@import Social;
+
 @implementation SimpleAuthTwitterProvider
 
 #pragma mark - SimpleAuthProvider
@@ -35,28 +37,18 @@
 }
 
 
-#pragma mark - SimpleAuthSystemProvider
-
-- (void)authorizeWithSystemAccount:(ACAccount *)account completion:(SimpleAuthRequestHandler)completion {
-    RACSignal *accountSignal = [self twitterAccountWithAccount:account];
-    RACSignal *accessTokenSignal = [self accessTokenWithAccount:account];
-    RACSignal *zipSignal = [RACSignal zip:@[ accountSignal, accessTokenSignal ] reduce:^(NSDictionary *accountDictionary, NSDictionary *accessTokenDictionary) {
-        return [self responseWithAccount:account accountDictionary:accountDictionary accessTokenDictionary:accessTokenDictionary];
-    }];
-    [zipSignal
-     subscribeNext:^(NSDictionary *dictionary) {
-         completion(dictionary, nil);
-     }
-     error:^(NSError *error) {
-         completion(nil, error);
-     }];
-}
-
-
-- (void)loadSystemAccount:(SimpleAuthSystemAccountHandler)completion {
-    [[self systemAccount]
-     subscribeNext:^(ACAccount *account) {
-         completion(account, nil);
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+    [[[self systemAccount]
+     flattenMap:^(ACAccount *account) {
+         NSArray *signals = @[
+             [RACSignal return:account],
+             [self remoteAccountWithSystemAccount:account],
+             [self accessTokenWithSystemAccount:account]
+         ];
+         return [self rac_liftSelector:@selector(dictionaryWithSystemAccount:remoteAccount:accessToken:) withSignalsFromArray:signals];
+     }]
+     subscribeNext:^(NSDictionary *response) {
+         completion(response, nil);
      }
      error:^(NSError *error) {
          completion(nil, error);
@@ -150,14 +142,14 @@
 }
 
 
-- (RACSignal *)accessTokenWithAccount:(ACAccount *)account {
+- (RACSignal *)accessTokenWithSystemAccount:(ACAccount *)account {
     return [[self reverseAuthRequestToken] flattenMap:^(NSString *token) {
         return [self accessTokenWithReverseAuthRequestToken:token account:account];
     }];
 }
 
 
-- (RACSignal *)twitterAccountWithAccount:(ACAccount *)account {
+- (RACSignal *)remoteAccountWithSystemAccount:(ACAccount *)account {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *URL = [NSURL URLWithString:@"https://api.twitter.com/1.1/account/verify_credentials.json"];
         SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:URL parameters:nil];
@@ -212,7 +204,7 @@
 }
 
 
-- (NSDictionary *)responseWithAccount:(ACAccount *)account accountDictionary:(NSDictionary *)accountDictionary accessTokenDictionary:(NSDictionary *)accessToken {
+- (NSDictionary *)dictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
     // Provider
@@ -225,31 +217,31 @@
     };
     
     // User ID
-    dictionary[@"uid"] = accountDictionary[@"id"];
+    dictionary[@"uid"] = remoteAccount[@"id"];
     
     // Extra
     dictionary[@"extra"] = @{
-        @"raw_info" : accountDictionary,
-        @"account" : account
+        @"raw_info" : remoteAccount,
+        @"account" : systemAccount
     };
     
     // Profile image
-    NSString *avatar = accountDictionary[@"profile_image_url_https"];
+    NSString *avatar = remoteAccount[@"profile_image_url_https"];
     avatar = [avatar stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
     
     // Profile
-    NSString *profile = [NSString stringWithFormat:@"https://twitter.com/%@", accountDictionary[@"screen_name"]];
+    NSString *profile = [NSString stringWithFormat:@"https://twitter.com/%@", remoteAccount[@"screen_name"]];
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"nickname"] = accountDictionary[@"screen_name"];
-    user[@"name"] = accountDictionary[@"name"];
-    user[@"location"] = accountDictionary[@"location"];
+    user[@"nickname"] = remoteAccount[@"screen_name"];
+    user[@"name"] = remoteAccount[@"name"];
+    user[@"location"] = remoteAccount[@"location"];
     user[@"image"] = avatar;
-    user[@"description"] = accountDictionary[@"description"];
+    user[@"description"] = remoteAccount[@"description"];
     user[@"urls"] = @{
         @"Twitter" : profile,
-        @"Website" : accountDictionary[@"url"]
+        @"Website" : remoteAccount[@"url"]
     };
     dictionary[@"info"] = user;
     

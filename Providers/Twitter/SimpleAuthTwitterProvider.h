@@ -6,8 +6,8 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
-#import "SimpleAuthSystemProvider.h"
+#import "SimpleAuthProvider.h"
 
-@interface SimpleAuthTwitterProvider : SimpleAuthSystemProvider
+@interface SimpleAuthTwitterProvider : SimpleAuthProvider
 
 @end

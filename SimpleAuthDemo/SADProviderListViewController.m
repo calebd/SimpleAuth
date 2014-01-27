@@ -51,7 +51,8 @@
             @"meetup",
             @"tumblr",
 			@"foursquare-web",
-            @"dropbox-web"
+            @"dropbox-web",
+            @"LinkedIn"
         ];
     });
     return array;

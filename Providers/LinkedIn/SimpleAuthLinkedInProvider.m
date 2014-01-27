@@ -17,7 +17,7 @@
 #pragma mark - SimpleAuthProvider
 
 + (NSString *)type {
-    return @"LinkedIn";
+    return @"linkedin";
 }
 
 
@@ -42,17 +42,18 @@
     return options;
 }
 
+
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
-      flattenMap:^RACStream *(NSString *response) {
-          NSArray *signals = @[
-                               [self accountWithAccessToken:response],
-                               [RACSignal return:response]
-                               ];
-          return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
-      }]
-     subscribeNext:^(NSDictionary *response) {
-         completion(response, nil);
+     flattenMap:^(id responseObject) {
+         NSArray *signals = @[
+             [self accountWithAccessToken:responseObject],
+             [RACSignal return:responseObject]
+         ];
+         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+     }]
+     subscribeNext:^(id responseObject) {
+         completion(responseObject, nil);
      }
      error:^(NSError *error) {
          completion(nil, error);
@@ -61,7 +62,7 @@
 
 #pragma mark - Private
 
-- (RACSignal *)accessToken {
+- (RACSignal *)authorizationCode {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
             SimpleAuthLinkedInLoginViewController *login = [[SimpleAuthLinkedInLoginViewController alloc] initWithOptions:self.options];
@@ -80,22 +81,9 @@
                     return;
                 }
                 
-                NSMutableURLRequest *request = [self tokenURLRequestForCode:code];
-                [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-                                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                           NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-                                           
-                                           NSString *token = [json objectForKey:@"access_token"];
-                                           
-                                           if (![token length]) {
-                                               [subscriber sendError:nil];
-                                               return;
-                                           }
-                                           
-                                           // Send completion
-                                           [subscriber sendNext:token];
-                                           [subscriber sendCompleted];
-                                       }];
+                // Send completion
+                [subscriber sendNext:code];
+                [subscriber sendCompleted];
             };
             
             SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
@@ -106,52 +94,105 @@
 }
 
 
-- (RACSignal *)accountWithAccessToken:(NSString *)accessToken {
+- (RACSignal *)accessTokenWithAuthorizationCode:(NSString *)code {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
-        [mutableParameters setValue:accessToken forKey:@"oauth2_access_token"];
-        [mutableParameters setValue:@"json" forKey:@"format"];
-        
-        NSDictionary *parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
+        // Build request
+        NSDictionary *parameters = @{
+            @"code" : code,
+            @"client_id" : self.options[@"client_id"],
+            @"client_secret" : self.options[@"client_secret"],
+            @"redirect_uri" : self.options[@"redirect_uri"],
+            @"grant_type" : @"authorization_code"
+        };
         NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
-        NSString *URLString = [NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?%@", query];
-        NSURL *URL = [NSURL URLWithString:URLString];
-        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        NSURL *URL = [NSURL URLWithString:@"https://api.linkedin.com/uas/oauth2/accessToken"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:[query dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        // Run request
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                   NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
-                                   NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                                   if ([indexSet containsIndex:statusCode] && data) {
-                                       NSError *parseError = nil;
-                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-                                       if (dictionary) {
-                                           [subscriber sendNext:dictionary];
-                                           [subscriber sendCompleted];
-                                       }
-                                       else {
-                                           [subscriber sendError:parseError];
-                                       }
-                                   }
-                                   else {
-                                       [subscriber sendError:connectionError];
-                                   }
-                               }];
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSError *parseError = nil;
+                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                 if (dictionary) {
+                     [subscriber sendNext:dictionary];
+                     [subscriber sendCompleted];
+                 }
+                 else {
+                     [subscriber sendError:parseError];
+                 }
+             }
+             else {
+                 [subscriber sendError:connectionError];
+             }
+         }];
+        
         return nil;
     }];
 }
 
 
-- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSString *)accessToken {
+- (RACSignal *)accessToken {
+    return [[self authorizationCode] flattenMap:^(id responseObject) {
+        return [self accessTokenWithAuthorizationCode:responseObject];
+    }];
+}
+
+
+- (RACSignal *)accountWithAccessToken:(NSDictionary *)accessToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSDictionary *parameters = @{
+            @"oauth2_access_token" : accessToken[@"access_token"],
+            @"format" : @"json"
+        };
+        NSString *URLString =  [NSString stringWithFormat:
+                                @"https://api.linkedin.com/v1/people/~?%@",
+                                [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+        NSURL *URL = [NSURL URLWithString:URLString];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSError *parseError = nil;
+                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                 if (dictionary) {
+                     [subscriber sendNext:dictionary];
+                     [subscriber sendCompleted];
+                 }
+                 else {
+                     [subscriber sendError:parseError];
+                 }
+             }
+             else {
+                 [subscriber sendError:connectionError];
+             }
+         }];
+        return nil;
+    }];
+}
+
+
+- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
     // Provider
     dictionary[@"provider"] = [[self class] type];
     
     // Credentials
+    NSTimeInterval expiresAtInterval = [accessToken[@"expires_in"] doubleValue];
+    NSDate *expiresAtDate = [NSDate dateWithTimeIntervalSinceNow:expiresAtInterval];
     dictionary[@"credentials"] = @{
-                                   @"token" : accessToken
-                                   };
+        @"token" : accessToken[@"access_token"],
+        @"expires_at" : expiresAtDate
+    };
     
     // User ID
     //dictionary[@"uid"] = account[@"id"];
@@ -167,39 +208,6 @@
     dictionary[@"user_info"] = user;
     
     return dictionary;
-}
-
-- (NSDictionary*)parseURLParams:(NSString *)query {
-	NSArray *pairs = [query componentsSeparatedByString:@"&"];
-	NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-	for (NSString *pair in pairs) {
-		NSArray *kv = [pair componentsSeparatedByString:@"="];
-		NSString *val = [[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-		[params setObject:val forKey:[kv objectAtIndex:0]];
-	}
-    return params;
-}
-
--(NSMutableURLRequest *)tokenURLRequestForCode:(NSString *)code
-{
-    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:code, @"code",
-                                self.options[@"client_id"], @"client_id",
-                                self.options[@"client_secret"], @"client_secret",
-                                self.options[@"redirect_uri"], @"redirect_uri",
-                                @"authorization_code", @"grant_type",nil];
-    
-    NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
-    
-    NSString *URLString = [NSString stringWithFormat:@"https://api.linkedin.com/uas/oauth2/accessToken"];
-    NSURL *cURL = [NSURL URLWithString:URLString];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:cURL];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", @"utf-8"] forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:[query dataUsingEncoding:4]];
-    
-    return request;
 }
 
 @end

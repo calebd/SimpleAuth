@@ -26,11 +26,11 @@
 
 - (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
-								 @"client_id" : self.options[@"client_id"],
-								 @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
-								 @"response_type" : @"code",
-                                 @"state" : self.options[@"state"]
-								 };
+        @"client_id" : self.options[@"client_id"],
+        @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
+        @"response_type" : @"code",
+        @"state" : [[NSProcessInfo processInfo] globallyUniqueString]
+    };
     
     NSString *URLString = [NSString stringWithFormat:
                            @"https://www.linkedin.com/uas/oauth2/authorization?%@",

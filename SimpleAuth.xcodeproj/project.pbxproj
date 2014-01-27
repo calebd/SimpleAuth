@@ -145,16 +145,16 @@
 		3B52BB8D1887088400C73329 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				81A50A461892645800D5D8AC /* LinkedIn */,
-				F9BE4F32189120BE00AE303A /* FoursquareWeb */,
 				3B52BB9218871F6200C73329 /* Facebook */,
 				3B66656918903F4000F3BF58 /* FacebookWeb */,
 				3B52BB8E1887088400C73329 /* Twitter */,
 				3B8C408B18879296007DC578 /* TwitterWeb */,
 				3B52BB96188731A300C73329 /* Instagram */,
-				4D149A3E1889B38C0024639C /* Meetup */,
 				3B65845D1888A93200D59100 /* Tumblr */,
 				3BC5FC6D1891D80E00523166 /* DropboxWeb */,
+				F9BE4F32189120BE00AE303A /* FoursquareWeb */,
+				4D149A3E1889B38C0024639C /* Meetup */,
+				81A50A461892645800D5D8AC /* LinkedIn */,
 			);
 			path = Providers;
 			sourceTree = "<group>";

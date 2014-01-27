@@ -65,8 +65,8 @@
     // client_id and redirect_uri are required
     SimpleAuth.configuration[@"dropbox-web"] = @{};
     
-    // client_id, client_secret, state and and redirect_uri are required
-    SimpleAuth.configuration[@"LinkedIn"] = @{};
+    // client_id, client_secret, and and redirect_uri are required
+    SimpleAuth.configuration[@"linkedin"] = @{};
 }
 
 

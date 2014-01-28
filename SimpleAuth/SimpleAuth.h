@@ -7,7 +7,9 @@
 //
 
 extern NSString * const SimpleAuthErrorDomain;
-extern NSInteger const SimpleAuthUserCancelledErrorCode;
+enum {
+    SimpleAuthErrorUserCancelled
+};
 
 /**
  Called when authorization either completes with a response or fails with an

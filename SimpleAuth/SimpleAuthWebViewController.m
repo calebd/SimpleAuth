@@ -51,7 +51,7 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                  target:self
-                                                 action:@selector(dismiss)];
+                                                 action:@selector(cancel)];
     }
     return self;
 }
@@ -75,9 +75,9 @@
 }
 
 
-- (void)dismiss {
-    SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-    block(self);
+- (void)cancel {
+    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
+    self.completion(self, nil, error);
 }
 
 

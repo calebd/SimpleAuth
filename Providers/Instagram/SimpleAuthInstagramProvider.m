@@ -79,7 +79,7 @@
                 
                 // Check for error
                 if (![token length]) {
-                    [subscriber sendError:nil];
+                    [subscriber sendError:error];
                     return;
                 }
                 

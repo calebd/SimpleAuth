@@ -93,7 +93,7 @@
                 RACTupleUnpack(UIActionSheet *sheet, NSNumber *number) = tuple;
                 NSInteger index = [number integerValue];
                 if (index == sheet.cancelButtonIndex) {
-                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthUserCancelledErrorCode userInfo:nil];
+                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
                     [subscriber sendError:error];
                 }
                 else {

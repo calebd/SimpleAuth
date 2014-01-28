@@ -120,7 +120,7 @@
                 
                 // Check for error
                 if (![token length] || ![verifier length]) {
-                    [subscriber sendError:nil];
+                    [subscriber sendError:error];
                     return;
                 }
                 

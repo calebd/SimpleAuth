@@ -50,9 +50,4 @@ typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *
  */
 - (BOOL)isTargetRedirectURL:(NSURL *)URL;
 
-/**
- Tells the receiver to run the dismiss block provided in options.
- */
-- (void)dismiss;
-
 @end

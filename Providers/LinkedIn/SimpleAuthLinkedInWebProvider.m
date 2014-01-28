@@ -77,7 +77,7 @@
                 
                 // Check for error
                 if (![code length]) {
-                    [subscriber sendError:nil];
+                    [subscriber sendError:error];
                     return;
                 }
                 

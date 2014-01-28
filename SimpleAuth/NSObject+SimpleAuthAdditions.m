@@ -12,39 +12,33 @@
 
 @implementation NSObject (SimpleAuthAdditions)
 
-+ (void)SimpleAuth_enumerateSubclassesWithBlock:(void (^) (Class klass))block {
++ (void)SimpleAuth_enumerateSubclassesWithBlock:(void (^) (Class klass, BOOL *stop))block {
     int numberOfClasses = objc_getClassList(NULL, 0);
     Class allClasses[numberOfClasses];
     objc_getClassList(allClasses, numberOfClasses);
     for (int i = 0; i < numberOfClasses; i++) {
         Class klass = allClasses[i];
-        if ([self SimpleAuth_isClass:klass subclassOfClass:self]) {
-            block(klass);
+        if (SimpleAuthClassIsSubclassOfClass(klass, self)) {
+            BOOL stop = NO;
+            block(klass, &stop);
+            if (stop) {
+                return;
+            }
         }
-    }
-}
-
-
-+ (void)SimpleAuth_enumerateSubclassesExcludingClasses:(NSSet *)set withBlock:(void (^) (Class klass))block {
-    [self SimpleAuth_enumerateSubclassesWithBlock:^(Class klass) {
-        if (![set containsObject:klass]) {
-            block(klass);
-        }
-    }];
-}
-
-
-+ (BOOL)SimpleAuth_isClass:(Class)classOne subclassOfClass:(Class)classTwo {
-    if (classOne == classTwo) {
-        return YES;
-    }
-    Class superclass = class_getSuperclass(classOne);
-    if (superclass == Nil) {
-        return NO;
-    }
-    else {
-        return [self SimpleAuth_isClass:superclass subclassOfClass:classTwo];
     }
 }
 
 @end
+
+static inline BOOL SimpleAuthClassIsSubclassOfClass(Class classOne, Class classTwo) {
+    Class superclass = class_getSuperclass(classOne);
+    if (superclass == classTwo) {
+        return YES;
+    }
+    else if (superclass == Nil) {
+        return NO;
+    }
+    else {
+        return SimpleAuthClassIsSubclassOfClass(superclass, classTwo);
+    }
+}

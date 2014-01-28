@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Byliner, Inc. All rights reserved.
 //
 
+static inline BOOL SimpleAuthClassIsSubclassOfClass(Class classOne, Class classTwo);
+
 @interface NSObject (SimpleAuthAdditions)
 
-+ (void)SimpleAuth_enumerateSubclassesWithBlock:(void (^) (Class klass))block;
-+ (void)SimpleAuth_enumerateSubclassesExcludingClasses:(NSSet *)set withBlock:(void (^) (Class klass))block;
-+ (BOOL)SimpleAuth_isClass:(Class)klassOne subclassOfClass:(Class)klassTwo;
++ (void)SimpleAuth_enumerateSubclassesWithBlock:(void (^) (Class klass, BOOL *stop))block;
 
 @end

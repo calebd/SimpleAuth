@@ -94,10 +94,7 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 
 
 + (void)loadProviders {
-    NSSet *set = [NSSet setWithArray:@[
-        [SimpleAuthProvider class]
-    ]];
-    [SimpleAuthProvider SimpleAuth_enumerateSubclassesExcludingClasses:set withBlock:^(Class klass) {
+    [SimpleAuthProvider SimpleAuth_enumerateSubclassesWithBlock:^(Class klass, BOOL *stop) {
         [self registerProviderClass:klass];
     }];
 }

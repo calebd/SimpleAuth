@@ -6,9 +6,9 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
-#import <CMDQueryStringSerialization/CMDQueryStringSerialization.h>
-
 #import "SimpleAuth.h"
+
+#import <CMDQueryStringSerialization/CMDQueryStringSerialization.h>
 
 typedef void (^SimpleAuthWebViewControllerCompletionHandler) (UIViewController *controller, NSURL *URL, NSError *error);
 

@@ -10,7 +10,6 @@
 #import "SimpleAuthFacebookWebLoginViewController.h"
 
 #import "UIViewController+SimpleAuthAdditions.h"
-
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthFaceBookWebProvider

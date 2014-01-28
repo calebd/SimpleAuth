@@ -10,7 +10,6 @@
 #import "SimpleAuthTwitterWebLoginViewController.h"
 
 #import "UIViewController+SimpleAuthAdditions.h"
-
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <cocoa-oauth/GCOAuth.h>
 

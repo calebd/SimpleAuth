@@ -22,10 +22,10 @@
 
 - (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
-								 @"client_id" : self.options[@"client_id"],
-								 @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
-								 @"response_type" : @"token"
-								 };
+        @"client_id" : self.options[@"client_id"],
+        @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
+        @"response_type" : @"token"
+    };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://foursquare.com/oauth2/authenticate?%@",
                            [CMDQueryStringSerialization queryStringWithDictionary:parameters]];

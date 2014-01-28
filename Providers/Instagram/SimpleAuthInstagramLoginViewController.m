@@ -21,11 +21,13 @@
 
 
 - (NSURLRequest *)initialRequest {
-    NSDictionary *parameters = @{
-        @"client_id" : self.options[@"client_id"],
-        @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
-        @"response_type" : @"token"
-    };
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    parameters[@"client_id"] = self.options[@"client_id"];
+    parameters[@"redirect_uri"] = self.options[SimpleAuthRedirectURIKey];
+    parameters[@"response_type"] = @"token";
+    if (self.options[@"scope"]) {
+        parameters[@"scope"] = [self.options[@"scope"] componentsJoinedByString:@" "];
+    }
     NSString *URLString = [NSString stringWithFormat:
                            @"https://instagram.com/oauth/authorize/?%@",
                            [CMDQueryStringSerialization queryStringWithDictionary:parameters]];

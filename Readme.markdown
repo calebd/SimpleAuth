@@ -11,6 +11,7 @@ SimpleAuth currently has the following providers:
 - [Dropbox](https://github.com/calebd/SimpleAuth/wiki/Dropbox)
 - [Foursquare](https://github.com/calebd/SimpleAuth/wiki/Foursquare)
 - [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
+- [LinkedIn](https://github.com/calebd/SimpleAuth/wiki/Meetup)
 
 ## Installing
 
@@ -90,3 +91,4 @@ Special thanks to my friend [@soffes](https://twitter.com/soffes) for advising o
 
 - [kornifex](https://github.com/kornifex): Foursquare provider
 - [mouhcine](https://github.com/mouhcine): Meetup provider
+- [iamabhiee](https://github.com/iamabhiee): LinkedIn provider

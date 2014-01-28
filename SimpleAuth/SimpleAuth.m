@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthProvider.h"
-#import "SimpleAuthSystemProvider.h"
 
 #import "NSObject+SimpleAuthAdditions.h"
 
@@ -96,7 +95,7 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 
 + (void)loadProviders {
     NSSet *set = [NSSet setWithArray:@[
-        [SimpleAuthProvider class], [SimpleAuthSystemProvider class]
+        [SimpleAuthProvider class]
     ]];
     [SimpleAuthProvider SimpleAuth_enumerateSubclassesExcludingClasses:set withBlock:^(Class klass) {
         [self registerProviderClass:klass];

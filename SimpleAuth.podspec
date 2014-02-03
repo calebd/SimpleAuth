@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Core' do |ss|
     ss.source_files = 'SimpleAuth/**/*.{h,m}'
-    ss.public_header_files = 'SimpleAuth/SipmleAuth.h'
+    ss.public_header_files = 'SimpleAuth/SimpleAuth.h'
     ss.dependency 'ReactiveCocoa'
     ss.dependency 'CMDQueryStringSerialization'
   end

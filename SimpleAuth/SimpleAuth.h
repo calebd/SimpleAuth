@@ -92,4 +92,28 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  */
 + (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
+/**
+ Perform re-authorization with the given provider and all previously configured
+ and default provider options. This is for providers where the token expires and you
+ want to renew the non expired token.
+ 
+ @param token the unexpired token recieved from the service
+ @param completion Called on the main queue when the operation is complete.
+ 
+ @see +authorize:options:completion:
+ */
++ (void)reAuthorize:(NSString *)provider token:(NSString *)token completion:(SimpleAuthRequestHandler)completion;
+
+/**
+ Perform re-authorization with the given provider and all previously configured
+ and default provider options. This is for providers where the token expires and you
+ want to renew the non expired token.
+ 
+ @param token the unexpired token recieved from the service
+ @param completion Called on the main queue when the operation is complete.
+ 
+ @see +authorize:options:completion:
+ */
++ (void)reAuthorize:(NSString *)type options:(NSDictionary *)options token:(NSString *)token completion:(SimpleAuthRequestHandler)completion;
+
 @end

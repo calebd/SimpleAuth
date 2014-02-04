@@ -130,7 +130,8 @@
     if (location) {
         user[@"location"] = location;
     }
-    user[@"verified"] = remoteAccount[@"verified"];
+    if (remoteAccount[@"verified"])
+        user[@"verified"] = remoteAccount[@"verified"];
     user[@"urls"] = @{
         @"Facebook" : remoteAccount[@"link"],
     };

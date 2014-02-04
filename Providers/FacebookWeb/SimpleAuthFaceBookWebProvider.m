@@ -62,6 +62,28 @@
      }];
 }
 
+- (void)reAuthorizeWithToken:(NSString *)token completionHandler:(SimpleAuthRequestHandler)completion{
+    if (token.length <= 0) {
+        // There is no token so we are going to use the standard login method
+        [self authorizeWithCompletion:completion];
+        return;
+    }
+    [[[self reAuthAccessTokenWithToken:token]
+      flattenMap:^(NSDictionary *response) {
+          NSArray *signals = @[
+                               [self accountWithAccessToken:response],
+                               [RACSignal return:response]
+                               ];
+          return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+      }]
+     subscribeNext:^(id x) {
+         completion(x, nil);
+     }
+     error:^(NSError *error) {
+         completion(nil, error);
+     }];
+}
+
 
 #pragma mark - Private
 
@@ -93,6 +115,49 @@
             
             SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
             block(login);
+        });
+        return nil;
+    }];
+}
+
+- (RACSignal *)reAuthAccessTokenWithToken:(NSString *)preToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *parameters = @{
+                                         @"client_id" : self.options[@"app_id"],
+                                         @"grant_type" :@"fb_exchange_token",
+                                         @"response_type" : @"token",
+                                         @"grant_type" :@"fb_exchange_token",
+                                         @"client_secret" : self.options[@"app_secret"],
+                                         @"fb_exchange_token" : preToken
+                                         };
+            
+            NSString *URLString = [NSString stringWithFormat:
+                                   @"https://graph.facebook.com/oauth/access_token?%@",
+                                   [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+            NSError *responseError = nil;
+            NSURLResponse *response = nil;
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URLString]];
+            NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&responseError];
+            if (!responseError){
+                NSString *responseString = [[NSString alloc] initWithData:dataResponse encoding:NSUTF8StringEncoding];
+                NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:responseString];
+                id token = dictionary[@"access_token"];
+                id expiration = dictionary[@"expires"];
+                
+                // Check for error
+                if (!token || !expiration) {
+                    [subscriber sendError:[NSError errorWithDomain:@"Missing token or experation from facebook" code:101 userInfo:nil]];
+                    return;
+                }
+                // Send completion
+                [subscriber sendNext:@{@"access_token" : token, @"expires_in" : expiration}];
+                [subscriber sendCompleted];
+            }
+            else {
+                [subscriber sendError:responseError];
+                return ;
+            }
         });
         return nil;
     }];
@@ -170,7 +235,8 @@
     if (location) {
         user[@"location"] = location;
     }
-    user[@"verified"] = account[@"verified"];
+    if (account[@"verified"])
+        user[@"verified"] = account[@"verified"];
     user[@"urls"] = @{
         @"Facebook" : account[@"link"],
     };

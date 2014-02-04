@@ -13,7 +13,7 @@
 #pragma mark - SimpleAuthWebViewController
 
 - (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
-    if ((self = [super initWithOptions:options])) {
+    if ((self = [super initWithOptions:options requestToken:requestToken])) {
         self.title = @"tumblr";
     }
     return self;

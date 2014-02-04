@@ -10,7 +10,9 @@
 
 #import "SimpleAuth.h"
 
-@interface SADProviderListViewController ()
+@interface SADProviderListViewController () {
+    NSMutableDictionary *tokens;
+}
 
 @end
 

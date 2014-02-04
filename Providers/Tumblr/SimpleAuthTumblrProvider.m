@@ -64,11 +64,11 @@
          ];
          return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
      }]
-     subscribeNext:^(id x) {
-         NSLog(@"%@", x);
+     subscribeNext:^(NSDictionary *response) {
+         completion(response, nil);
      }
      error:^(NSError *error) {
-         NSLog(@"%@", error);
+         completion(nil, error);
      }];
 }
 

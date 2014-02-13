@@ -24,7 +24,8 @@
 
 + (NSDictionary *)defaultOptions {
     return @{
-        @"permissions" : @[ @"email" ]
+        @"permissions" : @[ @"email" ],
+        @"audience" : @[ACFacebookAudienceOnlyMe]
     };
 }
 
@@ -52,7 +53,8 @@
 - (RACSignal *)allSystemAccounts {
     NSDictionary *options = @{
         ACFacebookAppIdKey : self.options[@"app_id"],
-        ACFacebookPermissionsKey : self.options[@"permissions"]
+        ACFacebookPermissionsKey : self.options[@"permissions"],
+        ACFacebookAudienceKey: self.options[@"audience"]
     };
     return [ACAccountStore SimpleAuth_accountsWithTypeIdentifier:ACAccountTypeIdentifierFacebook options:options];
 }

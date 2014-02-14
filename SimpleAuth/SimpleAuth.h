@@ -92,4 +92,13 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  */
 + (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
+/**
+ Determine whether the provider can handle the callback URL or not. 
+ 
+ @return A boolean specifying if the provider handles the specified URL.
+ 
+ @param url The callback URL.
+ */
++ (BOOL)handleCallback:(NSURL *)url;
+
 @end

@@ -67,6 +67,9 @@
     
     // client_id, client_secret, and and redirect_uri are required
     SimpleAuth.configuration[@"linkedin-web"] = @{};
+    
+    // Request additional permissions with permissions (array)
+    SimpleAuth.configuration[@"facebook-sso"] = @{};
 }
 
 
@@ -76,6 +79,14 @@
     [self configureAuthorizaionProviders];
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [SimpleAuth handleCallback:url];
 }
 
 @end

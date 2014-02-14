@@ -52,7 +52,8 @@
             @"tumblr",
 			@"foursquare-web",
             @"dropbox-web",
-            @"linkedin-web"
+            @"linkedin-web",
+            @"facebook-sso"
         ];
     });
     return array;

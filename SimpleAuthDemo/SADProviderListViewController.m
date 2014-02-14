@@ -86,7 +86,7 @@
     
     NSString *provider = [[self class] providers][indexPath.row];
     NSDictionary *configuration = SimpleAuth.configuration[provider];
-    if ([configuration count] == 0) {
+    if ([configuration count] == 0 && ![provider isEqualToString:@"facebook-sso"]) {
         NSLog(@"It looks like you haven't configured the \"%@\" provider.\n"
               "Consider calling +[SimpleAuth configuration] in `application:willFinishLaunchingWithOptions: "
               "and providing all relevant options for the given provider.",

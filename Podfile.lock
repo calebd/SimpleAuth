@@ -2,6 +2,7 @@ PODS:
   - CMDQueryStringSerialization (0.1.0)
   - cocoa-oauth (0.0.1):
     - NSData+Base64 (~> 1.0)
+  - Facebook-iOS-SDK (3.12.0)
   - NSData+Base64 (1.0.0)
   - ReactiveCocoa (2.2.3):
     - ReactiveCocoa/Core
@@ -13,11 +14,13 @@ PODS:
 DEPENDENCIES:
   - CMDQueryStringSerialization
   - cocoa-oauth
+  - Facebook-iOS-SDK (~> 3.12.0)
   - ReactiveCocoa
 
 SPEC CHECKSUMS:
   CMDQueryStringSerialization: f6118185b92689188026e648c4eb5e2c87b5835b
   cocoa-oauth: 8f4c8b77c77ac660de37f8125557c4ec09b0118a
+  Facebook-iOS-SDK: c09f7d80db5c48170ff834bc03ebe774c49d1f5b
   NSData+Base64: 4819562faee4544e3cf5703f2139820b09732b28
   ReactiveCocoa: b3cb6ebd50f1a0f2e39c6fd7ce3c428b6efcb22b
 

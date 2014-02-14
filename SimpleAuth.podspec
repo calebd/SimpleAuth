@@ -32,6 +32,14 @@ Pod::Spec.new do |s|
     ss.frameworks = 'Accounts', 'Social'
   end
   
+  s.subspec 'FacebookSSO' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'Facebook-iOS-SDK'
+    
+    ss.source_files = 'Providers/FacebookSSO/**/*.{h,m}'
+    ss.frameworks = 'Accounts', 'Social', 'UIKit'
+  end
+  
   s.subspec 'FacebookWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     

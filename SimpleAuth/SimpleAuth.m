@@ -6,7 +6,10 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
+#import "SimpleAuth.h"
+
 #import "SimpleAuthProvider.h"
+#import "SimpleAuthSingleSignOnProvider.h"
 
 #import "NSObject+SimpleAuthAdditions.h"
 
@@ -17,18 +20,22 @@ NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block"
 NSString * const SimpleAuthDismissInterfaceBlockKey = @"dismiss_interface_block";
 NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 
+static SimpleAuthProvider *__currentProvider = nil;
+
 @implementation SimpleAuth
 
 #pragma mark - NSObject
 
-+ (void)initialize {
++ (void)initialize
+{
     [self loadProviders];
 }
 
 
 #pragma mark - Public
 
-+ (NSMutableDictionary *)configuration {
++ (NSMutableDictionary *)configuration
+{
     static dispatch_once_t token;
     static NSMutableDictionary *configuration;
     dispatch_once(&token, ^{
@@ -37,14 +44,13 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
     return configuration;
 }
 
-
-+ (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion {
++ (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion
+{
     [self authorize:type options:nil completion:completion];
 }
 
-
-+ (void)authorize:(NSString *)type options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
-    
++ (void)authorize:(NSString *)type options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion
+{
     // Load the provider class
     Class klass = [self providers][type];
     NSAssert(klass, @"There is no class registered to handle %@ requests.", type);
@@ -58,23 +64,39 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
     [resolvedOptions addEntriesFromDictionary:options];
     
     // Create the provider and run authorization
-    SimpleAuthProvider *provider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
-    [provider authorizeWithCompletion:^(id responseObject, NSError *error) {
+    __currentProvider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
+    [__currentProvider authorizeWithCompletion:^(id responseObject, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(responseObject, error);
         });
-        [provider class]; // Kepp the provider around until the callback is complete
     }];
+}
+
++ (BOOL)handleCallback:(NSURL *)url
+{
+    NSParameterAssert(url != nil);
+
+    NSAssert(__currentProvider != nil, @"There is no provider waiting for single sign on callback");
+    NSAssert([__currentProvider isKindOfClass:[SimpleAuthSingleSignOnProvider class]], @"Current provider does not handle single sign on");
+    
+    return [(SimpleAuthSingleSignOnProvider *)__currentProvider handleCallback:url];
 }
 
 
 #pragma mark - Internal
 
-+ (void)registerProviderClass:(Class)klass {
++ (void)registerProviderClass:(Class)klass
+{
+    if (klass == [SimpleAuthSingleSignOnProvider class]) {
+        return;
+    }
+    
+    NSLog(@"registerProviderClass: %@", NSStringFromClass(klass));
     NSMutableDictionary *providers = [self providers];
+    
     NSString *type = [klass type];
     if (providers[type]) {
-        NSLog(@"[SimpleAuth] Warning: multiple attempts to register profider: %@", type);
+        NSLog(@"[SimpleAuth] Warning: multiple attempts to register provider for type: %@", type);
         return;
     }
     providers[type] = klass;
@@ -83,7 +105,8 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 
 #pragma mark - Private
 
-+ (NSMutableDictionary *)providers {
++ (NSMutableDictionary *)providers
+{
     static dispatch_once_t token;
     static NSMutableDictionary *providers;
     dispatch_once(&token, ^{
@@ -93,7 +116,8 @@ NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
 }
 
 
-+ (void)loadProviders {
++ (void)loadProviders
+{
     [SimpleAuthProvider SimpleAuth_enumerateSubclassesWithBlock:^(Class klass, BOOL *stop) {
         [self registerProviderClass:klass];
     }];

@@ -6,10 +6,8 @@
 //  Copyright (c) 2014 Byliner, Inc. All rights reserved.
 //
 
-#import "SimpleAuthProvider.h"
+@protocol SimpleAuthSingleSignOnProvider <NSObject>
 
-@interface SimpleAuthSingleSignOnProvider : SimpleAuthProvider
-
-- (BOOL)handleCallback:(NSURL *)url;
+- (BOOL)handleCallback:(NSURL *)URL;
 
 @end

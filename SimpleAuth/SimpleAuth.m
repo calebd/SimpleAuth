@@ -26,16 +26,14 @@ static SimpleAuthProvider *__currentProvider = nil;
 
 #pragma mark - NSObject
 
-+ (void)initialize
-{
++ (void)initialize {
     [self loadProviders];
 }
 
 
 #pragma mark - Public
 
-+ (NSMutableDictionary *)configuration
-{
++ (NSMutableDictionary *)configuration {
     static dispatch_once_t token;
     static NSMutableDictionary *configuration;
     dispatch_once(&token, ^{
@@ -44,13 +42,14 @@ static SimpleAuthProvider *__currentProvider = nil;
     return configuration;
 }
 
-+ (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion
-{
+
++ (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion {
     [self authorize:type options:nil completion:completion];
 }
 
-+ (void)authorize:(NSString *)type options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion
-{
+
++ (void)authorize:(NSString *)type options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
+    
     // Load the provider class
     Class klass = [self providers][type];
     NSAssert(klass, @"There is no class registered to handle %@ requests.", type);
@@ -72,28 +71,21 @@ static SimpleAuthProvider *__currentProvider = nil;
     }];
 }
 
-+ (BOOL)handleCallback:(NSURL *)url
-{
-    NSParameterAssert(url != nil);
 
-    NSAssert(__currentProvider != nil, @"There is no provider waiting for single sign on callback");
-    NSAssert([__currentProvider isKindOfClass:[SimpleAuthSingleSignOnProvider class]], @"Current provider does not handle single sign on");
++ (BOOL)handleCallback:(NSURL *)URL {
+    NSParameterAssert(URL != nil);
+
+    NSAssert(__currentProvider != nil, @"There is no provider waiting for single sign on callback.");
+    NSAssert([__currentProvider conformsToProtocol:@protocol(SimpleAuthSingleSignOnProvider)], @"The current provider does not handle single sign on.");
     
-    return [(SimpleAuthSingleSignOnProvider *)__currentProvider handleCallback:url];
+    return [(id<SimpleAuthSingleSignOnProvider>)__currentProvider handleCallback:URL];
 }
 
 
 #pragma mark - Internal
 
-+ (void)registerProviderClass:(Class)klass
-{
-    if (klass == [SimpleAuthSingleSignOnProvider class]) {
-        return;
-    }
-    
-    NSLog(@"registerProviderClass: %@", NSStringFromClass(klass));
++ (void)registerProviderClass:(Class)klass {
     NSMutableDictionary *providers = [self providers];
-    
     NSString *type = [klass type];
     if (providers[type]) {
         NSLog(@"[SimpleAuth] Warning: multiple attempts to register provider for type: %@", type);
@@ -105,8 +97,7 @@ static SimpleAuthProvider *__currentProvider = nil;
 
 #pragma mark - Private
 
-+ (NSMutableDictionary *)providers
-{
++ (NSMutableDictionary *)providers {
     static dispatch_once_t token;
     static NSMutableDictionary *providers;
     dispatch_once(&token, ^{
@@ -116,8 +107,7 @@ static SimpleAuthProvider *__currentProvider = nil;
 }
 
 
-+ (void)loadProviders
-{
++ (void)loadProviders {
     [SimpleAuthProvider SimpleAuth_enumerateSubclassesWithBlock:^(Class klass, BOOL *stop) {
         [self registerProviderClass:klass];
     }];

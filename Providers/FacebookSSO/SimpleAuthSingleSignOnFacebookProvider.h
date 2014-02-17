@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Byliner, Inc. All rights reserved.
 //
 
+#import "SimpleAuthProvider.h"
 #import "SimpleAuthSingleSignOnProvider.h"
 
 // Facebook
@@ -18,6 +19,6 @@ enum {
     SimpleAuthSingleSignOnFacebookProviderFacebookError
 };
 
-@interface SimpleAuthSingleSignOnFacebookProvider : SimpleAuthSingleSignOnProvider
+@interface SimpleAuthSingleSignOnFacebookProvider : SimpleAuthProvider <SimpleAuthSingleSignOnProvider>
 
 @end

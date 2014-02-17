@@ -98,7 +98,7 @@
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSDictionary *parameters = @{ @"oauth_token" : accessToken };
         NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
-        NSString *URLString = [NSString stringWithFormat:@"https://api.foursquare.com/v2/users/self?%@", query];
+        NSString *URLString = [NSString stringWithFormat:@"https://api.foursquare.com/v2/users/self?v=20140210&%@", query];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue

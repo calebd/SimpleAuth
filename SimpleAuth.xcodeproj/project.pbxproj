@@ -34,6 +34,8 @@
 		3C611F48183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C611F47183535A400D87E45 /* UIViewController+SimpleAuthAdditions.m */; };
 		4D149A411889B3DF0024639C /* SimpleAuthMeetupProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D149A401889B3DF0024639C /* SimpleAuthMeetupProvider.m */; };
 		4D149A441889B4390024639C /* SimpleAuthMeetupLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D149A431889B4390024639C /* SimpleAuthMeetupLoginViewController.m */; };
+		4DD68DF418B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD68DF318B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m */; };
+		4DD68DF718B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD68DF618B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m */; };
 		81A50A491892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A50A481892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m */; };
 		81A50A4C189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A50A4B189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m */; };
 		F435E27FC62B4584BF9DBF2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
@@ -112,6 +114,10 @@
 		4D149A401889B3DF0024639C /* SimpleAuthMeetupProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAuthMeetupProvider.m; path = Meetup/SimpleAuthMeetupProvider.m; sourceTree = "<group>"; };
 		4D149A421889B4390024639C /* SimpleAuthMeetupLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAuthMeetupLoginViewController.h; path = Meetup/SimpleAuthMeetupLoginViewController.h; sourceTree = "<group>"; };
 		4D149A431889B4390024639C /* SimpleAuthMeetupLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAuthMeetupLoginViewController.m; path = Meetup/SimpleAuthMeetupLoginViewController.m; sourceTree = "<group>"; };
+		4DD68DF218B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSinaWeiboWebProvider.h; sourceTree = "<group>"; };
+		4DD68DF318B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthSinaWeiboWebProvider.m; sourceTree = "<group>"; };
+		4DD68DF518B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSinaWeiboWebLoginViewController.h; sourceTree = "<group>"; };
+		4DD68DF618B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthSinaWeiboWebLoginViewController.m; sourceTree = "<group>"; };
 		81A50A471892649300D5D8AC /* SimpleAuthLinkedInWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthLinkedInWebProvider.h; sourceTree = "<group>"; };
 		81A50A481892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthLinkedInWebProvider.m; sourceTree = "<group>"; };
 		81A50A4A189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthLinkedInWebLoginViewController.h; sourceTree = "<group>"; };
@@ -156,6 +162,7 @@
 				F9BE4F32189120BE00AE303A /* Foursquare Web */,
 				4D149A3E1889B38C0024639C /* Meetup */,
 				81A50A461892645800D5D8AC /* LinkedIn Web */,
+				4DD68DF118B21A0F009B3767 /* SinaWeibo Web */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -359,6 +366,18 @@
 			name = Meetup;
 			sourceTree = "<group>";
 		};
+		4DD68DF118B21A0F009B3767 /* SinaWeibo Web */ = {
+			isa = PBXGroup;
+			children = (
+				4DD68DF218B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.h */,
+				4DD68DF318B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m */,
+				4DD68DF518B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.h */,
+				4DD68DF618B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m */,
+			);
+			name = "SinaWeibo Web";
+			path = SinaWeiboWeb;
+			sourceTree = "<group>";
+		};
 		81A50A461892645800D5D8AC /* LinkedIn Web */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,6 +520,8 @@
 			files = (
 				3B6584581888931F00D59100 /* SADProviderListViewController.m in Sources */,
 				3B658437188892FE00D59100 /* main.m in Sources */,
+				4DD68DF718B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m in Sources */,
+				4DD68DF418B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m in Sources */,
 				3B65843B188892FE00D59100 /* SADAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

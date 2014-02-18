@@ -91,4 +91,11 @@ Pod::Spec.new do |s|
     ss.source_files = 'Providers/LinkedIn/**/*.{h,m}'
     ss.frameworks = 'UIKit'
   end
+
+  s.subspec 'SinaWeiboWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+
+    ss.source_files = 'Providers/SinaWeiboWeb/**/*.{h,m}'
+    ss.frameworks = 'UIKit'
+  end
 end

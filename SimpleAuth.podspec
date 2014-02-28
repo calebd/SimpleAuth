@@ -12,11 +12,14 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.source_files = 'SimpleAuth/**/*.{h,m}'
     ss.public_header_files = 'SimpleAuth/SimpleAuth.h'
+    ss.exclude_files = 'SimpleAuth/UI'
     ss.dependency 'ReactiveCocoa'
     ss.dependency 'CMDQueryStringSerialization'
   end
 
   s.subspec 'UI' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+
     ss.ios.source_files = 'SimpleAuth/UI/ios/**/*.{h,m}'
     ss.ios.frameworks = 'UIKit'
 
@@ -25,7 +28,6 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Twitter' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
 
     ss.source_files = 'Providers/Twitter/**/*.{h,m}'
@@ -42,16 +44,12 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'FacebookWeb' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-
     ss.source_files = 'Providers/FacebookWeb/**/*.{h,m}'
   end
 
   s.subspec 'Instagram' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-
     ss.source_files = 'Providers/Instagram/**/*.{h,m}'
   end
 
@@ -65,9 +63,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Meetup' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-
     ss.source_files = 'Providers/Meetup/**/*.{h,m}'
   end
 
@@ -81,30 +77,22 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'FoursquareWeb' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-
     ss.source_files = 'Providers/FoursquareWeb/**/*.{h,m}'
   end
 
   s.subspec 'DropboxWeb' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-
     ss.source_files = 'Providers/DropboxWeb/**/*.{h,m}'
   end
 
   s.subspec 'LinkedInWeb' do |ss|
-    ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-
     ss.source_files = 'Providers/LinkedIn/**/*.{h,m}'
   end
 
   s.subspec 'SinaWeiboWeb' do |ss|
-    ss.dependency 'SimpleAuth/Core'
-
+    ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Providers/SinaWeiboWeb/**/*.{h,m}'
-    ss.frameworks = 'UIKit'
   end
 end

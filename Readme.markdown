@@ -12,6 +12,7 @@ SimpleAuth currently has the following providers:
 - [Foursquare](https://github.com/calebd/SimpleAuth/wiki/Foursquare)
 - [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
 - [LinkedIn](https://github.com/calebd/SimpleAuth/wiki/Meetup)
+- [Sina Weibo](https://github.com/calebd/SimpleAuth/wiki/SinaWeibo)
 
 ## Installing
 
@@ -92,3 +93,4 @@ Special thanks to my friend [@soffes](https://twitter.com/soffes) for advising o
 - [kornifex](https://github.com/kornifex): Foursquare provider
 - [mouhcine](https://github.com/mouhcine): Meetup provider
 - [iamabhiee](https://github.com/iamabhiee): LinkedIn provider
+- [aschuch](https://github.com/aschuch): Sina Weibo provider

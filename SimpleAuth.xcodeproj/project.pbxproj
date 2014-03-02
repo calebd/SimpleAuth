@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B766AE718C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B766AE418C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.m */; };
+		1B766AE818C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B766AE618C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.m */; };
 		3B35369A1894C5710044EA0E /* ACAccountStore+SimpleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3536991894C5710044EA0E /* ACAccountStore+SimpleAuth.m */; };
 		3B52BB911887088400C73329 /* SimpleAuthTwitterProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB901887088400C73329 /* SimpleAuthTwitterProvider.m */; };
 		3B52BB9518871F6200C73329 /* SimpleAuthFacebookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52BB9418871F6200C73329 /* SimpleAuthFacebookProvider.m */; };
@@ -56,6 +58,10 @@
 /* Begin PBXFileReference section */
 		0D4998CFA03844FB99EE78AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FCEF85A832046CDB0CCBF25 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		1B766AE318C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFeedlyWebLoginViewController.h; sourceTree = "<group>"; };
+		1B766AE418C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthFeedlyWebLoginViewController.m; sourceTree = "<group>"; };
+		1B766AE518C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFeedlyWebProvider.h; sourceTree = "<group>"; };
+		1B766AE618C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthFeedlyWebProvider.m; sourceTree = "<group>"; };
 		3B3536981894C5710044EA0E /* ACAccountStore+SimpleAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ACAccountStore+SimpleAuth.h"; sourceTree = "<group>"; };
 		3B3536991894C5710044EA0E /* ACAccountStore+SimpleAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ACAccountStore+SimpleAuth.m"; sourceTree = "<group>"; };
 		3B52BB8F1887088400C73329 /* SimpleAuthTwitterProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthTwitterProvider.h; sourceTree = "<group>"; };
@@ -149,9 +155,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B766AE218C34D2400F77FA8 /* FeedlyWeb */ = {
+			isa = PBXGroup;
+			children = (
+				1B766AE318C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.h */,
+				1B766AE418C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.m */,
+				1B766AE518C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.h */,
+				1B766AE618C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.m */,
+			);
+			path = FeedlyWeb;
+			sourceTree = "<group>";
+		};
 		3B52BB8D1887088400C73329 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				1B766AE218C34D2400F77FA8 /* FeedlyWeb */,
 				3B52BB9218871F6200C73329 /* Facebook */,
 				3B66656918903F4000F3BF58 /* Facebook Web */,
 				3B52BB8E1887088400C73329 /* Twitter */,
@@ -530,6 +548,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B766AE818C34D2400F77FA8 /* SimpleAuthFeedlyWebProvider.m in Sources */,
 				3BC5FC701891D86A00523166 /* SimpleAuthDropboxWebProvider.m in Sources */,
 				3B8C408E188792A9007DC578 /* SimpleAuthTwitterWebProvider.m in Sources */,
 				81A50A4C189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m in Sources */,
@@ -538,6 +557,7 @@
 				81A50A491892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m in Sources */,
 				3B8C409118879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m in Sources */,
 				3B6584631888ABFB00D59100 /* SimpleAuthTumblrLoginViewController.m in Sources */,
+				1B766AE718C34D2400F77FA8 /* SimpleAuthFeedlyWebLoginViewController.m in Sources */,
 				3B52BB9518871F6200C73329 /* SimpleAuthFacebookProvider.m in Sources */,
 				3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */,
 				3B52BB9B188731A300C73329 /* SimpleAuthInstagramLoginViewController.m in Sources */,

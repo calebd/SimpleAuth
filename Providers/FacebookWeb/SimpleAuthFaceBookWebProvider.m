@@ -161,8 +161,8 @@
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"nickname"] = account[@"username"];
-    user[@"email"] = account[@"email"];
+    user[@"nickname"] = account[@"username"] ? account[@"username"] : @"";
+    user[@"email"] = account[@"email"] ? account[@"email"] : @"";
     user[@"name"] = account[@"name"];
     user[@"first_name"] = account[@"first_name"];
     user[@"last_name"] = account[@"last_name"];
@@ -170,7 +170,7 @@
     if (location) {
         user[@"location"] = location;
     }
-    user[@"verified"] = account[@"verified"];
+    user[@"verified"] = account[@"verified"] ?  account[@"verified"] : @"" ;
     user[@"urls"] = @{
         @"Facebook" : account[@"link"],
     };

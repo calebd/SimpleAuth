@@ -145,9 +145,9 @@
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"first_name"] = userData[@"firstName"];
-    user[@"last_name"] = userData[@"lastName"];
-    user[@"photo"] = userData[@"photo"];
+    user[@"first_name"] = userData[@"firstName"] ?: [NSNull null];
+    user[@"last_name"] = userData[@"lastName"] ?: [NSNull null];
+    user[@"photo"] = userData[@"photo"] ?: [NSNull null];
     dictionary[@"user_info"] = user;
     
     return dictionary;

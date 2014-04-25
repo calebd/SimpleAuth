@@ -69,9 +69,6 @@
 		3B52BB99188731A300C73329 /* SimpleAuthInstagramProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthInstagramProvider.h; sourceTree = "<group>"; };
 		3B52BB9A188731A300C73329 /* SimpleAuthInstagramProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthInstagramProvider.m; sourceTree = "<group>"; };
 		3B658429188892FD00D59100 /* SimpleAuthDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleAuthDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B65842A188892FE00D59100 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		3B65842C188892FE00D59100 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		3B65842E188892FE00D59100 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3B658432188892FE00D59100 /* SimpleAuthDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleAuthDemo-Info.plist"; sourceTree = "<group>"; };
 		3B658434188892FE00D59100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B658436188892FE00D59100 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -79,7 +76,6 @@
 		3B658439188892FE00D59100 /* SADAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SADAppDelegate.h; sourceTree = "<group>"; };
 		3B65843A188892FE00D59100 /* SADAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SADAppDelegate.m; sourceTree = "<group>"; };
 		3B65843C188892FE00D59100 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		3B658443188892FE00D59100 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3B6584571888931F00D59100 /* SADProviderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SADProviderListViewController.m; sourceTree = "<group>"; };
 		3B6584591888933200D59100 /* SADProviderListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SADProviderListViewController.h; sourceTree = "<group>"; };
 		3B65845E1888A94200D59100 /* SimpleAuthTumblrProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthTumblrProvider.h; sourceTree = "<group>"; };
@@ -314,10 +310,6 @@
 			isa = PBXGroup;
 			children = (
 				0D4998CFA03844FB99EE78AA /* libPods.a */,
-				3B65842A188892FE00D59100 /* Foundation.framework */,
-				3B65842C188892FE00D59100 /* CoreGraphics.framework */,
-				3B65842E188892FE00D59100 /* UIKit.framework */,
-				3B658443188892FE00D59100 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

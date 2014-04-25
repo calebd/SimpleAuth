@@ -155,7 +155,30 @@
 
 
 - (NSDictionary *)dictionaryWithAccessTokenResponse:(NSDictionary *)accessToken accountResponse:(NSDictionary *)account {
-    return accessToken;
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    
+    // Provider
+    dictionary[@"provider"] = [[self class] type];
+    
+    // Credentials
+    NSTimeInterval expiresAtInterval = [accessToken[@"expires_in"] doubleValue];
+    NSDate *expiresAtDate = [NSDate dateWithTimeIntervalSinceNow:expiresAtInterval];
+    dictionary[@"credentials"] = @{
+        @"token" : accessToken[@"access_token"],
+        @"expires_at" : expiresAtDate,
+        @"type" : accessToken[@"token_type"],
+        @"refresh" : accessToken[@"refresh_token"]
+    };
+    
+    // User ID
+    dictionary[@"uid"] = accessToken[@"id"];
+    
+    // User info
+    NSMutableDictionary *user = [NSMutableDictionary new];
+    user[@"plan"] = accessToken[@"plan"];
+    dictionary[@"info"] = user;
+    
+    return dictionary;
 }
 
 @end

@@ -8,19 +8,21 @@
 
 #import "SimpleAuthFeedlyWebProvider.h"
 #import "SimpleAuthFeedlyWebLoginViewController.h"
-
 #import "UIViewController+SimpleAuthAdditions.h"
+
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthFeedlyWebProvider
 
-+ (NSString *)type
-{
+#pragma mark - SimpleAuthProvider
+
++ (NSString *)type {
 	return @"feedly-web";
 }
 
-+ (NSDictionary *)defaultOptions
-{
+
++ (NSDictionary *)defaultOptions {
+    
 	// Default present block
 	SimpleAuthInterfaceHandler presentBlock = ^(UIViewController *controller) {
 		
@@ -38,118 +40,122 @@
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
 	dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
 	dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
+    dictionary[@"scope"] = @"https://cloud.feedly.com/subscriptions";
     return dictionary;
 }
 
-- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion
-{
-	[[[self authenticationCode] flattenMap:^(id response) {
-		NSArray *signals = @[
-							 [self exchangeCodeForRefreshAndAccess:response],
-							 [RACSignal return:response]
-							 ];
-		return signals[0];
-	}]
-	subscribeNext:^(id response) {
-		completion(response, nil);
-	}
-	error:^(NSError *error) {
-		completion(nil, error);
-	}];
+
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+	[[[[self authenticationCode]
+     flattenMap:^(NSString *code) {
+         return [self accessTokenWithAuthenticationCode:code];
+     }]
+     flattenMap:^(NSDictionary *accessToken) {
+         NSArray *signals = @[
+             [RACSignal return:accessToken],
+             [self accountWithAccessToken:accessToken]
+         ];
+         return [self rac_liftSelector:@selector(dictionaryWithAccessTokenResponse:accountResponse:) withSignalsFromArray:signals];
+     }]
+     subscribeNext:^(NSDictionary *dictionary) {
+         completion(dictionary, nil);
+     }
+     error:^(NSError *error) {
+         completion(nil, error);
+     }];
 }
 
-#pragma mark - Private Methods
 
-- (RACSignal*)authenticationCode
-{
+#pragma mark - Private
+
+- (RACSignal*)authenticationCode {
 	return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			
 			SimpleAuthFeedlyWebLoginViewController *login = [[SimpleAuthFeedlyWebLoginViewController alloc] initWithOptions:self.options];
-			
 			login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
                 SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
                 block(controller);
                 
                 // Parse URL
-				NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:[URL query]];
-				
-				id apiError = dictionary[@"error"];
+                NSString *query = [URL query];
+				NSDictionary *dictionary = [CMDQueryStringSerialization dictionaryWithQueryString:query];
+				id code = dictionary[@"code"];
                 
-				// Check for error
-				if (apiError != nil)
-				{
-					[subscriber sendError:error];
-                    return;
+                // Check for error
+                if (!code) {
+                    [subscriber sendError:error];
+                    return ;
                 }
-				
-				NSString *code = dictionary[@"code"];
-				NSString *state = dictionary[@"state"];
-				
+                
                 // Send completion
-                [subscriber sendNext:@{@"code": code, @"state": state}];
-				[subscriber sendCompleted];
+                [subscriber sendNext:@"code"];
+                [subscriber sendCompleted];
             };
             
             SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
             block(login);
-			
 		});
-		
 		return nil;
 	}];
 }
 
-- (RACSignal*)exchangeCodeForRefreshAndAccess:(NSDictionary *)codeState
-{
-	return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-		
-		NSDictionary *parameters = @{
-									 @"code" : codeState[@"code"],
-									 @"client_id" : self.options[@"client_id"],
-									 @"client_secret" : self.options[@"client_secret"],
-									 @"redirect_uri" : self.options[@"redirect_uri"],
-									 @"grant_type" : @"authorization_code",
-									 @"state" : (codeState[@"state"] != nil ? codeState[@"state"] : @"state.passed.in")
-									 };
-		
-		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://feedly.com/v3/auth/token"]];
-		
-		[request setHTTPMethod:@"POST"];
-		[request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-		[request setHTTPBody:[[CMDQueryStringSerialization queryStringWithDictionary:parameters] dataUsingEncoding:NSUTF8StringEncoding]];
+
+- (RACSignal *)accessTokenWithAuthenticationCode:(NSString *)code {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-		[NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-			
-			if (connectionError != nil)
-			{
-				[subscriber sendError:connectionError];
-			}
-			else
-			{
-			
-				NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
-				NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-				if ([indexSet containsIndex:statusCode] && data)
-				{
-					__weak NSError *parseError = nil;
-					__weak NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-				
-					if (parseError != nil)
-					{
-						[subscriber sendError:parseError];
-					}
-					else
-					{
-						[subscriber sendNext:dictionary];
-						[subscriber sendCompleted];
-					}
-				}
-			}
-		}];
+        // Build request
+        NSDictionary *parameters = @{
+            @"code" : code,
+            @"client_id" : self.options[@"client_id"],
+            @"client_secret" : self.options[@"client_secret"],
+            @"redirect_uri" : self.options[@"redirect_uri"],
+            @"grant_type" : @"authorization_code",
+        };
+        NSData *POSTBody = [NSJSONSerialization dataWithJSONObject:parameters options:kNilOptions error:nil];
+        NSURL *URL = [NSURL URLWithString:@"http://feedly.com/v3/auth/token"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:POSTBody];
         
+        // Run request
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
+         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+             if ([indexSet containsIndex:statusCode] && data) {
+                 NSError *parseError = nil;
+                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                 if (dictionary) {
+                     [subscriber sendNext:dictionary];
+                     [subscriber sendCompleted];
+                 }
+                 else {
+                     [subscriber sendError:parseError];
+                 }
+             }
+             else {
+                 [subscriber sendError:connectionError];
+             }
+         }];
+        
+        // Return
         return nil;
-	}];
+    }];
+}
+
+
+- (RACSignal *)accountWithAccessToken:(NSDictionary *)accessToken {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        [subscriber sendNext:nil];
+        [subscriber sendCompleted];
+        return nil;
+    }];
+}
+
+
+- (NSDictionary *)dictionaryWithAccessTokenResponse:(NSDictionary *)accessToken accountResponse:(NSDictionary *)account {
+    return accessToken;
 }
 
 @end

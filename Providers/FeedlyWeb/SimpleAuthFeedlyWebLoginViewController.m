@@ -8,7 +8,6 @@
 
 #import "SimpleAuthFeedlyWebLoginViewController.h"
 
-
 @implementation SimpleAuthFeedlyWebLoginViewController
 
 - (id)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
@@ -21,14 +20,12 @@
 
 - (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
-								 @"response_type" : @"code",
-								 @"client_id" : self.options[@"client_id"],
-								 @"redirect_uri" : self.options[@"redirect_uri"],
-								 @"scope" : (self.options[@"scope"] != nil ? self.options[@"code"] : @"https://cloud.feedly.com/subscriptions"),
-								 @"state" : (self.options[@"state"] != nil ? self.options[@"state"] : @"state.passed.in")
-								 };
+        @"response_type" : @"code",
+        @"client_id" : self.options[@"client_id"],
+        @"redirect_uri" : self.options[@"redirect_uri"],
+        @"scope" : self.options[@"scope"]
+    };
 	NSString *URLString = [NSString stringWithFormat:@"http://feedly.com/v3/auth/auth?%@", [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
-    
     return [NSURLRequest requestWithURL:[NSURL URLWithString:URLString]];
 }
 

@@ -43,8 +43,14 @@
 - (void)configureAuthorizaionProviders {
     
     // consumer_key and consumer_secret are required
-    SimpleAuth.configuration[@"twitter"] = @{};
-    SimpleAuth.configuration[@"twitter-web"] = @{};
+    SimpleAuth.configuration[@"twitter"] = @{
+                                             @"consumer_key" : @"iWPrI3R7lbcFOrUmPQ",
+                                             @"consumer_secret" : @"R59crcZ3dnQup9L0F4BS0PJeWKv8PkH5EPWHCPFoi5U"
+                                             };
+    SimpleAuth.configuration[@"twitter-web"] = @{
+                                                 @"consumer_key" : @"iWPrI3R7lbcFOrUmPQ",
+                                                 @"consumer_secret" : @"R59crcZ3dnQup9L0F4BS0PJeWKv8PkH5EPWHCPFoi5U"
+                                                 };
     
     // client_id and redirect_uri are required
     SimpleAuth.configuration[@"instagram"] = @{};

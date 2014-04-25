@@ -7,38 +7,12 @@
 //
 
 #import "NSObject+SimpleAuthAdditions.h"
-
-#import <objc/runtime.h>
+#import "SimpleAuthFunctions.h"
 
 @implementation NSObject (SimpleAuthAdditions)
 
-+ (void)SimpleAuth_enumerateSubclassesWithBlock:(void (^) (Class klass, BOOL *stop))block {
-    int numberOfClasses = objc_getClassList(NULL, 0);
-    Class allClasses[numberOfClasses];
-    objc_getClassList(allClasses, numberOfClasses);
-    for (int i = 0; i < numberOfClasses; i++) {
-        Class klass = allClasses[i];
-        if (SimpleAuthClassIsSubclassOfClass(klass, self)) {
-            BOOL stop = NO;
-            block(klass, &stop);
-            if (stop) {
-                return;
-            }
-        }
-    }
++ (void)SimpleAuth_enumerateSubclassesWithBlock:(void (^) (Class, BOOL *))block {
+    SimpleAuthEnumerateAllSubclassesOfClass(self, block);
 }
 
 @end
-
-static inline BOOL SimpleAuthClassIsSubclassOfClass(Class classOne, Class classTwo) {
-    Class superclass = class_getSuperclass(classOne);
-    if (superclass == classTwo) {
-        return YES;
-    }
-    else if (superclass == Nil) {
-        return NO;
-    }
-    else {
-        return SimpleAuthClassIsSubclassOfClass(superclass, classTwo);
-    }
-}

@@ -21,4 +21,7 @@
 - (instancetype)initWithOptions:(NSDictionary *)options;
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
 
+- (void)showActivityIndicator;
+- (void)hideActivityIndicator;
+
 @end

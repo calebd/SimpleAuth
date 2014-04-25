@@ -40,6 +40,7 @@
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self systemAccount]
      flattenMap:^(ACAccount *account) {
+         [self showActivityIndicator];
          NSArray *signals = @[
              [RACSignal return:account],
              [self remoteAccountWithSystemAccount:account],
@@ -48,9 +49,11 @@
          return [self rac_liftSelector:@selector(dictionaryWithSystemAccount:remoteAccount:accessToken:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
+         [self hideActivityIndicator];
          completion(response, nil);
      }
      error:^(NSError *error) {
+         [self hideActivityIndicator];
          completion(nil, error);
      }];
 }

@@ -46,6 +46,7 @@
 
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+    [self showActivityIndicator];
     [[[[[self requestToken]
      flattenMap:^(NSDictionary *response) {
          return [self authenticateWithRequestToken:response];
@@ -61,9 +62,11 @@
          return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
+         [self hideActivityIndicator];
          completion(response, nil);
      }
      error:^(NSError *error) {
+         [self hideActivityIndicator];
          completion(nil, error);
      }];
 }

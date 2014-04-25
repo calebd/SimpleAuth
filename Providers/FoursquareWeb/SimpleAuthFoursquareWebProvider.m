@@ -141,14 +141,22 @@
     dictionary[@"uid"] = userData[@"id"];
     
     // Raw response
-    dictionary[@"raw_info"] = account;
+    dictionary[@"extra"] = @{
+        @"raw_info" : userData
+    };
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"first_name"] = userData[@"firstName"] ?: [NSNull null];
-    user[@"last_name"] = userData[@"lastName"] ?: [NSNull null];
-    user[@"photo"] = userData[@"photo"] ?: [NSNull null];
-    dictionary[@"user_info"] = user;
+    if (userData[@"firstName"]) {
+        user[@"first_name"] = userData[@"firstName"];
+    }
+    if (userData[@"lastName"]) {
+        user[@"last_name"] = userData[@"lastName"];
+    }
+    if (userData[@"photo"]) {
+        user[@"photo"] = userData[@"photo"];
+    }
+    dictionary[@"info"] = user;
     
     return dictionary;
 }

@@ -143,8 +143,10 @@
     // User ID
     dictionary[@"uid"] = data[@"id"];
     
-    // Raw response
-    dictionary[@"raw_info"] = account;
+    // Extra
+    dictionary[@"extra"] = @{
+        @"raw_info" : account
+    };
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];

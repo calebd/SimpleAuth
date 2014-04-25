@@ -40,7 +40,7 @@
     dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     dictionary[SimpleAuthRedirectURIKey] = @"https://www.facebook.com/connect/login_success.html";
-    dictionary[@"permissions"] = @[ @"email", @"basic_info" ];
+    dictionary[@"permissions"] = @[ @"email" ];
     return dictionary;
 }
 
@@ -157,12 +157,14 @@
     NSString *avatar = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", account[@"id"]];
     
     // Location
-    NSString *location = account[@"location"] && account[@"location"][@"name"] ? account[@"location"][@"name"] : @"";
+    NSString *location = account[@"location"][@"name"];
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
     user[@"nickname"] = account[@"username"];
-    user[@"email"] = account[@"email"] ? account[@"email"] : @"";
+    if (account[@"email"]) {
+        user[@"email"] = account[@"email"];
+    }
     user[@"name"] = account[@"name"];
     user[@"first_name"] = account[@"first_name"];
     user[@"last_name"] = account[@"last_name"];
@@ -170,7 +172,7 @@
     if (location) {
         user[@"location"] = location;
     }
-    user[@"verified"] = account[@"verified"] ?  account[@"verified"] : @"" ;
+    user[@"verified"] = account[@"verified"] ?: @NO;
     user[@"urls"] = @{
         @"Facebook" : account[@"link"],
     };

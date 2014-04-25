@@ -37,6 +37,7 @@
     if (!_hasInitialLoad) {
         _hasInitialLoad = YES;
         NSURLRequest *request = [self initialRequest];
+        request = [[self class] canonicalRequestForRequest:request];
         [self.webView loadRequest:request];
     }
 }
@@ -84,6 +85,16 @@
 - (NSURLRequest *)initialRequest {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
+}
+
+
+#pragma mark - Private
+
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
+    NSMutableURLRequest *mutableRequest = [request mutableCopy];
+    [mutableRequest setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
+    [mutableRequest setHTTPShouldHandleCookies:NO];
+    return mutableRequest;
 }
 
 

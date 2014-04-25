@@ -25,7 +25,7 @@
 + (NSDictionary *)defaultOptions {
     return @{
         @"permissions" : @[ @"email" ],
-        @"audience" : @[ACFacebookAudienceOnlyMe]
+        @"audience" : @[ ACFacebookAudienceOnlyMe ]
     };
 }
 
@@ -124,7 +124,9 @@
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
     user[@"nickname"] = remoteAccount[@"username"];
-    user[@"email"] = remoteAccount[@"email"];
+    if (remoteAccount[@"email"]) {
+        user[@"email"] = remoteAccount[@"email"];
+    }
     user[@"name"] = remoteAccount[@"name"];
     user[@"first_name"] = remoteAccount[@"first_name"];
     user[@"last_name"] = remoteAccount[@"last_name"];
@@ -132,7 +134,7 @@
     if (location) {
         user[@"location"] = location;
     }
-    user[@"verified"] = remoteAccount[@"verified"];
+    user[@"verified"] = remoteAccount[@"verified"] ?: @NO;
     user[@"urls"] = @{
         @"Facebook" : remoteAccount[@"link"],
     };

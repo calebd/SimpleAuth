@@ -161,7 +161,7 @@
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"nickname"] = account[@"username"];
+    //user[@"nickname"] = account[@"username"];
     if (account[@"email"]) {
         user[@"email"] = account[@"email"];
     }

@@ -51,9 +51,9 @@ SimpleAuth.configuration[@"twitter"] = @{
 Using SimpleAuth with RubyMotion is relatively easy as well, however the translation is not 100% straight forward:
 
 ````ruby
-/# Configure Provider
+# Configure Provider
 SimpleAuth.configuration['facebook'] = { app_id: 'APP_ID', app_secret: 'APP_SECRET' }
-/# Single Sign On
+# Single Sign On
 SimpleAuth.authorize 'facebook', options: { 'permissions': => [] }, completion: -> (responseObject, error) {
   puts "Error: #{error}" unless responseObject.nil?
   puts "Resposne: #{responseObject}" unless responseObject.nil?

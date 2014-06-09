@@ -46,6 +46,21 @@ SimpleAuth.configuration[@"twitter"] = @{
 }
 ````
 
+## RubyMotion
+
+Using SimpleAuth with RubyMotion is relatively easy as well, however the translation is not 100% straight forward:
+
+````ruby
+/# Configure Provider
+SimpleAuth.configuration['facebook'] = { app_id: 'APP_ID', app_secret: 'APP_SECRET' }
+/# Single Sign On
+SimpleAuth.authorize 'facebook', options: { 'permissions': => [] }, completion: -> (responseObject, error) {
+  puts "Error: #{error}" unless responseObject.nil?
+  puts "Resposne: #{responseObject}" unless responseObject.nil?
+})
+
+````
+
 ## Implementing  a Provider
 
 The API for creating providers is pretty simple. Be sure to look at `SimpleAuthProvider` and `SimpleAuthWebLoginViewController`. These classes will help you simplify your authentiction process. Providers should be stored in `Providers/` and have an appropriately named folder and sub spec. All providers are automatically registered with the framework. There are a handful of methods you'll need to implement:

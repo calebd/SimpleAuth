@@ -95,4 +95,11 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Providers/SinaWeiboWeb/**/*.{h,m}'
   end
+
+  s.subspec 'FlickrWeb' do |ss|
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Providers/FlickrWeb/**/*.{h,m}'
+
+    ss.dependency 'cocoa-oauth'
+  end
 end

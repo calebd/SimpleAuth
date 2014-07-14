@@ -93,7 +93,6 @@
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     [mutableRequest setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
-    [mutableRequest setHTTPShouldHandleCookies:NO];
     return mutableRequest;
 }
 

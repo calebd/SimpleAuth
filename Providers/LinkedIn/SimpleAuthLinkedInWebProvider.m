@@ -151,9 +151,21 @@
             @"oauth2_access_token" : accessToken[@"access_token"],
             @"format" : @"json"
         };
-        NSString *URLString =  [NSString stringWithFormat:
+        // field_selectors control the fields that LinkedIn returns for the user object. If none specified, LinkedIn returns a minimal set.
+        NSString *URLString;
+        if (self.options[@"field_selectors"])
+        {
+            URLString =  [NSString stringWithFormat:
+                                @"https://api.linkedin.com/v1/people/~:(%@)?%@",
+                                [self.options[@"field_selectors"] componentsJoinedByString:@","],
+                                [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+        }
+        else
+        {
+            URLString =  [NSString stringWithFormat:
                                 @"https://api.linkedin.com/v1/people/~?%@",
                                 [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+        }
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue

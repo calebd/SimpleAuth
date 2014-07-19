@@ -70,6 +70,14 @@
 	
 	// client_id and client_secret are required
     SimpleAuth.configuration[@"sinaweibo-web"] = @{};
+	
+	// client_id, client_secret and redirect_uri are required
+	// scope it is an optional paramenter and https://cloud.feedly.com/subscriptions is used if none specified
+	SimpleAuth.configuration[@"feedly-web"] = @{
+												@"client_id":@"client_id",
+												@"client_secret":@"client_secret",
+												@"redirect_uri":@"redirect_uri",
+												};
 }
 
 

@@ -109,4 +109,10 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Pod/Providers/Trello/*.{h,m}'
   end
+
+  s.subspec 'Strava' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Pod/Providers/Strava/*.{h,m}'
+  end
 end

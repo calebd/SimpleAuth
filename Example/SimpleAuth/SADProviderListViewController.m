@@ -55,6 +55,7 @@
             @"linkedin-web",
             @"sinaweibo-web",
             @"google-web",
+            @"strava-web",
             @"tripit",
             @"trello-web"
         ];

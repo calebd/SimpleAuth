@@ -23,6 +23,7 @@ PODS:
     - SimpleAuth/LinkedInWeb (= 0.3.6)
     - SimpleAuth/Meetup (= 0.3.6)
     - SimpleAuth/SinaWeiboWeb (= 0.3.6)
+    - SimpleAuth/Strava (= 0.3.6)
     - SimpleAuth/Trello (= 0.3.6)
     - SimpleAuth/TripIt (= 0.3.6)
     - SimpleAuth/Tumblr (= 0.3.6)
@@ -56,6 +57,9 @@ PODS:
     - SimpleAuth/Core
     - SimpleAuth/UI
   - SimpleAuth/SinaWeiboWeb (0.3.6):
+    - SimpleAuth/Core
+    - SimpleAuth/UI
+  - SimpleAuth/Strava (0.3.6):
     - SimpleAuth/Core
     - SimpleAuth/UI
   - SimpleAuth/Trello (0.3.6):
@@ -92,6 +96,6 @@ SPEC CHECKSUMS:
   ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SimpleAuth: 97d7775b8e86461dfbef964526cb1c8ed4f9dfe5
+  SimpleAuth: 34af3b32d7cdbd22b53844e47c8255b4a8c79db6
 
 COCOAPODS: 0.36.0

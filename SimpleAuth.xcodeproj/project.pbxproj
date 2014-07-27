@@ -40,6 +40,8 @@
 		4DD68DF718B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD68DF618B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m */; };
 		81A50A491892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A50A481892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m */; };
 		81A50A4C189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A50A4B189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m */; };
+		ECF02FB619857CEA005BAF9C /* SimpleAuthStravaWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF02FB519857CEA005BAF9C /* SimpleAuthStravaWebProvider.m */; };
+		ECF02FBC19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF02FBB19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.m */; };
 		F435E27FC62B4584BF9DBF2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
 		F9BE4F3E189139E900AE303A /* SimpleAuthFoursquareWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4F34189120DE00AE303A /* SimpleAuthFoursquareWebProvider.m */; };
 		F9BE4F3F189139F200AE303A /* SimpleAuthFoursquareWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4F3A1891308200AE303A /* SimpleAuthFoursquareWebLoginViewController.m */; };
@@ -120,6 +122,10 @@
 		81A50A481892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthLinkedInWebProvider.m; sourceTree = "<group>"; };
 		81A50A4A189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthLinkedInWebLoginViewController.h; sourceTree = "<group>"; };
 		81A50A4B189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthLinkedInWebLoginViewController.m; sourceTree = "<group>"; };
+		ECF02FB419857CEA005BAF9C /* SimpleAuthStravaWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAuthStravaWebProvider.h; path = StravaWeb/SimpleAuthStravaWebProvider.h; sourceTree = "<group>"; };
+		ECF02FB519857CEA005BAF9C /* SimpleAuthStravaWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAuthStravaWebProvider.m; path = StravaWeb/SimpleAuthStravaWebProvider.m; sourceTree = "<group>"; };
+		ECF02FBA19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAuthStravaWebLoginViewController.h; path = StravaWeb/SimpleAuthStravaWebLoginViewController.h; sourceTree = "<group>"; };
+		ECF02FBB19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAuthStravaWebLoginViewController.m; path = StravaWeb/SimpleAuthStravaWebLoginViewController.m; sourceTree = "<group>"; };
 		F978D07E18AE382600017ED5 /* SimpleAuthSingleSignOnProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSingleSignOnProvider.h; sourceTree = "<group>"; };
 		F9BE4F33189120DE00AE303A /* SimpleAuthFoursquareWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFoursquareWebProvider.h; sourceTree = "<group>"; };
 		F9BE4F34189120DE00AE303A /* SimpleAuthFoursquareWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthFoursquareWebProvider.m; sourceTree = "<group>"; };
@@ -161,6 +167,7 @@
 				4D149A3E1889B38C0024639C /* Meetup */,
 				81A50A461892645800D5D8AC /* LinkedIn Web */,
 				4DD68DF118B21A0F009B3767 /* SinaWeibo Web */,
+				ECF02FB319857CB7005BAF9C /* Strava Web */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -393,6 +400,17 @@
 			path = LinkedIn;
 			sourceTree = "<group>";
 		};
+		ECF02FB319857CB7005BAF9C /* Strava Web */ = {
+			isa = PBXGroup;
+			children = (
+				ECF02FB419857CEA005BAF9C /* SimpleAuthStravaWebProvider.h */,
+				ECF02FB519857CEA005BAF9C /* SimpleAuthStravaWebProvider.m */,
+				ECF02FBA19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.h */,
+				ECF02FBB19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.m */,
+			);
+			name = "Strava Web";
+			sourceTree = "<group>";
+		};
 		F9BE4F32189120BE00AE303A /* Foursquare Web */ = {
 			isa = PBXGroup;
 			children = (
@@ -537,6 +555,7 @@
 			files = (
 				3BC5FC701891D86A00523166 /* SimpleAuthDropboxWebProvider.m in Sources */,
 				3B8C408E188792A9007DC578 /* SimpleAuthTwitterWebProvider.m in Sources */,
+				ECF02FB619857CEA005BAF9C /* SimpleAuthStravaWebProvider.m in Sources */,
 				81A50A4C189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m in Sources */,
 				F9BE4F3E189139E900AE303A /* SimpleAuthFoursquareWebProvider.m in Sources */,
 				4D149A411889B3DF0024639C /* SimpleAuthMeetupProvider.m in Sources */,
@@ -550,6 +569,7 @@
 				F9BE4F3F189139F200AE303A /* SimpleAuthFoursquareWebLoginViewController.m in Sources */,
 				3B69D1F818C0340200E3D415 /* UIViewController+SimpleAuthAdditions.m in Sources */,
 				3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */,
+				ECF02FBC19857E08005BAF9C /* SimpleAuthStravaWebLoginViewController.m in Sources */,
 				3B6584601888A94200D59100 /* SimpleAuthTumblrProvider.m in Sources */,
 				4D149A441889B4390024639C /* SimpleAuthMeetupLoginViewController.m in Sources */,
 				3B66656F18903F8400F3BF58 /* SimpleAuthFacebookWebLoginViewController.m in Sources */,

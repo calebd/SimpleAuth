@@ -70,6 +70,10 @@
 	
 	// client_id and client_secret are required
     SimpleAuth.configuration[@"sinaweibo-web"] = @{};
+
+    // consumer_key and consumer_secret are required
+    SimpleAuth.configuration[@"tripit"] = @{};
+    
 }
 
 

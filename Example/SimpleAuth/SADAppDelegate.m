@@ -73,6 +73,10 @@
     
     // client_id and client_secret are required
     SimpleAuth.configuration[@"google-web"] = @{};
+
+    // consumer_key and consumer_secret are required
+    SimpleAuth.configuration[@"tripit"] = @{};
+    
 }
 
 

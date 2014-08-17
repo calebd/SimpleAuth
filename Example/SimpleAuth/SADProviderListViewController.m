@@ -54,7 +54,8 @@
             @"dropbox-web",
             @"linkedin-web",
             @"sinaweibo-web",
-            @"google-web"
+            @"google-web",
+            @"tripit"
         ];
     });
     return array;

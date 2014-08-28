@@ -67,6 +67,9 @@
     
     // client_id, client_secret, and redirect_uri are required
     SimpleAuth.configuration[@"linkedin-web"] = @{};
+    
+    // client_id, client_secret, and redirect_uri are required
+    SimpleAuth.configuration[@"trello-web"] = @{};
 	
 	// client_id and client_secret are required
     SimpleAuth.configuration[@"sinaweibo-web"] = @{};

@@ -103,4 +103,10 @@ Pod::Spec.new do |s|
     ss.dependency 'cocoa-oauth'
     ss.source_files = 'Pod/Providers/TripIt/*.{h,m}'
   end
+
+  s.subspec 'Trello' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Pod/Providers/Trello/*.{h,m}'
+  end
 end

@@ -55,7 +55,8 @@
             @"linkedin-web",
             @"sinaweibo-web",
             @"google-web",
-            @"tripit"
+            @"tripit",
+            @"trello-web"
         ];
     });
     return array;

@@ -123,7 +123,6 @@
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"nickname"] = remoteAccount[@"username"];
     if (remoteAccount[@"email"]) {
         user[@"email"] = remoteAccount[@"email"];
     }

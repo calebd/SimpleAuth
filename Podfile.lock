@@ -1,14 +1,17 @@
 PODS:
-  - CMDQueryStringSerialization (0.2.0)
+  - CMDQueryStringSerialization (0.3.1):
+    - ISO8601
   - cocoa-oauth (0.0.1):
     - NSData+Base64 (~> 1.0)
+  - ISO8601 (0.1.1)
   - NSData+Base64 (1.0.0)
-  - ReactiveCocoa (2.3):
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/Core (2.3):
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.3)
 
 DEPENDENCIES:
   - CMDQueryStringSerialization
@@ -16,9 +19,10 @@ DEPENDENCIES:
   - ReactiveCocoa
 
 SPEC CHECKSUMS:
-  CMDQueryStringSerialization: 6e9b97d0e4d9547419b6f9b428adc423a6e6e511
-  cocoa-oauth: 8f4c8b77c77ac660de37f8125557c4ec09b0118a
-  NSData+Base64: 4819562faee4544e3cf5703f2139820b09732b28
-  ReactiveCocoa: 1f6265f9d521923d3efcc37b00722cefc16df269
+  CMDQueryStringSerialization: 96f05d3225b6a0f6b7445a308c9e50bf84a5ba13
+  cocoa-oauth: 418c70e6ce4130fa7ebdf05232018c8f391030d8
+  ISO8601: a6afce5fbe854024802367c814fac4aa8d3586f9
+  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.1

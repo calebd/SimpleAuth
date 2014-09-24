@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'SimpleAuth'
-  s.version      = '0.3.4'
+  s.version      = '0.3.5'
   s.summary      = 'Simple social authentication for iOS.'
   s.homepage     = 'https://github.com/calebd/SimpleAuth'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Seesaw Decisions Corporation. All rights reserved.
 //
 
+#import "SimpleAuth.h"
 #import "ACAccountStore+SimpleAuth.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
@@ -25,12 +26,16 @@
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         ACAccountStore *store = [self SimpleAuth_sharedAccountStore];
         ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:typeIdentifier];
-        [store requestAccessToAccountsWithType:type options:options completion:^(BOOL granted, NSError *error) {
+        [store requestAccessToAccountsWithType:type options:options completion:^(BOOL granted, NSError *accountsError) {
             if (granted) {
                 NSArray *accounts = [store accountsWithAccountType:type];
                 NSUInteger numberOfAccounts = [accounts count];
                 if (numberOfAccounts == 0) {
-                    [subscriber sendError:(error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorAccountNotFound userInfo:nil])];
+                    NSDictionary *dictionary = @{
+                        NSUnderlyingErrorKey: accountsError ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorAccountNotFound userInfo:nil]
+                    };
+                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorAccounts userInfo:dictionary];
+                    [subscriber sendError:error];
                 }
                 else {
                     [subscriber sendNext:accounts];
@@ -38,7 +43,11 @@
                 }
             }
             else {
-                [subscriber sendError:(error ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorPermissionDenied userInfo:nil])];
+                NSDictionary *dictionary = @{
+                    NSUnderlyingErrorKey: accountsError ?: [[NSError alloc] initWithDomain:ACErrorDomain code:ACErrorPermissionDenied userInfo:nil]
+                };
+                NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorAccounts userInfo:dictionary];
+                [subscriber sendError:error];
             }
         }];
         return nil;

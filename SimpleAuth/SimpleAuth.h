@@ -7,8 +7,28 @@
 //
 
 extern NSString * const SimpleAuthErrorDomain;
-enum {
-    SimpleAuthErrorUserCancelled
+extern NSString * const SimpleAuthErrorStatusCodeKey;
+typedef NS_ENUM(NSUInteger, SimpleAuthError) {
+    
+    /**
+     The user cancelled authentication.
+     */
+    SimpleAuthErrorUserCancelled,
+    
+    /*
+     An error that occurred as the result of a failed network operation.
+     */
+    SimpleAuthErrorNetwork,
+    
+    /**
+     An error that originated in Accounts.framework.
+     */
+    SimpleAuthErrorAccounts,
+    
+    /**
+     Returned if SimpleAuth was able to parse response data.
+     */
+    SimpleAuthErrorInvalidData
 };
 
 /**

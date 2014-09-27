@@ -70,6 +70,9 @@
 	
 	// client_id and client_secret are required
     SimpleAuth.configuration[@"sinaweibo-web"] = @{};
+    
+    // client_id, client_secret and redirect_uri are required
+    SimpleAuth.configuration[@"strava-web"] = @{};
 }
 
 

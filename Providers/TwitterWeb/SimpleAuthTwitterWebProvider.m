@@ -83,8 +83,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:nil
                                  tokenSecret:nil];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -94,6 +93,12 @@
                  [subscriber sendCompleted];
              }
              else {
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
                  [subscriber sendError:error];
              }
          }];
@@ -148,8 +153,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:authenticationResponse[@"oauth_token"]
                                  tokenSecret:nil];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -159,7 +163,13 @@
                  [subscriber sendCompleted];
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;
@@ -178,8 +188,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:accessToken[@"oauth_token"]
                                  tokenSecret:accessToken[@"oauth_token_secret"]];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -190,11 +199,22 @@
                      [subscriber sendCompleted];
                  }
                  else {
-                     [subscriber sendError:parseError];
+                     NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                     if (parseError) {
+                         dictionary[NSUnderlyingErrorKey] = parseError;
+                     }
+                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorInvalidData userInfo:dictionary];
+                     [subscriber sendNext:error];
                  }
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;

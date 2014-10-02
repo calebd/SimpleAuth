@@ -23,9 +23,7 @@
 		3B66656C18903F5400F3BF58 /* SimpleAuthFaceBookWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B66656B18903F5400F3BF58 /* SimpleAuthFaceBookWebProvider.m */; };
 		3B66656F18903F8400F3BF58 /* SimpleAuthFacebookWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B66656E18903F8400F3BF58 /* SimpleAuthFacebookWebLoginViewController.m */; };
 		3B69D1F818C0340200E3D415 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B69D1F518C0340200E3D415 /* UIViewController+SimpleAuthAdditions.m */; };
-		3B69D1F918C0340200E3D415 /* UIViewController+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B69D1F518C0340200E3D415 /* UIViewController+SimpleAuthAdditions.m */; };
 		3B69D1FA18C0340200E3D415 /* UIWindow+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B69D1F718C0340200E3D415 /* UIWindow+SimpleAuthAdditions.m */; };
-		3B69D1FB18C0340200E3D415 /* UIWindow+SimpleAuthAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B69D1F718C0340200E3D415 /* UIWindow+SimpleAuthAdditions.m */; };
 		3B8C408E188792A9007DC578 /* SimpleAuthTwitterWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8C408D188792A9007DC578 /* SimpleAuthTwitterWebProvider.m */; };
 		3B8C409118879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8C409018879347007DC578 /* SimpleAuthTwitterWebLoginViewController.m */; };
 		3B9AB064182AC2710011FB9E /* SimpleAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9AB063182AC2710011FB9E /* SimpleAuthProvider.m */; };
@@ -36,24 +34,13 @@
 		3C0A5393182C4217002C050C /* SimpleAuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A5392182C4217002C050C /* SimpleAuthWebViewController.m */; };
 		4D149A411889B3DF0024639C /* SimpleAuthMeetupProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D149A401889B3DF0024639C /* SimpleAuthMeetupProvider.m */; };
 		4D149A441889B4390024639C /* SimpleAuthMeetupLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D149A431889B4390024639C /* SimpleAuthMeetupLoginViewController.m */; };
-		4DD68DF418B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD68DF318B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m */; };
-		4DD68DF718B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD68DF618B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m */; };
 		81A50A491892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A50A481892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m */; };
 		81A50A4C189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A50A4B189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m */; };
+		88DE19F4744D675DF308A530 /* libPods-SimpleAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CD421025E01A139B987346B /* libPods-SimpleAuth.a */; };
 		F435E27FC62B4584BF9DBF2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4998CFA03844FB99EE78AA /* libPods.a */; };
 		F9BE4F3E189139E900AE303A /* SimpleAuthFoursquareWebProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4F34189120DE00AE303A /* SimpleAuthFoursquareWebProvider.m */; };
 		F9BE4F3F189139F200AE303A /* SimpleAuthFoursquareWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4F3A1891308200AE303A /* SimpleAuthFoursquareWebLoginViewController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		3B65845A1888947500D59100 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3BB324FC182ABC8B00ACB555 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3BB32503182ABC8B00ACB555;
-			remoteInfo = SimpleAuth;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0D4998CFA03844FB99EE78AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,10 +104,13 @@
 		4DD68DF518B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSinaWeiboWebLoginViewController.h; sourceTree = "<group>"; };
 		4DD68DF618B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthSinaWeiboWebLoginViewController.m; sourceTree = "<group>"; };
 		55342A24817A3976616170C2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		7CD421025E01A139B987346B /* libPods-SimpleAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleAuth.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81A50A471892649300D5D8AC /* SimpleAuthLinkedInWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthLinkedInWebProvider.h; sourceTree = "<group>"; };
 		81A50A481892649300D5D8AC /* SimpleAuthLinkedInWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthLinkedInWebProvider.m; sourceTree = "<group>"; };
 		81A50A4A189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthLinkedInWebLoginViewController.h; sourceTree = "<group>"; };
 		81A50A4B189264C500D5D8AC /* SimpleAuthLinkedInWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthLinkedInWebLoginViewController.m; sourceTree = "<group>"; };
+		B7FC32E2FE6DDAF5548E0897 /* Pods-SimpleAuth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleAuth.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleAuth/Pods-SimpleAuth.release.xcconfig"; sourceTree = "<group>"; };
+		F5740F0760E6968AEA94D273 /* Pods-SimpleAuth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleAuth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleAuth/Pods-SimpleAuth.debug.xcconfig"; sourceTree = "<group>"; };
 		F978D07E18AE382600017ED5 /* SimpleAuthSingleSignOnProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthSingleSignOnProvider.h; sourceTree = "<group>"; };
 		F9BE4F33189120DE00AE303A /* SimpleAuthFoursquareWebProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAuthFoursquareWebProvider.h; sourceTree = "<group>"; };
 		F9BE4F34189120DE00AE303A /* SimpleAuthFoursquareWebProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAuthFoursquareWebProvider.m; sourceTree = "<group>"; };
@@ -142,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F435E27FC62B4584BF9DBF2C /* libPods.a in Frameworks */,
+				88DE19F4744D675DF308A530 /* libPods-SimpleAuth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				0D4998CFA03844FB99EE78AA /* libPods.a */,
+				7CD421025E01A139B987346B /* libPods-SimpleAuth.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -399,6 +391,8 @@
 			children = (
 				0EED20F73F4C80108F0AB226 /* Pods.debug.xcconfig */,
 				55342A24817A3976616170C2 /* Pods.release.xcconfig */,
+				F5740F0760E6968AEA94D273 /* Pods-SimpleAuth.debug.xcconfig */,
+				B7FC32E2FE6DDAF5548E0897 /* Pods-SimpleAuth.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -429,7 +423,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3B65845B1888947500D59100 /* PBXTargetDependency */,
 			);
 			name = SimpleAuthDemo;
 			productName = SimpleAuthDemo;
@@ -521,7 +514,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimpleAuth/Pods-SimpleAuth-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -531,12 +524,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B69D1F918C0340200E3D415 /* UIViewController+SimpleAuthAdditions.m in Sources */,
 				3B6584581888931F00D59100 /* SADProviderListViewController.m in Sources */,
-				3B69D1FB18C0340200E3D415 /* UIWindow+SimpleAuthAdditions.m in Sources */,
 				3B658437188892FE00D59100 /* main.m in Sources */,
-				4DD68DF718B21A55009B3767 /* SimpleAuthSinaWeiboWebLoginViewController.m in Sources */,
-				4DD68DF418B21A3C009B3767 /* SimpleAuthSinaWeiboWebProvider.m in Sources */,
 				3B65843B188892FE00D59100 /* SADAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,14 +564,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		3B65845B1888947500D59100 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3BB32503182ABC8B00ACB555 /* SimpleAuth */;
-			targetProxy = 3B65845A1888947500D59100 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		3B658433188892FE00D59100 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -600,18 +581,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleAuthDemo/SimpleAuthDemo-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "SimpleAuthDemo/SimpleAuthDemo-Info.plist";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -622,14 +594,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleAuthDemo/SimpleAuthDemo-Prefix.pch";
 				INFOPLIST_FILE = "SimpleAuthDemo/SimpleAuthDemo-Info.plist";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -639,7 +606,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -667,7 +634,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -677,7 +644,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -699,7 +666,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -707,7 +674,7 @@
 		};
 		3BB32528182ABC8C00ACB555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EED20F73F4C80108F0AB226 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = F5740F0760E6968AEA94D273 /* Pods-SimpleAuth.debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SimpleAuth.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -719,7 +686,7 @@
 		};
 		3BB32529182ABC8C00ACB555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55342A24817A3976616170C2 /* Pods.release.xcconfig */;
+			baseConfigurationReference = B7FC32E2FE6DDAF5548E0897 /* Pods-SimpleAuth.release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SimpleAuth.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

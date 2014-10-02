@@ -107,8 +107,7 @@
                                [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -119,11 +118,22 @@
                      [subscriber sendCompleted];
                  }
                  else {
-                     [subscriber sendError:parseError];
+                     NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                     if (parseError) {
+                         dictionary[NSUnderlyingErrorKey] = parseError;
+                     }
+                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorInvalidData userInfo:dictionary];
+                     [subscriber sendNext:error];
                  }
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;

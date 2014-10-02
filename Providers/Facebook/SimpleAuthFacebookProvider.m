@@ -83,11 +83,22 @@
                     [subscriber sendCompleted];
                 }
                 else {
-                    [subscriber sendError:parseError];
+                    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                    if (parseError) {
+                        dictionary[NSUnderlyingErrorKey] = parseError;
+                    }
+                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorInvalidData userInfo:dictionary];
+                    [subscriber sendNext:error];
                 }
             }
             else {
-                [subscriber sendError:connectionError];
+                NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                if (connectionError) {
+                    dictionary[NSUnderlyingErrorKey] = connectionError;
+                }
+                dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                [subscriber sendError:error];
             }
         }];
         return nil;

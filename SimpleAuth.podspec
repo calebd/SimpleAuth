@@ -7,15 +7,22 @@ Pod::Spec.new do |s|
   s.author       = { 'Caleb Davenport' => 'calebmdavenport@gmail.com' }
   s.source       = { :git => 'https://github.com/calebd/SimpleAuth.git', :tag => "v#{s.version}" }
   s.requires_arc = true
-  s.platform     = :ios, '6.0'
+
+  s.ios.deployment_target = '6.0'
+  s.osx.deployment_target = '10.10'
 
   s.subspec 'Core' do |ss|
     ss.source_files = 'Pod/Core'
     ss.public_header_files = 'Pod/Core/SimpleAuth.h'
+
     ss.dependency 'ReactiveCocoa'
     ss.dependency 'CMDQueryStringSerialization'
+
     ss.ios.frameworks = 'UIKit'
     ss.ios.source_files = 'Pod/Core/ios'
+
+    ss.osx.frameworks = 'Cocoa', 'Webkit'
+    ss.osx.source_files = 'Pod/Core/osx'
   end
 
   s.subspec 'Twitter' do |ss|

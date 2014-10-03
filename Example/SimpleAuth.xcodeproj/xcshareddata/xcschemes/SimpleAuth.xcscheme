@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3B658428188892FD00D59100"
-               BuildableName = "SimpleAuthDemo.app"
-               BlueprintName = "SimpleAuthDemo"
+               BuildableName = "SimpleAuth.app"
+               BlueprintName = "SimpleAuth"
                ReferencedContainer = "container:SimpleAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3B658428188892FD00D59100"
-            BuildableName = "SimpleAuthDemo.app"
-            BlueprintName = "SimpleAuthDemo"
+            BuildableName = "SimpleAuth.app"
+            BlueprintName = "SimpleAuth"
             ReferencedContainer = "container:SimpleAuth.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -52,8 +52,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3B658428188892FD00D59100"
-            BuildableName = "SimpleAuthDemo.app"
-            BlueprintName = "SimpleAuthDemo"
+            BuildableName = "SimpleAuth.app"
+            BlueprintName = "SimpleAuth"
             ReferencedContainer = "container:SimpleAuth.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,8 +70,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3B658428188892FD00D59100"
-            BuildableName = "SimpleAuthDemo.app"
-            BlueprintName = "SimpleAuthDemo"
+            BuildableName = "SimpleAuth.app"
+            BlueprintName = "SimpleAuth"
             ReferencedContainer = "container:SimpleAuth.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

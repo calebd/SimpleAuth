@@ -8,7 +8,7 @@
 
 #import "SADProviderListViewController.h"
 
-#import "SimpleAuth.h"
+#import <SimpleAuth/SimpleAuth.h>
 
 @interface SADProviderListViewController ()
 

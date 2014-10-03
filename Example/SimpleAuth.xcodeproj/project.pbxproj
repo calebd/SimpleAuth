@@ -11,6 +11,7 @@
 		3B629D9B19DE1F2500BDF072 /* Readme.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 3B629D9819DE1F2500BDF072 /* Readme.markdown */; };
 		3B629D9C19DE1F2500BDF072 /* SimpleAuth.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9919DE1F2500BDF072 /* SimpleAuth.podspec */; };
 		3B629D9E19DE1F6E00BDF072 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9D19DE1F6E00BDF072 /* LaunchScreen.xib */; };
+		3B629DA019DE238100BDF072 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9F19DE238100BDF072 /* Images.xcassets */; };
 		3B658435188892FE00D59100 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B658433188892FE00D59100 /* InfoPlist.strings */; };
 		3B658437188892FE00D59100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B658436188892FE00D59100 /* main.m */; };
 		3B65843B188892FE00D59100 /* SADAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65843A188892FE00D59100 /* SADAppDelegate.m */; };
@@ -25,6 +26,7 @@
 		3B629D9819DE1F2500BDF072 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Readme.markdown; path = ../Readme.markdown; sourceTree = "<group>"; };
 		3B629D9919DE1F2500BDF072 /* SimpleAuth.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleAuth.podspec; path = ../SimpleAuth.podspec; sourceTree = "<group>"; };
 		3B629D9D19DE1F6E00BDF072 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		3B629D9F19DE238100BDF072 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3B658429188892FD00D59100 /* SimpleAuth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleAuth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B658432188892FE00D59100 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B658434188892FE00D59100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				3B658436188892FE00D59100 /* main.m */,
 				3B658438188892FE00D59100 /* Prefix.pch */,
 				3B629D9D19DE1F6E00BDF072 /* LaunchScreen.xib */,
+				3B629D9F19DE238100BDF072 /* Images.xcassets */,
 			);
 			path = SimpleAuth;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B629D9E19DE1F6E00BDF072 /* LaunchScreen.xib in Resources */,
+				3B629DA019DE238100BDF072 /* Images.xcassets in Resources */,
 				3B629D9A19DE1F2500BDF072 /* LICENSE in Resources */,
 				3B658435188892FE00D59100 /* InfoPlist.strings in Resources */,
 				3B629D9C19DE1F2500BDF072 /* SimpleAuth.podspec in Resources */,

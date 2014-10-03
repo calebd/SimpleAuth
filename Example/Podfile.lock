@@ -25,53 +25,41 @@ PODS:
     - SimpleAuth/Tumblr
     - SimpleAuth/Twitter
     - SimpleAuth/TwitterWeb
-    - SimpleAuth/UI
   - SimpleAuth/Core (0.3.6):
     - CMDQueryStringSerialization
     - ReactiveCocoa
   - SimpleAuth/DropboxWeb (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/Facebook (0.3.6):
     - SimpleAuth/Core
   - SimpleAuth/FacebookWeb (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/FoursquareWeb (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/Instagram (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/LinkedInWeb (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/Meetup (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/SinaWeiboWeb (0.3.6):
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/Tumblr (0.3.6):
     - cocoa-oauth
     - SimpleAuth/Core
-    - SimpleAuth/UI
   - SimpleAuth/Twitter (0.3.6):
     - cocoa-oauth
-    - SimpleAuth/UI
+    - SimpleAuth/Core
   - SimpleAuth/TwitterWeb (0.3.6):
     - cocoa-oauth
     - SimpleAuth/Core
-    - SimpleAuth/UI
-  - SimpleAuth/UI (0.3.6):
-    - SimpleAuth/Core
 
 DEPENDENCIES:
-  - SimpleAuth (from `..`)
+  - SimpleAuth (from `../`)
 
 EXTERNAL SOURCES:
   SimpleAuth:
-    :path: ..
+    :path: ../
 
 SPEC CHECKSUMS:
   CMDQueryStringSerialization: 96f05d3225b6a0f6b7445a308c9e50bf84a5ba13
@@ -79,6 +67,6 @@ SPEC CHECKSUMS:
   ISO8601: a6afce5fbe854024802367c814fac4aa8d3586f9
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
-  SimpleAuth: c6f144dff96dc0da18af1301ef9d3a3ecf7029a6
+  SimpleAuth: 1c2027e5efaa3ba26bbe1aefc0973a27fe783aad
 
 COCOAPODS: 0.34.1

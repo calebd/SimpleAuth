@@ -84,11 +84,11 @@ PODS:
     - SimpleAuth/Core
 
 DEPENDENCIES:
-  - SimpleAuth (from `../`)
+  - SimpleAuth (from `..`)
 
 EXTERNAL SOURCES:
   SimpleAuth:
-    :path: ../
+    :path: ..
 
 SPEC CHECKSUMS:
   CMDQueryStringSerialization: bc824b96c08a3277d00c71504e13c9fa18c6b451

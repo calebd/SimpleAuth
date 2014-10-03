@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B629D9A19DE1F2500BDF072 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9719DE1F2500BDF072 /* LICENSE */; };
-		3B629D9B19DE1F2500BDF072 /* Readme.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 3B629D9819DE1F2500BDF072 /* Readme.markdown */; };
-		3B629D9C19DE1F2500BDF072 /* SimpleAuth.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9919DE1F2500BDF072 /* SimpleAuth.podspec */; };
 		3B629D9E19DE1F6E00BDF072 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9D19DE1F6E00BDF072 /* LaunchScreen.xib */; };
 		3B629DA019DE238100BDF072 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9F19DE238100BDF072 /* Images.xcassets */; };
 		3B658435188892FE00D59100 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B658433188892FE00D59100 /* InfoPlist.strings */; };
@@ -169,9 +166,7 @@
 			files = (
 				3B629D9E19DE1F6E00BDF072 /* LaunchScreen.xib in Resources */,
 				3B629DA019DE238100BDF072 /* Images.xcassets in Resources */,
-				3B629D9A19DE1F2500BDF072 /* LICENSE in Resources */,
 				3B658435188892FE00D59100 /* InfoPlist.strings in Resources */,
-				3B629D9C19DE1F2500BDF072 /* SimpleAuth.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,7 +212,6 @@
 			files = (
 				3B6584581888931F00D59100 /* SADProviderListViewController.m in Sources */,
 				3B658437188892FE00D59100 /* main.m in Sources */,
-				3B629D9B19DE1F2500BDF072 /* Readme.markdown in Sources */,
 				3B65843B188892FE00D59100 /* SADAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

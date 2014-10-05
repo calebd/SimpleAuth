@@ -24,7 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A3609D93D7B90B3BBADBC21 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		0D4998CFA03844FB99EE78AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FF1D9453D5DA0F044B9907B /* Pods-SimpleAuthMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleAuthMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleAuthMac/Pods-SimpleAuthMac.debug.xcconfig"; sourceTree = "<group>"; };
 		3B491B8719E1D7CF0073EBEE /* Providers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Providers.plist; sourceTree = "<group>"; };
@@ -53,7 +52,6 @@
 		7FE0EED0857D3EC53E5A40E4 /* libPods-SimpleAuthMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleAuthMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8802C1A8BC31A625A1F964CB /* Pods-SimpleAuth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleAuth.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleAuth/Pods-SimpleAuth.release.xcconfig"; sourceTree = "<group>"; };
 		90AC06B357AD0C43B4B9AE86 /* Pods-SimpleAuth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleAuth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleAuth/Pods-SimpleAuth.debug.xcconfig"; sourceTree = "<group>"; };
-		DB25F6FCDF8BA7A12A786310 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E56890A74CF00EB45EAF7586 /* Pods-SimpleAuthMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleAuthMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleAuthMac/Pods-SimpleAuthMac.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,8 +159,6 @@
 		E41F3FB2B4E976B36518620C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DB25F6FCDF8BA7A12A786310 /* Pods.debug.xcconfig */,
-				0A3609D93D7B90B3BBADBC21 /* Pods.release.xcconfig */,
 				90AC06B357AD0C43B4B9AE86 /* Pods-SimpleAuth.debug.xcconfig */,
 				8802C1A8BC31A625A1F964CB /* Pods-SimpleAuth.release.xcconfig */,
 				1FF1D9453D5DA0F044B9907B /* Pods-SimpleAuthMac.debug.xcconfig */,

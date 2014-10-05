@@ -72,9 +72,6 @@ typedef void (^SimpleAuthInterfaceHandler) (id userInterfaceElement);
  */
 extern NSString * const SimpleAuthRedirectURIKey;
 
-extern NSString * const SimpleAuthBeginActivityBlockKey;
-extern NSString * const SimpleAuthEndActivityBlockKey;
-
 @interface SimpleAuth : NSObject
 
 /**

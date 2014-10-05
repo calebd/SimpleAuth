@@ -23,6 +23,7 @@
 - (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
         @"oauth_token" : self.requestToken[@"oauth_token"],
+        @"force_login": @"true"
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://api.twitter.com/oauth/authenticate?%@",

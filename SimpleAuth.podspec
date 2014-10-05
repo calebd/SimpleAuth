@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
     ss.dependency 'ReactiveCocoa'
     ss.dependency 'CMDQueryStringSerialization'
     ss.ios.frameworks = 'UIKit'
-    ss.ios.source_files = 'Pod/UI/ios'
+    ss.ios.source_files = 'Pod/Core/ios'
   end
 
   s.subspec 'Twitter' do |ss|

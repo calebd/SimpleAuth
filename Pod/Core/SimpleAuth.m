@@ -121,7 +121,6 @@ static SimpleAuthProvider *__currentProvider = nil;
     NSUInteger numberOfProviders = [providers count];
     NSString *provider = providers[index];
     [self authorizeProvider:provider options:options completion:^(id responseObject, NSError *error) {
-        NSInteger statusCode = [error.userInfo[SimpleAuthErrorStatusCodeKey] integerValue];
         
         // Success
         if (responseObject) {
@@ -136,6 +135,7 @@ static SimpleAuthProvider *__currentProvider = nil;
         }
         
         // Network error
+        NSInteger statusCode = [error.userInfo[SimpleAuthErrorStatusCodeKey] integerValue];
         if ([error.domain isEqualToString:SimpleAuthErrorDomain] && error.code == SimpleAuthErrorNetwork && statusCode == 0) {
             completion(nil, error);
             return;

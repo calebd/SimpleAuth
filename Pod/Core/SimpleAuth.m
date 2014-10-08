@@ -41,21 +41,21 @@ static SimpleAuthProvider *__currentProvider = nil;
     return configuration;
 }
 
-
-+ (void)authorize:(NSString *)type completion:(SimpleAuthRequestHandler)completion {
-    [self authorize:type options:nil completion:completion];
++ (void)authorizeProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion {
+    [self authorizeProvider:provider options:nil completion:completion];
 }
 
-
-+ (void)authorize:(NSString *)type options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
++ (void)authorizeProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
+    NSParameterAssert(completion);
+    NSParameterAssert(provider);
     
     // Load the provider class
-    Class klass = [self providers][type];
-    NSAssert(klass, @"There is no class registered to handle %@ requests.", type);
+    Class klass = [self providers][provider];
+    NSAssert(klass, @"There is no class registered to handle %@ requests.", provider);
     
     // Create options dictionary
     NSDictionary *defaultOptions = [klass defaultOptions];
-    NSDictionary *registeredOptions = [self configuration][type];
+    NSDictionary *registeredOptions = [self configuration][provider];
     NSMutableDictionary *resolvedOptions = [NSMutableDictionary new];
     [resolvedOptions addEntriesFromDictionary:defaultOptions];
     [resolvedOptions addEntriesFromDictionary:registeredOptions];
@@ -70,6 +70,15 @@ static SimpleAuthProvider *__currentProvider = nil;
     }];
 }
 
++ (void)authorizeProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion {
+    [self authorizeProviders:providers options:nil completion:completion];
+}
+
++ (void)authorizeProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
+    NSParameterAssert([providers count] > 0);
+    NSParameterAssert(completion);
+    [self authorizeProviderAtIndex:0 inProviders:providers options:options completion:completion];
+}
 
 + (BOOL)handleCallback:(NSURL *)URL {
     NSParameterAssert(URL != nil);
@@ -78,19 +87,6 @@ static SimpleAuthProvider *__currentProvider = nil;
     NSAssert([__currentProvider conformsToProtocol:@protocol(SimpleAuthSingleSignOnProvider)], @"The current provider does not handle single sign on.");
     
     return [(id<SimpleAuthSingleSignOnProvider>)__currentProvider handleCallback:URL];
-}
-
-
-#pragma mark - Internal
-
-+ (void)registerProviderClass:(Class)klass {
-    NSMutableDictionary *providers = [self providers];
-    NSString *type = [klass type];
-    if (providers[type]) {
-        NSLog(@"[SimpleAuth] Warning: multiple attempts to register provider for type: %@", type);
-        return;
-    }
-    providers[type] = klass;
 }
 
 
@@ -105,11 +101,66 @@ static SimpleAuthProvider *__currentProvider = nil;
     return providers;
 }
 
++ (void)registerProviderClass:(Class)klass {
+    NSMutableDictionary *providers = [self providers];
+    NSString *type = [klass type];
+    if (providers[type]) {
+        NSLog(@"[SimpleAuth] Warning: multiple attempts to register provider for type: %@", type);
+        return;
+    }
+    providers[type] = klass;
+}
 
 + (void)loadProviders {
     [SimpleAuthProvider SimpleAuth_enumerateSubclassesWithBlock:^(Class klass, BOOL *stop) {
         [self registerProviderClass:klass];
     }];
+}
+
++ (void)authorizeProviderAtIndex:(NSUInteger)index inProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
+    NSUInteger numberOfProviders = [providers count];
+    NSString *provider = providers[index];
+    [self authorizeProvider:provider options:options completion:^(id responseObject, NSError *error) {
+        NSInteger statusCode = [error.userInfo[SimpleAuthErrorStatusCodeKey] integerValue];
+        
+        // Success
+        if (responseObject) {
+            completion(responseObject, nil);
+            return;
+        }
+        
+        // User cancelled
+        if ([error.domain isEqualToString:SimpleAuthErrorDomain] && error.code == SimpleAuthErrorUserCancelled) {
+            completion(nil, error);
+            return;
+        }
+        
+        // Network error
+        if ([error.domain isEqualToString:SimpleAuthErrorDomain] && error.code == SimpleAuthErrorNetwork && statusCode == 0) {
+            completion(nil, error);
+            return;
+        }
+        
+        // Last provider
+        if (index == numberOfProviders - 1) {
+            completion(nil, error);
+            return;
+        }
+        
+        // Fall back
+        [self authorizeProviderAtIndex:(index + 1) inProviders:providers options:options completion:completion];
+    }];
+}
+
+
+#pragma mark - Deprecated
+
++ (void)authorize:(NSString * )provider completion:(SimpleAuthRequestHandler)completion {
+    [self authorizeProvider:provider options:nil completion:completion];
+}
+
++ (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
+    [self authorizeProvider:provider options:nil completion:completion];
 }
 
 @end

@@ -10,10 +10,6 @@
 
 #import <SimpleAuth/SimpleAuth.h>
 
-@interface SADProviderListViewController ()
-
-@end
-
 @implementation SADProviderListViewController
 
 #pragma mark - NSObject
@@ -94,8 +90,8 @@
         return;
     }
     
-    [SimpleAuth authorize:provider completion:^(id responseObject, NSError *error) {
-        NSLog(@"\nResponse: %@\nError:%@", responseObject, error);
+    [SimpleAuth authorizeProvider:provider completion:^(id responseObject, NSError *error) {
+        NSLog(@"\nResponse: %@\nError: %@", responseObject, error);
     }];
 }
 

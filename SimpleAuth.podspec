@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
     ss.dependency 'CMDQueryStringSerialization'
     ss.ios.frameworks = 'UIKit'
     ss.ios.source_files = 'Pod/Core/ios'
+    ss.ios.resource_bundle = { 'SimpleAuth' => [ 'Pod/Resources/*.lproj' ] }
   end
 
   s.subspec 'Twitter' do |ss|

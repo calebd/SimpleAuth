@@ -9,6 +9,7 @@
 #import "SimpleAuthTwitterProvider.h"
 #import "UIWindow+SimpleAuthAdditions.h"
 #import "ACAccountStore+SimpleAuth.h"
+#import "SimpleAuthUtilities.h"
 
 #import <cocoa-oauth/GCOAuth.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
@@ -68,7 +69,7 @@
                 [sheet addButtonWithTitle:title];
             }
             sheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-            NSInteger cancelButtonIndex = sheet.cancelButtonIndex = [sheet addButtonWithTitle:NSLocalizedString(@"GENERAL_CANCEL", nil)];
+            NSInteger cancelButtonIndex = sheet.cancelButtonIndex = [sheet addButtonWithTitle:SimpleAuthLocalizedString(@"CANCEL")];
             
             [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
                 NSInteger buttonIndex = [number integerValue];

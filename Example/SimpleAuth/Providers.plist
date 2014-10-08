@@ -3,15 +3,15 @@
 <plist version="1.0">
 <array>
 	<string>twitter</string>
-  <string>twitter-web</string>
-  <string>facebook</string>
-  <string>facebook-web</string>
-  <string>instagram</string>
-  <string>dropbox-web</string>
-  <string>tumblr</string>
-  <string>foursquare-web</string>
-  <string>meetup</string>
-  <string>linkedin-web</string>
-  <string>sinaweibo-web</string>
+	<string>twitter-web</string>
+	<string>facebook</string>
+	<string>facebook-web</string>
+	<string>instagram</string>
+	<string>dropbox-web</string>
+	<string>tumblr</string>
+	<string>foursquare-web</string>
+	<string>meetup</string>
+	<string>linkedin-web</string>
+	<string>sinaweibo-web</string>
 </array>
 </plist>

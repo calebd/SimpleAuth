@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
 
     ss.ios.frameworks = 'UIKit'
     ss.ios.source_files = 'Pod/Core/ios'
+    ss.ios.resource_bundle = { 'SimpleAuth' => [ 'Pod/Resources/*.lproj' ] }
   end
 
   s.subspec 'UI' do |ss|

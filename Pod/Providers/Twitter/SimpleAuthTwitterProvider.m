@@ -10,6 +10,7 @@
 
 #import "UIWindow+SimpleAuthAdditions.h"
 #import "ACAccountStore+SimpleAuth.h"
+#import "SimpleAuthUtilities.h"
 #import <cocoa-oauth/GCOAuth.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 

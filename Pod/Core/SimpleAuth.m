@@ -7,10 +7,8 @@
 //
 
 #import "SimpleAuth.h"
-
 #import "SimpleAuthProvider.h"
 #import "SimpleAuthSingleSignOnProvider.h"
-
 #import "NSObject+SimpleAuthAdditions.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>

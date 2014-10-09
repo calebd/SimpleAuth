@@ -32,8 +32,8 @@ typedef NS_ENUM(NSUInteger, SimpleAuthError) {
 };
 
 /**
- Called when authorization either completes with a response or fails with an
- error. Should an error occur, response object will be nil.
+ Called when authentication completes with a response or fails with an error.
+ Should an error occur, response object will be nil.
  
  @param responseObject The authorization response, or nil if an error occurred.
  @param error An error.
@@ -45,7 +45,7 @@ extern NSString * const SimpleAuthDismissInterfaceBlockKey;
 
 /**
  Called when a user interface element must be presented to continue
- authorization. This could be a UIViewController for web login, or a
+ authentication. This could be a UIViewController for web login, or a
  UIActionSheet for system login. All providers will have default
  implementations for the appropriate callback types. You can customize provider
  behavior by providing your own blocks.  This will be called on the main
@@ -84,7 +84,7 @@ extern NSString * const SimpleAuthRedirectURIKey;
 + (NSMutableDictionary *)configuration;
 
 /**
- Perform authorization with the given provider and all previously configured
+ Perform authentication with the given provider and all previously configured
  and default provider options.
  
  @param provider A single provider type.
@@ -93,7 +93,7 @@ extern NSString * const SimpleAuthRedirectURIKey;
 + (void)authenticateProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion;
 
 /**
- Perform an authorization with the given provider. Options provided here will
+ Perform authentication with the given provider. Options provided here will
  be applied on top of any configured or default provider options.
  
  @param provider A single provider type.
@@ -102,9 +102,9 @@ extern NSString * const SimpleAuthRedirectURIKey;
 + (void)authenticateProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 /**
- Perform an authorization with the given providers. SimpleAuth will start
- authorization with the first provider in `providers` and will fall back
- through the array of providers should certain errors occur.
+ Perform authentication with the given providers. SimpleAuth will start
+ authentication with the first provider in the list and will fall back
+ through the given providers should an error occur.
  
  @param providers An array of provider types.
  @param completion Called on the main queue when the operation is complete.
@@ -112,9 +112,9 @@ extern NSString * const SimpleAuthRedirectURIKey;
 + (void)authenticateProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion;
 
 /**
- Perform an authorization with the given providers. SimpleAuth will start
- authorization with the first provider in providers and will fall back
- through the array of providers should certain errors occur. The options you
+ Perform authentication with the given providers. SimpleAuth will start
+ authentication with the first provider in the list and will fall back
+ through the given providers should an error occur. The options you
  provide here will be passed through to each provider in the providers list.
  
  @param providers An array of provider types.

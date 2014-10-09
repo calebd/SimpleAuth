@@ -93,7 +93,7 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  @param provider A single provider type.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authenticateProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateWithProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Perform authentication with the given provider. Options provided here will
@@ -102,7 +102,7 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  @param provider A single provider type.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authenticateProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateWithProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Perform authentication with the given providers. SimpleAuth will start
@@ -112,7 +112,7 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  @param providers An array of provider types.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authenticateProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateWithProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Perform authentication with the given providers. SimpleAuth will start
@@ -123,7 +123,7 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  @param providers An array of provider types.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authenticateProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateWithProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Determine whether the provider can handle the callback URL or not. 

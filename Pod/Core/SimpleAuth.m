@@ -41,11 +41,11 @@ static SimpleAuthProvider *__currentProvider = nil;
     return configuration;
 }
 
-+ (void)authorizeProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion {
-    [self authorizeProvider:provider options:nil completion:completion];
++ (void)authenticateProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion {
+    [self authenticateProvider:provider options:nil completion:completion];
 }
 
-+ (void)authorizeProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
++ (void)authenticateProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
     NSParameterAssert(completion);
     NSParameterAssert(provider);
     
@@ -77,7 +77,7 @@ static SimpleAuthProvider *__currentProvider = nil;
 + (void)authorizeProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
     NSParameterAssert([providers count] > 0);
     NSParameterAssert(completion);
-    [self authorizeProviderAtIndex:0 inProviders:providers options:options completion:completion];
+    [self authenticateProviderAtIndex:0 inProviders:providers options:options completion:completion];
 }
 
 + (BOOL)handleCallback:(NSURL *)URL {
@@ -117,10 +117,10 @@ static SimpleAuthProvider *__currentProvider = nil;
     }];
 }
 
-+ (void)authorizeProviderAtIndex:(NSUInteger)index inProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
++ (void)authenticateProviderAtIndex:(NSUInteger)index inProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
     NSUInteger numberOfProviders = [providers count];
     NSString *provider = providers[index];
-    [self authorizeProvider:provider options:options completion:^(id responseObject, NSError *error) {
+    [self authenticateProvider:provider options:options completion:^(id responseObject, NSError *error) {
         
         // Success
         if (responseObject) {
@@ -148,7 +148,7 @@ static SimpleAuthProvider *__currentProvider = nil;
         }
         
         // Fall back
-        [self authorizeProviderAtIndex:(index + 1) inProviders:providers options:options completion:completion];
+        [self authenticateProviderAtIndex:(index + 1) inProviders:providers options:options completion:completion];
     }];
 }
 
@@ -156,11 +156,11 @@ static SimpleAuthProvider *__currentProvider = nil;
 #pragma mark - Deprecated
 
 + (void)authorize:(NSString * )provider completion:(SimpleAuthRequestHandler)completion {
-    [self authorizeProvider:provider options:nil completion:completion];
+    [self authenticateProvider:provider options:nil completion:completion];
 }
 
 + (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion {
-    [self authorizeProvider:provider options:nil completion:completion];
+    [self authenticateProvider:provider options:nil completion:completion];
 }
 
 @end

@@ -90,7 +90,7 @@ extern NSString * const SimpleAuthRedirectURIKey;
  @param provider A single provider type.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authorizeProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Perform an authorization with the given provider. Options provided here will
@@ -99,7 +99,7 @@ extern NSString * const SimpleAuthRedirectURIKey;
  @param provider A single provider type.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authorizeProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Perform an authorization with the given providers. SimpleAuth will start
@@ -109,7 +109,7 @@ extern NSString * const SimpleAuthRedirectURIKey;
  @param providers An array of provider types.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authorizeProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Perform an authorization with the given providers. SimpleAuth will start
@@ -120,7 +120,7 @@ extern NSString * const SimpleAuthRedirectURIKey;
  @param providers An array of provider types.
  @param completion Called on the main queue when the operation is complete.
  */
-+ (void)authorizeProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Determine whether the provider can handle the callback URL or not. 

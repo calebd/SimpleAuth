@@ -90,7 +90,7 @@
         return;
     }
     
-    [SimpleAuth authorizeProvider:provider completion:^(id responseObject, NSError *error) {
+    [SimpleAuth authenticateProvider:provider completion:^(id responseObject, NSError *error) {
         NSLog(@"\nResponse: %@\nError: %@", responseObject, error);
     }];
 }

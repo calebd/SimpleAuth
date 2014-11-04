@@ -10,7 +10,6 @@
 #import "SimpleAuthDropboxWebLoginViewController.h"
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import "UIViewController+SimpleAuthAdditions.h"
 
 @implementation SimpleAuthDropboxWebProvider
 
@@ -20,29 +19,6 @@
     return @"dropbox-web";
 }
 
-
-+ (NSDictionary *)defaultOptions {
-    
-    // Default present block
-    SimpleAuthInterfaceHandler presentBlock = ^(UIViewController *controller) {
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
-        navigation.modalPresentationStyle = UIModalPresentationFormSheet;
-        UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
-        [presented presentViewController:navigation animated:YES completion:nil];
-    };
-    
-    // Default dismiss block
-    SimpleAuthInterfaceHandler dismissBlock = ^(id controller) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
-    dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
-    dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
-    return dictionary;
-}
-
-
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
      flattenMap:^(NSDictionary *response) {
@@ -50,7 +26,7 @@
              [self accountWithAccessToken:response],
              [RACSignal return:response]
          ];
-         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+         return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:accessToken:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
          completion(response, nil);
@@ -66,11 +42,9 @@
 - (RACSignal *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SimpleAuthDropboxWebLoginViewController *login = [[SimpleAuthDropboxWebLoginViewController alloc] initWithOptions:self.options];
-            
-            login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
-                SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-                block(controller);
+            SimpleAuthDropboxWebLoginViewController *controller = [[SimpleAuthDropboxWebLoginViewController alloc] initWithOptions:self.options];
+            controller.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
+                [controller dismissViewControllerAnimated:YES completion:nil];
                 
                 // Parse URL
                 NSString *fragment = [URL fragment];
@@ -87,25 +61,20 @@
                 [subscriber sendNext:dictionary];
                 [subscriber sendCompleted];
             };
-            
-            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-            block(login);
+            [self presentLoginViewController:controller];
         });
         return nil;
     }];
 }
 
-
 - (RACSignal *)accountWithAccessToken:(NSDictionary *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSDictionary *parameters = @{ @"access_token" : accessToken[@"access_token"] };
-        NSString *URLString = [NSString stringWithFormat:
-                               @"https://api.dropbox.com/1/account/info?%@",
-                               [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+        NSString *queryString = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
+        NSString *URLString = [NSString stringWithFormat:@"https://api.dropbox.com/1/account/info?%@", queryString];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -116,45 +85,50 @@
                      [subscriber sendCompleted];
                  }
                  else {
-                     [subscriber sendError:parseError];
+                     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+                     if (parseError) {
+                         dictionary[NSUnderlyingErrorKey] = parseError;
+                     }
+                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorInvalidData userInfo:dictionary];
+                     [subscriber sendNext:error];
                  }
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;
     }];
 }
 
+- (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
+        @"provider": [[self class] type],
+        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
+        @"uid": remoteAccount[@"uid"],
+        @"extra": remoteAccount,
+        @"info": [self infoDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken]
+    };
+}
 
-- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    
-    // Provider
-    dictionary[@"provider"] = [[self class] type];
-    
-    // Credentials
-    dictionary[@"credentials"] = @{
+- (NSDictionary *)credentialsDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
         @"token" : accessToken[@"access_token"],
         @"type" : accessToken[@"token_type"]
     };
-    
-    // User ID
-    dictionary[@"uid"] = account[@"uid"];
-    
-    // Raw response
-    dictionary[@"extra"] = @{
-        @"raw_info" : account
+}
+
+- (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
+        @"email": remoteAccount[@"email"],
+        @"name": remoteAccount[@"display_name"]
     };
-    
-    // User info
-    NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"email"] = account[@"email"];
-    user[@"name"] = account[@"display_name"];
-    dictionary[@"info"] = user;
-    
-    return dictionary;
 }
 
 @end

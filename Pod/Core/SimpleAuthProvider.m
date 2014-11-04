@@ -7,6 +7,7 @@
 //
 
 #import "SimpleAuthProvider.h"
+#import "UIViewController+SimpleAuthAdditions.h"
 
 @interface SimpleAuthProvider ()
 
@@ -16,7 +17,17 @@
 
 @implementation SimpleAuthProvider
 
+#pragma mark - Properties
+
 @synthesize operationQueue = _operationQueue;
+
+- (NSOperationQueue *)operationQueue {
+    if (!_operationQueue) {
+        _operationQueue = [NSOperationQueue new];
+    }
+    return _operationQueue;
+}
+
 
 #pragma mark - Public
 
@@ -25,11 +36,9 @@
     return nil;
 }
 
-
 + (NSDictionary *)defaultOptions {
     return @{};
 }
-
 
 - (instancetype)initWithOptions:(NSDictionary *)options {
     if ((self = [super init])) {
@@ -38,19 +47,15 @@
     return self;
 }
 
-
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [self doesNotRecognizeSelector:_cmd];
 }
 
-
-#pragma mark - Accessors
-
-- (NSOperationQueue *)operationQueue {
-    if (!_operationQueue) {
-        _operationQueue = [NSOperationQueue new];
-    }
-    return _operationQueue;
+- (void)presentLoginViewController:(UIViewController *)controller {
+    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
+    navigation.modalPresentationStyle = UIModalPresentationFormSheet;
+    UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
+    [presented presentViewController:navigation animated:YES completion:nil];
 }
 
 @end

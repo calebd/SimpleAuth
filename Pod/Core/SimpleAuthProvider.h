@@ -20,5 +20,6 @@
 
 - (instancetype)initWithOptions:(NSDictionary *)options;
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
+- (void)presentLoginViewController:(UIViewController *)controller;
 
 @end

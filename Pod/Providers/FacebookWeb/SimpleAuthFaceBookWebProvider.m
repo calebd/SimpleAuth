@@ -9,7 +9,6 @@
 #import "SimpleAuthFaceBookWebProvider.h"
 #import "SimpleAuthFacebookWebLoginViewController.h"
 
-#import "UIViewController+SimpleAuthAdditions.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthFaceBookWebProvider
@@ -20,30 +19,12 @@
     return @"facebook-web";
 }
 
-
 + (NSDictionary *)defaultOptions {
-    
-    // Default present block
-    SimpleAuthInterfaceHandler presentBlock = ^(UIViewController *controller) {
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
-        navigation.modalPresentationStyle = UIModalPresentationFormSheet;
-        UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
-        [presented presentViewController:navigation animated:YES completion:nil];
-    };
-    
-    // Default dismiss block
-    SimpleAuthInterfaceHandler dismissBlock = ^(id controller) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    };
-    
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
-    dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
-    dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     dictionary[SimpleAuthRedirectURIKey] = @"https://www.facebook.com/connect/login_success.html";
     dictionary[@"permissions"] = @[ @"email" ];
     return dictionary;
 }
-
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
@@ -52,10 +33,10 @@
              [self accountWithAccessToken:response],
              [RACSignal return:response]
          ];
-         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+         return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:accessToken:) withSignalsFromArray:signals];
      }]
-     subscribeNext:^(id x) {
-         completion(x, nil);
+     subscribeNext:^(NSDictionary *response) {
+         completion(response, nil);
      }
      error:^(NSError *error) {
          completion(nil, error);
@@ -68,11 +49,9 @@
 - (RACSignal *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SimpleAuthFacebookWebLoginViewController *login = [[SimpleAuthFacebookWebLoginViewController alloc] initWithOptions:self.options];
-            
-            login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
-                SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-                block(controller);
+            SimpleAuthFacebookWebLoginViewController *controller = [[SimpleAuthFacebookWebLoginViewController alloc] initWithOptions:self.options];
+            controller.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
+                [controller dismissViewControllerAnimated:YES completion:nil];
                 
                 // Parse URL
                 NSString *fragment = [URL fragment];
@@ -90,21 +69,17 @@
                 [subscriber sendNext:dictionary];
                 [subscriber sendCompleted];
             };
-            
-            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-            block(login);
+            [self presentLoginViewController:controller];
         });
         return nil;
     }];
 }
 
-
 - (RACSignal *)accountWithAccessToken:(NSDictionary *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSDictionary *parameters = @{ @"access_token" : accessToken[@"access_token"] };
-        NSString *URLString = [NSString stringWithFormat:
-                               @"https://graph.facebook.com/me?%@",
-                               [CMDQueryStringSerialization queryStringWithDictionary:parameters]];
+        NSString *queryString = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
+        NSString *URLString = [NSString stringWithFormat:@"https://graph.facebook.com/me?%@", queryString];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -140,52 +115,55 @@
     }];
 }
 
+- (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
+        @"provider": [[self class] type],
+        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
+        @"uid": remoteAccount[@"id"],
+        @"extra": remoteAccount,
+        @"info": [self infoDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken]
+    };
+}
 
-- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    
-    // Provider
-    dictionary[@"provider"] = [[self class] type];
-    
-    // Credentials
+- (NSDictionary *)credentialsDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
     NSTimeInterval expiresAtInterval = [accessToken[@"expires_in"] doubleValue];
     NSDate *expiresAtDate = [NSDate dateWithTimeIntervalSinceNow:expiresAtInterval];
-    dictionary[@"credentials"] = @{
+    return @{
         @"token" : accessToken[@"access_token"],
         @"expires_at" : expiresAtDate
     };
-    
-    // User ID
-    dictionary[@"uid"] = account[@"id"];
-    
-    // Raw response
-    dictionary[@"extra"] = @{
-        @"raw_info" : account
+}
+
+- (NSDictionary *)extraDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
+        @"raw_info": remoteAccount,
     };
+}
+
+- (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     
-    // Profile image
-    NSString *avatar = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", account[@"id"]];
+    dictionary[@"name"] = remoteAccount[@"name"];
+    dictionary[@"first_name"] = remoteAccount[@"first_name"];
+    dictionary[@"last_name"] = remoteAccount[@"last_name"];
+    dictionary[@"verified"] = remoteAccount[@"verified"] ?: @NO;
     
-    // Location
-    NSString *location = account[@"location"][@"name"];
-    
-    // User info
-    NSMutableDictionary *user = [NSMutableDictionary new];
-    if (account[@"email"]) {
-        user[@"email"] = account[@"email"];
+    id email = remoteAccount[@"email"];
+    if (email) {
+        dictionary[@"email"] = email;
     }
-    user[@"name"] = account[@"name"];
-    user[@"first_name"] = account[@"first_name"];
-    user[@"last_name"] = account[@"last_name"];
-    user[@"image"] = avatar;
+    
+    id location = remoteAccount[@"location"][@"name"];
     if (location) {
-        user[@"location"] = location;
+        dictionary[@"location"] = location;
     }
-    user[@"verified"] = account[@"verified"] ?: @NO;
-    user[@"urls"] = @{
-        @"Facebook" : account[@"link"],
+    
+    dictionary[@"urls"] = @{
+        @"Facebook": remoteAccount[@"link"]
     };
-    dictionary[@"info"] = user;
+    
+    NSString *avatar = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", remoteAccount[@"id"]];
+    dictionary[@"image"] = avatar;
     
     return dictionary;
 }

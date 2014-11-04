@@ -7,10 +7,8 @@
 //
 
 #import "SimpleAuthFacebookProvider.h"
-
 #import "ACAccountStore+SimpleAuth.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
-
 @import Social;
 
 @implementation SimpleAuthFacebookProvider
@@ -21,7 +19,6 @@
     return @"facebook";
 }
 
-
 + (NSDictionary *)defaultOptions {
     return @{
         @"permissions" : @[ @"email" ],
@@ -29,22 +26,22 @@
     };
 }
 
-
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    [[[self systemAccount]
-     flattenMap:^RACStream *(ACAccount *account) {
-         NSArray *signals = @[
-             [self remoteAccountWithSystemAccount:account],
-             [RACSignal return:account]
-         ];
-         return [self rac_liftSelector:@selector(dictionaryWithRemoteAccount:systemAccount:) withSignalsFromArray:signals];
-     }]
-     subscribeNext:^(NSDictionary *response) {
-         completion(response, nil);
-     }
-     error:^(NSError *error) {
-         completion(nil, error);
-     }];
+    [[[[self systemAccount]
+        flattenMap:^RACStream *(ACAccount *account) {
+            NSArray *signals = @[
+                [RACSignal return:account],
+                [self remoteAccountWithSystemAccount:account]
+            ];
+            return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:systemAccount:) withSignalsFromArray:signals];
+        }]
+        deliverOn:[RACScheduler mainThreadScheduler]]
+        subscribeNext:^(NSDictionary *response) {
+            completion(response, nil);
+        }
+        error:^(NSError *error) {
+            completion(nil, error);
+        }];
 }
 
 
@@ -59,13 +56,11 @@
     return [ACAccountStore SimpleAuth_accountsWithTypeIdentifier:ACAccountTypeIdentifierFacebook options:options];
 }
 
-
 - (RACSignal *)systemAccount {
     return [[self allSystemAccounts] map:^(NSArray *accounts) {
         return [accounts lastObject];
     }];
 }
-
 
 - (RACSignal *)remoteAccountWithSystemAccount:(ACAccount *)account {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -105,50 +100,53 @@
     }];
 }
 
+- (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+    return @{
+        @"provider": [[self class] type],
+        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount systemAccount:systemAccount],
+        @"uid": remoteAccount[@"id"],
+        @"extra": [self extraDictionaryWithRemoteAccount:remoteAccount systemAccount:systemAccount],
+        @"info": [self infoDictionaryWithRemoteAccount:remoteAccount systemAccount:systemAccount]
+    };
+}
 
-- (NSDictionary *)dictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    
-    // Provider
-    dictionary[@"provider"] = [[self class] type];
-    
-    // Credentials
-    dictionary[@"credentials"] = @{
-        @"token" : systemAccount.credential.oauthToken
+- (NSDictionary *)credentialsDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+    return @{
+        @"token": systemAccount.credential.oauthToken
     };
-    
-    // User ID
-    dictionary[@"uid"] = remoteAccount[@"id"];
-    
-    // Raw response
-    dictionary[@"extra"] = @{
-        @"raw_info" : remoteAccount,
-        @"account" : systemAccount
+}
+
+- (NSDictionary *)extraDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+    return @{
+        @"raw_info": remoteAccount,
+        @"account": systemAccount
     };
+}
+
+- (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    dictionary[@"name"] = remoteAccount[@"name"];
+    dictionary[@"first_name"] = remoteAccount[@"first_name"];
+    dictionary[@"last_name"] = remoteAccount[@"last_name"];
+    dictionary[@"verified"] = remoteAccount[@"verified"] ?: @NO;
     
-    // Profile image
-    NSString *avatar = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", remoteAccount[@"id"]];
-    
-    // Location
-    NSString *location = remoteAccount[@"location"][@"name"];
-    
-    // User info
-    NSMutableDictionary *user = [NSMutableDictionary new];
-    if (remoteAccount[@"email"]) {
-        user[@"email"] = remoteAccount[@"email"];
+    id email = remoteAccount[@"email"];
+    if (email) {
+        dictionary[@"email"] = email;
     }
-    user[@"name"] = remoteAccount[@"name"];
-    user[@"first_name"] = remoteAccount[@"first_name"];
-    user[@"last_name"] = remoteAccount[@"last_name"];
-    user[@"image"] = avatar;
+    
+    id location = remoteAccount[@"location"][@"name"];
     if (location) {
-        user[@"location"] = location;
+        dictionary[@"location"] = location;
     }
-    user[@"verified"] = remoteAccount[@"verified"] ?: @NO;
-    user[@"urls"] = @{
-        @"Facebook" : remoteAccount[@"link"],
+    
+    dictionary[@"urls"] = @{
+        @"Facebook": remoteAccount[@"link"]
     };
-    dictionary[@"info"] = user;
+    
+    NSString *avatar = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", remoteAccount[@"id"]];
+    dictionary[@"image"] = avatar;
     
     return dictionary;
 }

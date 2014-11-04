@@ -9,7 +9,6 @@
 #import "SimpleAuthInstagramProvider.h"
 #import "SimpleAuthInstagramLoginViewController.h"
 
-#import "UIViewController+SimpleAuthAdditions.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation SimpleAuthInstagramProvider
@@ -19,29 +18,6 @@
 + (NSString *)type {
     return @"instagram";
 }
-
-
-+ (NSDictionary *)defaultOptions {
-    
-    // Default present block
-    SimpleAuthInterfaceHandler presentBlock = ^(UIViewController *controller) {
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
-        navigation.modalPresentationStyle = UIModalPresentationFormSheet;
-        UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
-        [presented presentViewController:navigation animated:YES completion:nil];
-    };
-    
-    // Default dismiss block
-    SimpleAuthInterfaceHandler dismissBlock = ^(id controller) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
-    options[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
-    options[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
-    return options;
-}
-
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
@@ -66,10 +42,9 @@
 - (RACSignal *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SimpleAuthInstagramLoginViewController *login = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
-            login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
-                SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
-                dismissBlock(login);
+            SimpleAuthInstagramLoginViewController *controller = [[SimpleAuthInstagramLoginViewController alloc] initWithOptions:self.options];
+            controller.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
+                [controller dismissViewControllerAnimated:YES completion:nil];
                 
                 // Parse URL
                 NSString *fragment = [URL fragment];
@@ -86,24 +61,20 @@
                 [subscriber sendNext:token];
                 [subscriber sendCompleted];
             };
-            
-            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-            block(login);
+            [self presentLoginViewController:controller];
         });
         return nil;
     }];
 }
 
-
 - (RACSignal *)accountWithAccessToken:(NSString *)accessToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSDictionary *parameters = @{ @"access_token" : accessToken };
-        NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
-        NSString *URLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/users/self?%@", query];
+        NSString *queryString = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
+        NSString *URLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/users/self?%@", queryString];
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -114,11 +85,22 @@
                      [subscriber sendCompleted];
                  }
                  else {
-                     [subscriber sendError:parseError];
+                     NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                     if (parseError) {
+                         dictionary[NSUnderlyingErrorKey] = parseError;
+                     }
+                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorInvalidData userInfo:dictionary];
+                     [subscriber sendNext:error];
                  }
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;
@@ -128,32 +110,54 @@
 
 #pragma mark - Private
 
-- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSString *)accessToken {
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    NSDictionary *data = account[@"data"];
-    
-    // Provider
-    dictionary[@"provider"] = [[self class] type];
-    
-    // Credentials
-    dictionary[@"credentials"] = @{
+- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)remoteAccount accessToken:(NSString *)accessToken {
+    return @{
+        @"provider": [[self class] type],
+        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
+        @"uid": remoteAccount[@"data"][@"id"],
+        @"extra": remoteAccount,
+        @"info": [self infoDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken]
+    };
+}
+
+- (NSDictionary *)credentialsDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSString *)accessToken {
+    return @{
         @"token" : accessToken
     };
+}
+
+- (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSString *)accessToken {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     
-    // User ID
-    dictionary[@"uid"] = data[@"id"];
+    id nickname = remoteAccount[@"data"][@"username"];
+    if (nickname) {
+        dictionary[@"nickname"] = nickname;
+    }
     
-    // Extra
-    dictionary[@"extra"] = @{
-        @"raw_info" : account
-    };
+    id name = remoteAccount[@"data"][@"full_name"];
+    if (name) {
+        dictionary[@"name"] = name;
+    }
     
-    // User info
-    NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"name"] = data[@"full_name"];
-    user[@"username"] = data[@"username"];
-    user[@"image"] = data[@"profile_picture"];
-    dictionary[@"user_info"] = user;
+    id email = remoteAccount[@"data"][@"email"];
+    if (email) {
+        dictionary[@"email"] = email;
+    }
+    
+    id image = remoteAccount[@"data"][@"profile_picture"];
+    if (image) {
+        dictionary[@"image"] = image;
+    }
+    
+    id bio = remoteAccount[@"data"][@"bio"];
+    if (bio) {
+        dictionary[@"bio"] = bio;
+    }
+    
+    id website = remoteAccount[@"data"][@"website"];
+    if (website) {
+        dictionary[@"website"] = website;
+    }
     
     return dictionary;
 }

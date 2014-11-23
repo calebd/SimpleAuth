@@ -92,8 +92,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             SimpleAuthTwitterWebLoginViewController *controller = [[SimpleAuthTwitterWebLoginViewController alloc] initWithOptions:self.options requestToken:requestToken];
             controller.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
-                SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-                block(controller);
+                [controller dismissViewControllerAnimated:YES completion:nil];
                 
                 // Parse URL
                 NSString *query = [URL query];

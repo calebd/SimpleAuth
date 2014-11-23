@@ -100,30 +100,30 @@
     }];
 }
 
-- (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+- (NSDictionary *)responseDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount {
     return @{
         @"provider": [[self class] type],
-        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount systemAccount:systemAccount],
         @"uid": remoteAccount[@"id"],
-        @"extra": [self extraDictionaryWithRemoteAccount:remoteAccount systemAccount:systemAccount],
-        @"info": [self infoDictionaryWithRemoteAccount:remoteAccount systemAccount:systemAccount]
+        @"credentials": [self credentialsDictionaryWithSystemAccount:systemAccount remoteAccount:remoteAccount],
+        @"extra": [self extraDictionaryWithSystemAccount:systemAccount remoteAccount:remoteAccount],
+        @"info": [self infoDictionaryWithSystemAccount:systemAccount remoteAccount:remoteAccount]
     };
 }
 
-- (NSDictionary *)credentialsDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+- (NSDictionary *)credentialsDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount {
     return @{
         @"token": systemAccount.credential.oauthToken
     };
 }
 
-- (NSDictionary *)extraDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+- (NSDictionary *)extraDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount {
     return @{
         @"raw_info": remoteAccount,
         @"account": systemAccount
     };
 }
 
-- (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount systemAccount:(ACAccount *)systemAccount {
+- (NSDictionary *)infoDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 
     dictionary[@"name"] = remoteAccount[@"name"];

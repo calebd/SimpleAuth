@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthUtilities.h"
-#import "SimpleAuth.h"
 
 NSString *SimpleAuthLocalizedString(NSString *key) {
     NSURL *URL = [[NSBundle mainBundle] URLForResource:@"SimpleAuth" withExtension:@"bundle"];

@@ -8,26 +8,9 @@
 
 #import "SimpleAuthProvider.h"
 #import "UIViewController+SimpleAuthAdditions.h"
-
-@interface SimpleAuthProvider ()
-
-@property (nonatomic, copy) NSDictionary *options;
-
-@end
+#import "UIWindow+SimpleAuthAdditions.h"
 
 @implementation SimpleAuthProvider
-
-#pragma mark - Properties
-
-@synthesize operationQueue = _operationQueue;
-
-- (NSOperationQueue *)operationQueue {
-    if (!_operationQueue) {
-        _operationQueue = [NSOperationQueue new];
-    }
-    return _operationQueue;
-}
-
 
 #pragma mark - Public
 
@@ -42,7 +25,8 @@
 
 - (instancetype)initWithOptions:(NSDictionary *)options {
     if ((self = [super init])) {
-        self.options = options;
+        _options = [options copy];
+        _operationQueue = [[NSOperationQueue alloc] init];
     }
     return self;
 }
@@ -56,6 +40,11 @@
     navigation.modalPresentationStyle = UIModalPresentationFormSheet;
     UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
     [presented presentViewController:navigation animated:YES completion:nil];
+}
+
+- (void)presentActionSheet:(UIActionSheet *)actionSheet {
+    UIWindow *window = [UIWindow SimpleAuth_mainWindow];
+    [actionSheet showInView:window];
 }
 
 @end

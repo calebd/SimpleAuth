@@ -6,25 +6,25 @@ PODS:
   - ISO8601 (0.1.1)
   - NSData+Base64 (1.0.0)
   - ReactiveCocoa (2.3.1):
-    - ReactiveCocoa/UI
+    - ReactiveCocoa/UI (= 2.3.1)
   - ReactiveCocoa/Core (2.3.1):
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.3.1)
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
   - SimpleAuth (0.3.6):
-    - SimpleAuth/Core
-    - SimpleAuth/DropboxWeb
-    - SimpleAuth/Facebook
-    - SimpleAuth/FacebookWeb
-    - SimpleAuth/FoursquareWeb
-    - SimpleAuth/Instagram
-    - SimpleAuth/LinkedInWeb
-    - SimpleAuth/Meetup
-    - SimpleAuth/SinaWeiboWeb
-    - SimpleAuth/Tumblr
-    - SimpleAuth/Twitter
-    - SimpleAuth/TwitterWeb
+    - SimpleAuth/Core (= 0.3.6)
+    - SimpleAuth/DropboxWeb (= 0.3.6)
+    - SimpleAuth/Facebook (= 0.3.6)
+    - SimpleAuth/FacebookWeb (= 0.3.6)
+    - SimpleAuth/FoursquareWeb (= 0.3.6)
+    - SimpleAuth/Instagram (= 0.3.6)
+    - SimpleAuth/LinkedInWeb (= 0.3.6)
+    - SimpleAuth/Meetup (= 0.3.6)
+    - SimpleAuth/SinaWeiboWeb (= 0.3.6)
+    - SimpleAuth/Tumblr (= 0.3.6)
+    - SimpleAuth/Twitter (= 0.3.6)
+    - SimpleAuth/TwitterWeb (= 0.3.6)
   - SimpleAuth/Core (0.3.6):
     - CMDQueryStringSerialization
     - ReactiveCocoa
@@ -69,4 +69,4 @@ SPEC CHECKSUMS:
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   SimpleAuth: 6434ad8b1e929be69c7ba235aed2b41853ee4c85
 
-COCOAPODS: 0.34.4
+COCOAPODS: 0.35.0

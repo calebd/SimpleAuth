@@ -110,8 +110,8 @@
 - (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
     return @{
         @"provider": [[self class] type],
-        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
         @"uid": remoteAccount[@"uid"],
+        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
         @"extra": remoteAccount,
         @"info": [self infoDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken]
     };

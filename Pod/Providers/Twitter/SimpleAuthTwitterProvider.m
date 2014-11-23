@@ -7,7 +7,6 @@
 //
 
 #import "SimpleAuthTwitterProvider.h"
-#import "UIWindow+SimpleAuthAdditions.h"
 #import "ACAccountStore+SimpleAuth.h"
 #import "SimpleAuthUtilities.h"
 
@@ -31,7 +30,7 @@
              [self remoteAccountWithSystemAccount:account],
              [self accessTokenWithSystemAccount:account]
          ];
-         return [self rac_liftSelector:@selector(dictionaryWithSystemAccount:remoteAccount:accessToken:) withSignalsFromArray:signals];
+         return [self rac_liftSelector:@selector(responseDictionaryWithSystemAccount:remoteAccount:accessToken:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
          completion(response, nil);
@@ -84,8 +83,7 @@
                 }
             }];
             
-            UIWindow *window = [UIWindow SimpleAuth_mainWindow];
-            [sheet showInView:window];
+            [self presentActionSheet:sheet];
         });
         return nil;
     }];
@@ -201,46 +199,51 @@
     }];
 }
 
-- (NSDictionary *)dictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    
-    // Provider
-    dictionary[@"provider"] = [[self class] type];
-    
-    // Credentials
-    dictionary[@"credentials"] = @{
+- (NSDictionary *)responseDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
+        @"provider": [[self class] type],
+        @"uid": remoteAccount[@"id"],
+        @"credentials": [self credentialsDictionaryWithSystemAccount:systemAccount remoteAccount:remoteAccount accessToken:accessToken],
+        @"extra": [self extraDictionaryWithSystemAccount:systemAccount remoteAccount:remoteAccount accessToken:accessToken],
+        @"info": [self infoDictionaryWithSystemAccount:systemAccount remoteAccount:remoteAccount accessToken:accessToken]
+    };
+}
+
+- (NSDictionary *)credentialsDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
         @"token" : accessToken[@"oauth_token"],
         @"secret" : accessToken[@"oauth_token_secret"]
     };
-    
-    // User ID
-    dictionary[@"uid"] = remoteAccount[@"id"];
-    
-    // Extra
-    dictionary[@"extra"] = @{
+}
+
+- (NSDictionary *)extraDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
         @"raw_info" : remoteAccount,
         @"account" : systemAccount
     };
+}
+
+- (NSDictionary *)infoDictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     
-    // Profile image
+    // Basic info
+    dictionary[@"nickname"] = remoteAccount[@"screen_name"];
+    dictionary[@"name"] = remoteAccount[@"name"];
+    dictionary[@"location"] = remoteAccount[@"location"];
+    dictionary[@"description"] = remoteAccount[@"description"];
+    
+    // Avatar
     NSString *avatar = remoteAccount[@"profile_image_url_https"];
     avatar = [avatar stringByReplacingOccurrencesOfString:@"_normal" withString:@""];
+    dictionary[@"image"] = avatar;
     
-    // Profile
-    NSString *profile = [NSString stringWithFormat:@"https://twitter.com/%@", remoteAccount[@"screen_name"]];
-    
-    // User info
-    NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"nickname"] = remoteAccount[@"screen_name"];
-    user[@"name"] = remoteAccount[@"name"];
-    user[@"location"] = remoteAccount[@"location"];
-    user[@"image"] = avatar;
-    user[@"description"] = remoteAccount[@"description"];
-    user[@"urls"] = @{
-        @"Twitter" : profile,
-        @"Website" : remoteAccount[@"url"]
+    // URLs
+    NSString *profile = remoteAccount[@"screen_name"];
+    profile = [NSString stringWithFormat:@"https://twitter.com/%@", profile];
+    dictionary[@"urls"] = @{
+        @"Twitter": profile,
+        @"Website": remoteAccount[@"url"]
     };
-    dictionary[@"info"] = user;
     
     return dictionary;
 }

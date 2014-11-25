@@ -34,7 +34,7 @@
              [self remoteAccountWithSystemAccount:account],
              [RACSignal return:account]
          ];
-         return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:systemAccount:) withSignalsFromArray:signals];
+         return [self rac_liftSelector:@selector(responseDictionaryWithSystemAccount:remoteAccount:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
          completion(response, nil);

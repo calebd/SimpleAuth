@@ -22,5 +22,6 @@
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
 - (void)presentLoginViewController:(UIViewController *)controller;
 - (void)presentActionSheet:(UIActionSheet *)actionSheet;
+- (void)presentAlertController:(UIAlertController *)alertController;
 
 @end

@@ -62,7 +62,29 @@
 - (RACSignal *)systemAccountFromAccounts:(NSArray *)accounts {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            if (NSClassFromString(@"UIAlertController")) {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:SimpleAuthLocalizedString(@"Choose Account") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                
+                for (ACAccount *account in accounts) {
+                    NSString *title = [NSString stringWithFormat:@"@%@", account.username];
+                    UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        [subscriber sendNext:account];
+                        [subscriber sendCompleted];
+                    }];
+                    [alertController addAction:action];
+                }
+                UIAlertAction *action = [UIAlertAction actionWithTitle:SimpleAuthLocalizedString(@"CANCEL") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
+                    [subscriber sendError:error];
+                }];
+                [alertController addAction:action];
+                
+                [self presentAlertController:alertController];
+                
+            } else {
+
             UIActionSheet *sheet = [UIActionSheet new];
+            
             for (ACAccount *account in accounts) {
                 NSString *title = [NSString stringWithFormat:@"@%@", account.username];
                 [sheet addButtonWithTitle:title];
@@ -84,6 +106,8 @@
             }];
             
             [self presentActionSheet:sheet];
+            
+            }
         });
         return nil;
     }];

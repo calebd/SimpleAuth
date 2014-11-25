@@ -47,4 +47,26 @@
     [actionSheet showInView:window];
 }
 
+- (void)presentAlertController:(UIAlertController *)alertController {
+    UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
+    
+    UIWindow *window = [UIWindow SimpleAuth_mainWindow];
+
+    if (alertController.popoverPresentationController) {
+        // Remove arrow from action sheet.
+        [alertController.popoverPresentationController setPermittedArrowDirections:0];
+        
+        //For set action sheet to middle of view.
+        CGRect rect = window.frame;
+        rect.origin.x = window.frame.size.width / 20;
+        rect.origin.y = window.frame.size.height / 20;
+        alertController.popoverPresentationController.sourceView = window;
+        alertController.popoverPresentationController.sourceRect = rect;
+    }
+    
+    
+    [presented presentViewController:alertController animated:YES completion:nil];
+}
+
+
 @end

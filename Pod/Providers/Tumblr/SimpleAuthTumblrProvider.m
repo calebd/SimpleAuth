@@ -9,7 +9,6 @@
 #import "SimpleAuthTumblrProvider.h"
 #import "SimpleAuthTumblrLoginViewController.h"
 
-#import "UIViewController+SimpleAuthAdditions.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <cocoa-oauth/GCOAuth.h>
 
@@ -21,55 +20,37 @@
     return @"tumblr";
 }
 
-
 + (NSDictionary *)defaultOptions {
-    
-    // Default present block
-    SimpleAuthInterfaceHandler presentBlock = ^(UIViewController *controller) {
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:controller];
-        navigation.modalPresentationStyle = UIModalPresentationFormSheet;
-        UIViewController *presented = [UIViewController SimpleAuth_presentedViewController];
-        [presented presentViewController:navigation animated:YES completion:nil];
-    };
-    
-    // Default dismiss block
-    SimpleAuthInterfaceHandler dismissBlock = ^(id controller) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    };
-    
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
-    dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
-    dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     dictionary[SimpleAuthRedirectURIKey] = @"simple-auth://tumblr.auth";
     return dictionary;
 }
 
-
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[[[self requestToken]
-     flattenMap:^(NSDictionary *response) {
-         NSArray *signals = @[  
-             [RACSignal return:response],
-             [self authenticateWithRequestToken:response]
-         ];
-         return [RACSignal zip:signals];
-     }]
-     flattenMap:^(RACTuple *response) {
-         return [self accessTokenWithRequestToken:response.first authenticationResponse:response.second];
-     }]
-     flattenMap:^(NSDictionary *response) {
-         NSArray *signals = @[
-             [self accountWithAccessToken:response],
-             [RACSignal return:response]
-         ];
-         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
-     }]
-     subscribeNext:^(NSDictionary *response) {
-         completion(response, nil);
-     }
-     error:^(NSError *error) {
-         completion(nil, error);
-     }];
+        flattenMap:^(NSDictionary *response) {
+            NSArray *signals = @[
+                [RACSignal return:response],
+                [self authenticateWithRequestToken:response]
+            ];
+            return [RACSignal zip:signals];
+        }]
+        flattenMap:^(RACTuple *response) {
+            return [self accessTokenWithRequestToken:response.first authenticationResponse:response.second];
+        }]
+        flattenMap:^(NSDictionary *response) {
+            NSArray *signals = @[
+                [self accountWithAccessToken:response],
+                [RACSignal return:response]
+            ];
+            return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:accessToken:) withSignalsFromArray:signals];
+        }]
+        subscribeNext:^(NSDictionary *response) {
+            completion(response, nil);
+        }
+        error:^(NSError *error) {
+            completion(nil, error);
+        }];
 }
 
 
@@ -87,8 +68,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:nil
                                  tokenSecret:nil];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -98,22 +78,25 @@
                  [subscriber sendCompleted];
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;
     }];
 }
 
-
 - (RACSignal *)authenticateWithRequestToken:(NSDictionary *)requestToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SimpleAuthTumblrLoginViewController *login = [[SimpleAuthTumblrLoginViewController alloc] initWithOptions:self.options requestToken:requestToken];
-            
-            login.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
-                SimpleAuthInterfaceHandler block = self.options[SimpleAuthDismissInterfaceBlockKey];
-                block(controller);
+            SimpleAuthTumblrLoginViewController *controller = [[SimpleAuthTumblrLoginViewController alloc] initWithOptions:self.options requestToken:requestToken];
+            controller.completion = ^(UIViewController *controller, NSURL *URL, NSError *error) {
+                [controller dismissViewControllerAnimated:YES completion:nil];
                 
                 // Parse URL
                 NSString *query = [URL query];
@@ -131,14 +114,11 @@
                 [subscriber sendNext:dictionary];
                 [subscriber sendCompleted];
             };
-            
-            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-            block(login);    
+            [self presentLoginViewController:controller];
         });
         return nil;
     }];
 }
-
 
 - (RACSignal *)accessTokenWithRequestToken:(NSDictionary *)requestToken authenticationResponse:(NSDictionary *)authenticationResponse {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -152,8 +132,7 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:authenticationResponse[@"oauth_token"]
                                  tokenSecret:requestToken[@"oauth_token_secret"]];
-        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
@@ -163,7 +142,13 @@
                  [subscriber sendCompleted];
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;
@@ -182,72 +167,82 @@
                                  consumerSecret:self.options[@"consumer_secret"]
                                  accessToken:accessToken[@"oauth_token"]
                                  tokenSecret:accessToken[@"oauth_token_secret"]];
-        [NSURLConnection
-         sendAsynchronousRequest:request
-         queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
              NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
              NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
              if ([indexSet containsIndex:statusCode] && data) {
                  NSError *parseError = nil;
                  NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
                  if (dictionary) {
-                     dictionary = dictionary[@"response"][@"user"];
                      [subscriber sendNext:dictionary];
                      [subscriber sendCompleted];
                  }
                  else {
-                     [subscriber sendError:parseError];
+                     NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                     if (parseError) {
+                         dictionary[NSUnderlyingErrorKey] = parseError;
+                     }
+                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorInvalidData userInfo:dictionary];
+                     [subscriber sendNext:error];
                  }
              }
              else {
-                 [subscriber sendError:connectionError];
+                 NSMutableDictionary *dictionary = [NSMutableDictionary new];
+                 if (connectionError) {
+                     dictionary[NSUnderlyingErrorKey] = connectionError;
+                 }
+                 dictionary[SimpleAuthErrorStatusCodeKey] = @(statusCode);
+                 NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorNetwork userInfo:dictionary];
+                 [subscriber sendError:error];
              }
          }];
         return nil;
     }];
 }
 
+- (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    remoteAccount = remoteAccount[@"response"][@"user"];
+    return @{
+        @"provider": [[self class] type],
+        @"uid": remoteAccount[@"name"],
+        @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
+        @"extra": [self extraDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
+        @"info": [self infoDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken]
+    };
+}
 
-- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)account accessToken:(NSDictionary *)accessToken {
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    
-    // Provider
-    dictionary[@"provider"] = [[self class] type];
-    
-    // Credentials
-    dictionary[@"credentials"] = @{
+- (NSDictionary *)credentialsDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
         @"token" : accessToken[@"oauth_token"],
         @"secret" : accessToken[@"oauth_token_secret"]
     };
-    
-    // User ID
-    dictionary[@"uid"] = account[@"name"];
-    
-    // Extra
-    dictionary[@"extra"] = @{
-        @"raw_info" : account,
+}
+
+- (NSDictionary *)extraDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    return @{
+        @"raw_info" : remoteAccount,
     };
+}
+
+- (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    
+    // Basic info
+    dictionary[@"nickname"] = remoteAccount[@"name"];
+    dictionary[@"name"] = remoteAccount[@"name"];
     
     // Blogs
-    NSArray *blogs = account[@"blogs"];
+    NSArray *blogs = remoteAccount[@"blogs"];
     blogs = [[blogs.rac_sequence map:^(NSDictionary *dictionary) {
         return [dictionary dictionaryWithValuesForKeys:@[ @"name", @"url", @"title" ]];
     }] array];
+    dictionary[@"blogs"] = blogs;
     
-    // Profile image
-    NSString *blogURLString = blogs[0][@"url"];
-    NSURL *blogURL = [NSURL URLWithString:blogURLString];
-    NSString *host = [blogURL host];
-    NSString *avatar = [NSString stringWithFormat:@"https://api.tumblr.com/v2/blog/%@/avatar", host];
-    
-    // User info
-    NSMutableDictionary *user = [NSMutableDictionary new];
-    user[@"nickname"] = account[@"name"];
-    user[@"name"] = account[@"name"];
-    user[@"blogs"] = blogs;
-    user[@"image"] = avatar;
-    dictionary[@"info"] = user;
+    // Avatar
+    NSString *avatar = [remoteAccount[@"blogs"] firstObject][@"url"];
+    avatar = [[NSURL URLWithString:avatar] host];
+    avatar = [NSString stringWithFormat:@"https://api.tumblr.com/v2/blog/%@/avatar", avatar];
+    dictionary[@"image"] = avatar;
     
     return dictionary;
 }

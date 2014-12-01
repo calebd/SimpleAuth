@@ -6,25 +6,25 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /**
  Authentication error domain.
  */
-extern NSString * const SimpleAuthErrorDomain;
+extern NSString *const SimpleAuthErrorDomain;
 
 /**
  The corresponding value is an HTTP staus code if the error was a network
  related error.
  */
-extern NSString * const SimpleAuthErrorStatusCodeKey;
+extern NSString *const SimpleAuthErrorStatusCodeKey;
 
 typedef NS_ENUM(NSUInteger, SimpleAuthError) {
     
     /**
      The user cancelled authentication.
      */
-    SimpleAuthErrorUserCancelled,
+    SimpleAuthErrorUserCancelled = 100,
     
     /*
      An error that occurred as the result of a failed network operation.

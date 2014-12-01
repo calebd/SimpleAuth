@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |ss|
     ss.source_files = 'Pod/Core'
-    ss.public_header_files = 'Pod/Core/SimpleAuth.h'
+    ss.public_header_files = 'Pod/Core/SimpleAuth.h', 'Pod/Core/SimpleAuthErrors.h'
     ss.dependency 'ReactiveCocoa'
     ss.dependency 'CMDQueryStringSerialization'
     ss.ios.frameworks = 'UIKit'

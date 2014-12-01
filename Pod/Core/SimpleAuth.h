@@ -6,6 +6,8 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
+@import Foundation;
+
 #import "SimpleAuthErrors.h"
 
 /**

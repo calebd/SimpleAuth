@@ -63,50 +63,41 @@
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (NSClassFromString(@"UIAlertController")) {
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:SimpleAuthLocalizedString(@"Choose Account") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                
+                UIAlertController *controller = [UIAlertController alertControllerWithTitle:SimpleAuthLocalizedString(@"CHOOSE_ACCOUNT") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
                 for (ACAccount *account in accounts) {
                     NSString *title = [NSString stringWithFormat:@"@%@", account.username];
-                    UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    [controller addAction:[UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         [subscriber sendNext:account];
                         [subscriber sendCompleted];
-                    }];
-                    [alertController addAction:action];
+                    }]];
                 }
-                UIAlertAction *action = [UIAlertAction actionWithTitle:SimpleAuthLocalizedString(@"CANCEL") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                [controller addAction:[UIAlertAction actionWithTitle:SimpleAuthLocalizedString(@"CANCEL") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
                     [subscriber sendError:error];
-                }];
-                [alertController addAction:action];
-                
-                [self presentAlertController:alertController];
-                
-            } else {
-
-            UIActionSheet *sheet = [UIActionSheet new];
-            
-            for (ACAccount *account in accounts) {
-                NSString *title = [NSString stringWithFormat:@"@%@", account.username];
-                [sheet addButtonWithTitle:title];
+                }]];
+                [self presentAlertController:controller];
             }
-            sheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-            NSInteger cancelButtonIndex = sheet.cancelButtonIndex = [sheet addButtonWithTitle:SimpleAuthLocalizedString(@"CANCEL")];
-            
-            [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-                NSInteger buttonIndex = [number integerValue];
-                if (buttonIndex == cancelButtonIndex) {
-                    NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
-                    [subscriber sendError:error];
+            else {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:SimpleAuthLocalizedString(@"CHOOSE_ACCOUNT") delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+                sheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+                for (ACAccount *account in accounts) {
+                    NSString *title = [NSString stringWithFormat:@"@%@", account.username];
+                    [sheet addButtonWithTitle:title];
                 }
-                else {
-                    ACAccount *account = accounts[buttonIndex];
-                    [subscriber sendNext:account];
-                    [subscriber sendCompleted];
-                }
-            }];
-            
-            [self presentActionSheet:sheet];
-            
+                NSInteger cancelButtonIndex = sheet.cancelButtonIndex = [sheet addButtonWithTitle:SimpleAuthLocalizedString(@"CANCEL")];
+                [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+                    NSInteger buttonIndex = [number integerValue];
+                    if (buttonIndex == cancelButtonIndex) {
+                        NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
+                        [subscriber sendError:error];
+                    }
+                    else {
+                        ACAccount *account = accounts[buttonIndex];
+                        [subscriber sendNext:account];
+                        [subscriber sendCompleted];
+                    }
+                }];
+                [self presentActionSheet:sheet];
             }
         });
         return nil;

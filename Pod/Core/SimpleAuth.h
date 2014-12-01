@@ -6,7 +6,8 @@
 //  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
+#import <AvailabilityMacros.h>
 
 #import "SimpleAuthErrors.h"
 
@@ -113,7 +114,7 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  */
 + (BOOL)handleCallback:(NSURL *)url;
 
-+ (void)authorize:(NSString * )provider completion:(SimpleAuthRequestHandler)completion DEPRECATED_ATTRIBUTE;
-+ (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion DEPRECATED_ATTRIBUTE;
++ (void)authorize:(NSString * )provider completion:(SimpleAuthRequestHandler)completion DEPRECATED_MSG_ATTRIBUTE("Use authenticateWithProvider:completion: instead.");
++ (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion DEPRECATED_MSG_ATTRIBUTE("Use authenticateWithProvider:options:completion: instead.");
 
 @end

@@ -13,11 +13,9 @@
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-NSString * const SimpleAuthErrorDomain = @"SimpleAuthErrorDomain";
 NSString * const SimpleAuthPresentInterfaceBlockKey = @"present_interface_block";
 NSString * const SimpleAuthDismissInterfaceBlockKey = @"dismiss_interface_block";
 NSString * const SimpleAuthRedirectURIKey = @"redirect_uri";
-NSString * const SimpleAuthErrorStatusCodeKey = @"SimpleAuthErrorStatusCode";
 
 static SimpleAuthProvider *__currentProvider = nil;
 

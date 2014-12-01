@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Seesaw Decisions Corporation. All rights reserved.
 //
 
-#import "SimpleAuth.h"
 #import "ACAccountStore+SimpleAuth.h"
+#import "SimpleAuthDefines.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation ACAccountStore (SimpleAuth)

@@ -26,7 +26,7 @@
              [self accountWithAccessToken:response],
              [RACSignal return:response]
          ];
-         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+         return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:accessToken:) withSignalsFromArray:signals];
      }]
      subscribeNext:^(NSDictionary *response) {
          completion(response, nil);
@@ -110,11 +110,12 @@
 
 #pragma mark - Private
 
-- (NSDictionary *)dictionaryWithAccount:(NSDictionary *)remoteAccount accessToken:(NSString *)accessToken {
+- (NSDictionary *)responseDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSString *)accessToken {
+    remoteAccount = remoteAccount[@"data"];
     return @{
         @"provider": [[self class] type],
         @"credentials": [self credentialsDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken],
-        @"uid": remoteAccount[@"data"][@"id"],
+        @"uid": remoteAccount[@"id"],
         @"extra": remoteAccount,
         @"info": [self infoDictionaryWithRemoteAccount:remoteAccount accessToken:accessToken]
     };
@@ -129,32 +130,32 @@
 - (NSDictionary *)infoDictionaryWithRemoteAccount:(NSDictionary *)remoteAccount accessToken:(NSString *)accessToken {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     
-    id nickname = remoteAccount[@"data"][@"username"];
+    id nickname = remoteAccount[@"username"];
     if (nickname) {
         dictionary[@"nickname"] = nickname;
     }
     
-    id name = remoteAccount[@"data"][@"full_name"];
+    id name = remoteAccount[@"full_name"];
     if (name) {
         dictionary[@"name"] = name;
     }
     
-    id email = remoteAccount[@"data"][@"email"];
+    id email = remoteAccount[@"email"];
     if (email) {
         dictionary[@"email"] = email;
     }
     
-    id image = remoteAccount[@"data"][@"profile_picture"];
+    id image = remoteAccount[@"profile_picture"];
     if (image) {
         dictionary[@"image"] = image;
     }
     
-    id bio = remoteAccount[@"data"][@"bio"];
+    id bio = remoteAccount[@"bio"];
     if (bio) {
         dictionary[@"bio"] = bio;
     }
     
-    id website = remoteAccount[@"data"][@"website"];
+    id website = remoteAccount[@"website"];
     if (website) {
         dictionary[@"website"] = website;
     }

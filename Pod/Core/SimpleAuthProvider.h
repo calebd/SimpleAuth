@@ -19,7 +19,16 @@
 + (NSDictionary *)defaultOptions;
 
 - (instancetype)initWithOptions:(NSDictionary *)options;
+
+/**
+ Subclasses must subclass this and authenticate the user.
+ 
+ @param completion Completion called when authentication either succeeds or
+ fails. This can be called on any thread, as the <code>SimpleAuth</code> class
+ handles dispatching this completion onto the main queue.
+ */
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion;
+
 - (void)presentLoginViewController:(UIViewController *)controller;
 - (void)presentActionSheet:(UIActionSheet *)actionSheet;
 - (void)presentAlertController:(UIAlertController *)alertController;

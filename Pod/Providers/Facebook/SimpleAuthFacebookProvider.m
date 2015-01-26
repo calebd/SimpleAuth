@@ -28,20 +28,21 @@
 }
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
-    [[[self systemAccount]
-     flattenMap:^RACStream *(ACAccount *account) {
-         NSArray *signals = @[
-             [self remoteAccountWithSystemAccount:account],
-             [RACSignal return:account]
-         ];
-         return [self rac_liftSelector:@selector(responseDictionaryWithSystemAccount:remoteAccount:) withSignalsFromArray:signals];
-     }]
-     subscribeNext:^(NSDictionary *response) {
-         completion(response, nil);
-     }
-     error:^(NSError *error) {
-         completion(nil, error);
-     }];
+    [[[[self systemAccount]
+        flattenMap:^RACStream *(ACAccount *account) {
+            NSArray *signals = @[
+                [RACSignal return:account],
+                [self remoteAccountWithSystemAccount:account]
+            ];
+            return [self rac_liftSelector:@selector(responseDictionaryWithSystemAccount:remoteAccount:) withSignalsFromArray:signals];
+        }]
+        deliverOn:[RACScheduler mainThreadScheduler]]
+        subscribeNext:^(NSDictionary *response) {
+            completion(response, nil);
+        }
+        error:^(NSError *error) {
+            completion(nil, error);
+        }];
 }
 
 

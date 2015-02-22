@@ -54,8 +54,6 @@
         alertController.popoverPresentationController.sourceView = presented.view;
         alertController.popoverPresentationController.sourceRect = presented.view.bounds;
     }
-    
-    
     [presented presentViewController:alertController animated:YES completion:nil];
 }
 

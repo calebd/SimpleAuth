@@ -3,22 +3,14 @@
 //  SimpleAuth
 //
 //  Created by Caleb Davenport on 11/6/13.
-//  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
+//  Copyright (c) 2013-2015 Caleb Davenport. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <AvailabilityMacros.h>
 
 #import "SimpleAuthErrors.h"
-
-/**
- Called when authentication completes with a response or fails with an error.
- Should an error occur, response object will be nil.
- 
- @param responseObject The authorization response, or nil if an error occurred.
- @param error An error.
- */
-typedef void (^SimpleAuthRequestHandler) (id responseObject, NSError *error);
+#import "SimpleAuthDefines.h"
 
 extern NSString * const SimpleAuthPresentInterfaceBlockKey;
 extern NSString * const SimpleAuthDismissInterfaceBlockKey;

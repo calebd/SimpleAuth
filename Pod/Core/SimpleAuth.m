@@ -3,7 +3,7 @@
 //  SimpleAuth
 //
 //  Created by Caleb Davenport on 11/6/13.
-//  Copyright (c) 2013-2014 Byliner, Inc. All rights reserved.
+//  Copyright (c) 2013-2015 Caleb Davenport. All rights reserved.
 //
 
 #import "SimpleAuth.h"

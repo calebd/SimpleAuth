@@ -32,8 +32,8 @@ Configuring  and using SimpleAuth is easy:
 ````swift
 // Somewhere in your app boot process
 SimpleAuth.configuration()["twitter"] = [
-    "consumer_key" : "KEY",
-    "consumer_secret" : "SECRET"
+    "consumer_key": "KEY",
+    "consumer_secret": "SECRET"
 ]
 ````
 
@@ -63,7 +63,7 @@ Optionally, you may return a set of default options for all authorization option
 ````objc
 + (NSDictionary *)defaultOptions {
     return @{
-        @"permissions" : @[ @"email" ]
+        @"permissions": @[ @"email" ]
     };
 }
 ````

@@ -29,20 +29,20 @@ to your `Podfile`.
 
 Configuring  and using SimpleAuth is easy:
 
-````objc
+````swift
 // Somewhere in your app boot process
-SimpleAuth.configuration[@"twitter"] = @{
-    @"consumer_key" : @"KEY",
-    @"consumer_secret" : @"SECRET"
-};
+SimpleAuth.configuration()["twitter"] = [
+    "consumer_key" : "KEY",
+    "consumer_secret" : "SECRET"
+]
 ````
 
-````objc
+````swift
 // Authorize
-- (void)loginWithTwitter {
-    [SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSError *error) {
-        NSLog(@"%@", responseObject);
-    }];
+func loginWithTwitter() {
+    SimpleAuth.authenticateWithProvider("twitter", completion: { responseObject, error in
+        println(responseObject)
+    })
 }
 ````
 

@@ -7,12 +7,12 @@
 //
 
 #import "SimpleAuthTwitterProvider.h"
-
 #import "UIWindow+SimpleAuthAdditions.h"
 #import "ACAccountStore+SimpleAuth.h"
+#import "SimpleAuthUtilities.h"
+
 #import <cocoa-oauth/GCOAuth.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
-
 @import Social;
 
 @implementation SimpleAuthTwitterProvider
@@ -22,20 +22,6 @@
 + (NSString *)type {
     return @"twitter";
 }
-
-
-+ (NSDictionary *)defaultOptions {
-    void (^actionSheetBlock) (UIActionSheet *) = ^(UIActionSheet *sheet) {
-        UIWindow *window = [UIWindow SimpleAuth_mainWindow];
-        [sheet showInView:window];
-    };
-    
-    NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
-    options[SimpleAuthPresentInterfaceBlockKey] = actionSheetBlock;
-    
-    return options;
-}
-
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self systemAccount]
@@ -62,7 +48,6 @@
     return [ACAccountStore SimpleAuth_accountsWithTypeIdentifier:ACAccountTypeIdentifierTwitter options:nil];
 }
 
-
 - (RACSignal *)systemAccount {
     return [[self allSystemAccounts] flattenMap:^RACStream *(NSArray *accounts) {
         if ([accounts count] == 1) {
@@ -75,7 +60,6 @@
     }];
 }
 
-
 - (RACSignal *)systemAccountFromAccounts:(NSArray *)accounts {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -85,32 +69,27 @@
                 [sheet addButtonWithTitle:title];
             }
             sheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-            sheet.cancelButtonIndex = [sheet addButtonWithTitle:NSLocalizedString(@"GENERAL_CANCEL", nil)];
+            NSInteger cancelButtonIndex = sheet.cancelButtonIndex = [sheet addButtonWithTitle:SimpleAuthLocalizedString(@"CANCEL")];
             
-            SEL s = @selector(actionSheet:clickedButtonAtIndex:);
-            Protocol *p = @protocol(UIActionSheetDelegate);
-            [[sheet rac_signalForSelector:s fromProtocol:p] subscribeNext:^(RACTuple *tuple) {
-                RACTupleUnpack(UIActionSheet *sheet, NSNumber *number) = tuple;
-                NSInteger index = [number integerValue];
-                if (index == sheet.cancelButtonIndex) {
+            [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+                NSInteger buttonIndex = [number integerValue];
+                if (buttonIndex == cancelButtonIndex) {
                     NSError *error = [NSError errorWithDomain:SimpleAuthErrorDomain code:SimpleAuthErrorUserCancelled userInfo:nil];
                     [subscriber sendError:error];
                 }
                 else {
-                    ACAccount *account = accounts[index];
+                    ACAccount *account = accounts[buttonIndex];
                     [subscriber sendNext:account];
                     [subscriber sendCompleted];
                 }
             }];
             
-            sheet.delegate = (id)sheet;
-            SimpleAuthInterfaceHandler block = self.options[SimpleAuthPresentInterfaceBlockKey];
-            block(sheet);
+            UIWindow *window = [UIWindow SimpleAuth_mainWindow];
+            [sheet showInView:window];
         });
         return nil;
     }];
 }
-
 
 - (RACSignal *)reverseAuthRequestToken {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -146,13 +125,11 @@
     }];
 }
 
-
 - (RACSignal *)accessTokenWithSystemAccount:(ACAccount *)account {
     return [[self reverseAuthRequestToken] flattenMap:^(NSString *token) {
         return [self accessTokenWithReverseAuthRequestToken:token account:account];
     }];
 }
-
 
 - (RACSignal *)remoteAccountWithSystemAccount:(ACAccount *)account {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -192,7 +169,6 @@
     }];
 }
 
-
 - (RACSignal *)accessTokenWithReverseAuthRequestToken:(NSString *)token account:(ACAccount *)account {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *URL = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
@@ -224,7 +200,6 @@
         return nil;
     }];
 }
-
 
 - (NSDictionary *)dictionaryWithSystemAccount:(ACAccount *)systemAccount remoteAccount:(NSDictionary *)remoteAccount accessToken:(NSDictionary *)accessToken {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];

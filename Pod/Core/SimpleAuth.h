@@ -32,14 +32,11 @@ typedef NS_ENUM(NSUInteger, SimpleAuthError) {
 };
 
 /**
- Called when authorization either completes with a response or fails with an
- error. Should an error occur, response object will be nil.
+ Called when authentication completes with a response or fails with an error.
+ Should an error occur, response object will be nil.
  
  @param responseObject The authorization response, or nil if an error occurred.
  @param error An error.
- 
- @see +authorize:completion:
- @see +authorize:options:completion:
  */
 typedef void (^SimpleAuthRequestHandler) (id responseObject, NSError *error);
 
@@ -48,7 +45,7 @@ extern NSString * const SimpleAuthDismissInterfaceBlockKey;
 
 /**
  Called when a user interface element must be presented to continue
- authorization. This could be a UIViewController for web login, or a
+ authentication. This could be a UIViewController for web login, or a
  UIActionSheet for system login. All providers will have default
  implementations for the appropriate callback types. You can customize provider
  behavior by providing your own blocks.  This will be called on the main
@@ -72,9 +69,6 @@ typedef void (^SimpleAuthInterfaceHandler) (id userInterfaceElement);
  */
 extern NSString * const SimpleAuthRedirectURIKey;
 
-extern NSString * const SimpleAuthBeginActivityBlockKey;
-extern NSString * const SimpleAuthEndActivityBlockKey;
-
 @interface SimpleAuth : NSObject
 
 /**
@@ -86,31 +80,47 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  @return A mutable dictionary whose string keys correspond to provider types
  and values are dictionaries that are passed on to a provider during an
  authorization operation.
- 
- @see +authorize:options:completion:
  */
 + (NSMutableDictionary *)configuration;
 
 /**
- Perform authorization with the given provider and all previously configured
+ Perform authentication with the given provider and all previously configured
  and default provider options.
  
+ @param provider A single provider type.
  @param completion Called on the main queue when the operation is complete.
- 
- @see +authorize:options:completion:
  */
-+ (void)authorize:(NSString *)provider completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateWithProvider:(NSString * )provider completion:(SimpleAuthRequestHandler)completion;
 
 /**
- Perform an authorization with the given provider. Options provided here will
+ Perform authentication with the given provider. Options provided here will
  be applied on top of any configured or default provider options.
  
+ @param provider A single provider type.
  @param completion Called on the main queue when the operation is complete.
- 
- @see +configuration
- @see +authorize:completion:
  */
-+ (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
++ (void)authenticateWithProvider:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
+
+/**
+ Perform authentication with the given providers. SimpleAuth will start
+ authentication with the first provider in the list and will fall back
+ through the given providers should an error occur.
+ 
+ @param providers An array of provider types.
+ @param completion Called on the main queue when the operation is complete.
+ */
++ (void)authenticateWithProviders:(NSArray *)providers completion:(SimpleAuthRequestHandler)completion;
+
+/**
+ Perform authentication with the given providers. SimpleAuth will start
+ authentication with the first provider in the list and will fall back
+ through the given providers should an error occur. The options you
+ provide here will be passed through to each provider in the providers list.
+ 
+ @param providers An array of provider types.
+ @param completion Called on the main queue when the operation is complete.
+ */
++ (void)authenticateWithProviders:(NSArray *)providers options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion;
 
 /**
  Determine whether the provider can handle the callback URL or not. 
@@ -120,5 +130,8 @@ extern NSString * const SimpleAuthEndActivityBlockKey;
  @param url The callback URL.
  */
 + (BOOL)handleCallback:(NSURL *)url;
+
++ (void)authorize:(NSString * )provider completion:(SimpleAuthRequestHandler)completion DEPRECATED_ATTRIBUTE;
++ (void)authorize:(NSString *)provider options:(NSDictionary *)options completion:(SimpleAuthRequestHandler)completion DEPRECATED_ATTRIBUTE;
 
 @end

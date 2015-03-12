@@ -10,10 +10,6 @@
 
 #import <SimpleAuth/SimpleAuth.h>
 
-@interface SADProviderListViewController ()
-
-@end
-
 @implementation SADProviderListViewController
 
 #pragma mark - NSObject
@@ -42,19 +38,8 @@
     static dispatch_once_t token;
     static NSArray *array;
     dispatch_once(&token, ^{
-        array = @[
-            @"twitter",
-            @"twitter-web",
-            @"facebook",
-            @"facebook-web",
-            @"instagram",
-            @"meetup",
-            @"tumblr",
-			@"foursquare-web",
-            @"dropbox-web",
-            @"linkedin-web",
-			@"sinaweibo-web"
-        ];
+        NSURL *URL = [[NSBundle mainBundle] URLForResource:@"Providers" withExtension:@"plist"];
+        array = [NSArray arrayWithContentsOfURL:URL];
     });
     return array;
 }
@@ -66,11 +51,9 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [[[self class] providers] count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
@@ -94,8 +77,8 @@
         return;
     }
     
-    [SimpleAuth authorize:provider completion:^(id responseObject, NSError *error) {
-        NSLog(@"\nResponse: %@\nError:%@", responseObject, error);
+    [SimpleAuth authenticateWithProvider:provider completion:^(id responseObject, NSError *error) {
+        NSLog(@"\nResponse: %@\nError: %@", responseObject, error);
     }];
 }
 

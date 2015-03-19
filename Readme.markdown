@@ -1,19 +1,19 @@
-# SimpleAuth
+# SimpleAuth - iOS OAuth Interface
 
 SimpleAuth is designed to do the hard work of social account login on iOS. It has a small set of public APIs backed by a set of "providers" that implement the functionality needed to communicate with various social services.
 
 SimpleAuth currently has the following providers:
 
-- [Twitter](https://github.com/calebd/SimpleAuth/wiki/Twitter)
-- [Facebook](https://github.com/calebd/SimpleAuth/wiki/Facebook)
-- [Instagram](https://github.com/calebd/SimpleAuth/wiki/Instagram)
-- [Tumblr](https://github.com/calebd/SimpleAuth/wiki/Tumblr)
-- [Dropbox](https://github.com/calebd/SimpleAuth/wiki/Dropbox)
-- [Foursquare](https://github.com/calebd/SimpleAuth/wiki/Foursquare)
-- [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
-- [LinkedIn](https://github.com/calebd/SimpleAuth/wiki/LinkedIn)
-- [Sina Weibo](https://github.com/calebd/SimpleAuth/wiki/SinaWeibo)
-- [Google](https://github.com/calebd/SimpleAuth/wiki/Google)
+- [Twitter](https://github.com/ramonvic/SimpleAuth/wiki/Twitter)
+- [Facebook](https://github.com/ramonvic/SimpleAuth/wiki/Facebook)
+- [Instagram](https://github.com/ramonvic/SimpleAuth/wiki/Instagram)
+- [Tumblr](https://github.com/ramonvic/SimpleAuth/wiki/Tumblr)
+- [Dropbox](https://github.com/ramonvic/SimpleAuth/wiki/Dropbox)
+- [Foursquare](https://github.com/ramonvic/SimpleAuth/wiki/Foursquare)
+- [Meetup](https://github.com/ramonvic/SimpleAuth/wiki/Meetup)
+- [LinkedIn](https://github.com/ramonvic/SimpleAuth/wiki/LinkedIn)
+- [Sina Weibo](https://github.com/ramonvic/SimpleAuth/wiki/SinaWeibo)
+- [Google](https://github.com/ramonvic/SimpleAuth/wiki/Google)
 
 ## Installing
 
@@ -95,3 +95,4 @@ Special thanks to my friend [@soffes](https://twitter.com/soffes) for advising o
 - [mouhcine](https://github.com/mouhcine): Meetup provider
 - [iamabhiee](https://github.com/iamabhiee): LinkedIn provider
 - [aschuch](https://github.com/aschuch): Sina Weibo provider
+- [ramonvic](https://github.com/ramonvic): Sina Weibo provider

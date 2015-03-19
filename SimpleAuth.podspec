@@ -90,4 +90,10 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Pod/Providers/SinaWeiboWeb/*.{h,m}'
   end
+
+  s.subspec 'GoogleWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Pod/Providers/GoogleWeb/*.{h,m}'
+  end
 end

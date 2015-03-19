@@ -134,28 +134,51 @@
     
     // Credentials
     dictionary[@"credentials"] = @{
-        @"token" : accessToken
-    };
+                                   @"token" : accessToken
+                                   };
     
     // User ID
     dictionary[@"uid"] = userData[@"id"];
     
     // Raw response
     dictionary[@"extra"] = @{
-        @"raw_info" : userData
-    };
+                             @"raw_info" : userData
+                             };
     
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
+    if (userData[@"contact"][@"email"]) {
+        user[@"email"] = userData[@"contact"][@"email"];
+    }
+    
     if (userData[@"firstName"]) {
         user[@"first_name"] = userData[@"firstName"];
     }
+    
     if (userData[@"lastName"]) {
         user[@"last_name"] = userData[@"lastName"];
     }
+    
+    user[@"name"] = [NSString stringWithFormat:@"%@ %@", user[@"first_name"], user[@"last_name"]];
+    
+    user[@"gender"] = userData[@"gender"];
+    
+    if ([userData[@"photo"] isKindOfClass:NSDictionary.class]) {
+        user[@"image"] = [NSString stringWithFormat:@"%@500x500%@", userData[@"photo"][@"prefix"], userData[@"photo"][@"suffix"]];
+    } else if ([userData[@"photo"] isKindOfClass:NSString.class]) {
+        user[@"image"] = userData[@"photo"];
+    }
+    
     if (userData[@"photo"]) {
         user[@"photo"] = userData[@"photo"];
     }
+    if (userData[@"homeCity"]) {
+        NSString *homecity = [[userData[@"homeCity"] componentsSeparatedByString:@","] firstObject];
+        user[@"location"] = homecity;
+    }
+    user[@"urls"] = @{
+                      @"Foursquare" : [NSString stringWithFormat:@"https://foursquare.com/user/%@", userData[@"id"]],
+                      };
     dictionary[@"info"] = user;
     
     return dictionary;

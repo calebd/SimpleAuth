@@ -11,8 +11,9 @@ SimpleAuth currently has the following providers:
 - [Dropbox](https://github.com/calebd/SimpleAuth/wiki/Dropbox)
 - [Foursquare](https://github.com/calebd/SimpleAuth/wiki/Foursquare)
 - [Meetup](https://github.com/calebd/SimpleAuth/wiki/Meetup)
-- [LinkedIn](https://github.com/calebd/SimpleAuth/wiki/Meetup)
+- [LinkedIn](https://github.com/calebd/SimpleAuth/wiki/LinkedIn)
 - [Sina Weibo](https://github.com/calebd/SimpleAuth/wiki/SinaWeibo)
+- [Google](https://github.com/calebd/SimpleAuth/wiki/Google)
 
 ## Installing
 

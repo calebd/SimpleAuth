@@ -53,7 +53,8 @@
 			@"foursquare-web",
             @"dropbox-web",
             @"linkedin-web",
-			@"sinaweibo-web"
+            @"sinaweibo-web",
+            @"google-web"
         ];
     });
     return array;

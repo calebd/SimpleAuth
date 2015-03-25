@@ -70,6 +70,9 @@
 	
 	// client_id and client_secret are required
     SimpleAuth.configuration[@"sinaweibo-web"] = @{};
+    
+    // client_id and client_secret are required
+    SimpleAuth.configuration[@"google-web"] = @{};
 }
 
 

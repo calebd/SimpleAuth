@@ -96,6 +96,6 @@ SPEC CHECKSUMS:
   ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SimpleAuth: 23cdf21db48f1aa342a84f82bd9c43eb5220344a
+  SimpleAuth: bc37f44feff9eaab779d919807ca986ebf19d6a6
 
 COCOAPODS: 0.36.0

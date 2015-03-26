@@ -10,10 +10,13 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
 
   s.subspec 'Core' do |ss|
-    ss.source_files = 'Pod/Core/*.{h,m}'
+    ss.source_files = 'Pod/Core'
     ss.public_header_files = 'Pod/Core/SimpleAuth.h'
     ss.dependency 'ReactiveCocoa'
     ss.dependency 'CMDQueryStringSerialization'
+
+    ss.ios.frameworks = 'UIKit'
+    ss.ios.source_files = 'Pod/Core/ios'
   end
 
   s.subspec 'UI' do |ss|
@@ -26,93 +29,93 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/UI'
     ss.dependency 'cocoa-oauth'
     ss.frameworks = 'Accounts', 'Social'
-    ss.source_files = 'Pod/Providers/Twitter/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Twitter'
   end
 
   s.subspec 'Facebook' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.frameworks = 'Accounts', 'Social'
-    ss.source_files = 'Pod/Providers/Facebook/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Facebook'
   end
 
   s.subspec 'FacebookWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/FacebookWeb/*.{h,m}'
+    ss.source_files = 'Pod/Providers/FacebookWeb'
   end
 
   s.subspec 'Instagram' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/Instagram/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Instagram'
   end
 
   s.subspec 'TwitterWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
     ss.dependency 'cocoa-oauth'
-    ss.source_files = 'Pod/Providers/TwitterWeb/*.{h,m}'
+    ss.source_files = 'Pod/Providers/TwitterWeb'
   end
 
   s.subspec 'Meetup' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/Meetup/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Meetup'
   end
 
   s.subspec 'Tumblr' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
     ss.dependency 'cocoa-oauth'
-    ss.source_files = 'Pod/Providers/Tumblr/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Tumblr'
   end
 
   s.subspec 'FoursquareWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/FoursquareWeb/*.{h,m}'
+    ss.source_files = 'Pod/Providers/FoursquareWeb'
   end
 
   s.subspec 'DropboxWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/DropboxWeb/*.{h,m}'
+    ss.source_files = 'Pod/Providers/DropboxWeb'
   end
 
   s.subspec 'LinkedInWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/LinkedIn/*.{h,m}'
+    ss.source_files = 'Pod/Providers/LinkedIn'
   end
 
   s.subspec 'SinaWeiboWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/SinaWeiboWeb/*.{h,m}'
+    ss.source_files = 'Pod/Providers/SinaWeiboWeb'
   end
 
   s.subspec 'GoogleWeb' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/GoogleWeb/*.{h,m}'
+    ss.source_files = 'Pod/Providers/GoogleWeb'
   end
 
   s.subspec 'TripIt' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
     ss.dependency 'cocoa-oauth'
-    ss.source_files = 'Pod/Providers/TripIt/*.{h,m}'
+    ss.source_files = 'Pod/Providers/TripIt'
   end
 
   s.subspec 'Trello' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/Trello/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Trello'
   end
 
   s.subspec 'Strava' do |ss|
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
-    ss.source_files = 'Pod/Providers/Strava/*.{h,m}'
+    ss.source_files = 'Pod/Providers/Strava'
   end
 end

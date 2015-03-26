@@ -96,4 +96,11 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Pod/Providers/GoogleWeb/*.{h,m}'
   end
+
+  s.subspec 'TripIt' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.dependency 'cocoa-oauth'
+    ss.source_files = 'Pod/Providers/TripIt/*.{h,m}'
+  end
 end

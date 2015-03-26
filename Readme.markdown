@@ -14,6 +14,7 @@ SimpleAuth currently has the following providers:
 - [LinkedIn](https://github.com/calebd/SimpleAuth/wiki/LinkedIn)
 - [Sina Weibo](https://github.com/calebd/SimpleAuth/wiki/SinaWeibo)
 - [Google](https://github.com/calebd/SimpleAuth/wiki/Google)
+- [Box](https://github.com/calebd/SimpleAuth/wiki/Box)
 
 ## Installing
 

@@ -30,26 +30,26 @@ to your `Podfile`.
 
 Configuring  and using SimpleAuth is easy:
 
-````objc
+````swift
 // Somewhere in your app boot process
-SimpleAuth.configuration[@"twitter"] = @{
-    @"consumer_key" : @"KEY",
-    @"consumer_secret" : @"SECRET"
-};
+SimpleAuth.configuration()["twitter"] = [
+    "consumer_key": "KEY",
+    "consumer_secret": "SECRET"
+]
 ````
 
-````objc
+````swift
 // Authorize
-- (void)loginWithTwitter {
-    [SimpleAuth authorize:@"twitter" completion:^(id responseObject, NSError *error) {
-        NSLog(@"%@", responseObject);
-    }];
+func loginWithTwitter() {
+    SimpleAuth.authorize("twitter", completion: { responseObject, error in
+        println("Twitter login response: \(responseObject)")
+    })
 }
 ````
 
 ## Implementing  a Provider
 
-The API for creating providers is pretty simple. Be sure to look at `SimpleAuthProvider` and `SimpleAuthWebLoginViewController`. These classes will help you simplify your authentiction process. Providers should be stored in `Providers/` and have an appropriately named folder and sub spec. All providers are automatically registered with the framework. There are a handful of methods you'll need to implement:
+The API for creating providers is pretty simple. Be sure to look at `SimpleAuthProvider` and `SimpleAuthWebLoginViewController`. These classes will help you simplify your authentiction process. Providers should be stored in `Pod/Providers/` and have an appropriately named folder and sub spec. All providers are automatically registered with the framework. There are a handful of methods you'll need to implement:
 
 Let SimpleAuth know what type of provider you are registering:
 

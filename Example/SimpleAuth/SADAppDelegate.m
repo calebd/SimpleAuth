@@ -83,7 +83,7 @@
     // consumer_key and consumer_secret are required
     SimpleAuth.configuration[@"tripit"] = @{};
     
-    // client_id, client_secret, redirect_uri are required
+    // client_id and client_secret are required
     SimpleAuth.configuration[@"box-web"] = @{};
     
 }

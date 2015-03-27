@@ -13,6 +13,7 @@ PODS:
   - ReactiveCocoa/UI (2.4.7):
     - ReactiveCocoa/Core
   - SimpleAuth (0.3.7):
+    - SimpleAuth/BoxWeb (= 0.3.7)
     - SimpleAuth/Core (= 0.3.7)
     - SimpleAuth/DropboxWeb (= 0.3.7)
     - SimpleAuth/Facebook (= 0.3.7)
@@ -30,6 +31,9 @@ PODS:
     - SimpleAuth/Twitter (= 0.3.7)
     - SimpleAuth/TwitterWeb (= 0.3.7)
     - SimpleAuth/UI (= 0.3.7)
+  - SimpleAuth/BoxWeb (0.3.7):
+    - SimpleAuth/Core
+    - SimpleAuth/UI
   - SimpleAuth/Core (0.3.7):
     - CMDQueryStringSerialization
     - ReactiveCocoa
@@ -96,6 +100,6 @@ SPEC CHECKSUMS:
   ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SimpleAuth: b5c07f4e34d1e2a7fc68090a0ea578215f9c25d4
+  SimpleAuth: 734a26053961d20b496038724d74fdd0f353e04c
 
 COCOAPODS: 0.36.0

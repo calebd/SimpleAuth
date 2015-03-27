@@ -58,6 +58,7 @@
             @"strava-web",
             @"tripit",
             @"trello-web"
+            @"box-web",
         ];
     });
     return array;

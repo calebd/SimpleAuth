@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B491B8819E1D7CF0073EBEE /* Providers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B491B8719E1D7CF0073EBEE /* Providers.plist */; };
 		3B629D9E19DE1F6E00BDF072 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9D19DE1F6E00BDF072 /* LaunchScreen.xib */; };
 		3B629DA019DE238100BDF072 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B629D9F19DE238100BDF072 /* Images.xcassets */; };
 		3B658435188892FE00D59100 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B658433188892FE00D59100 /* InfoPlist.strings */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		0A3609D93D7B90B3BBADBC21 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		0D4998CFA03844FB99EE78AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B491B8719E1D7CF0073EBEE /* Providers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Providers.plist; sourceTree = "<group>"; };
 		3B629D9719DE1F2500BDF072 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		3B629D9819DE1F2500BDF072 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Readme.markdown; path = ../Readme.markdown; sourceTree = "<group>"; };
 		3B629D9919DE1F2500BDF072 /* SimpleAuth.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleAuth.podspec; path = ../SimpleAuth.podspec; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				3B658438188892FE00D59100 /* Prefix.pch */,
 				3B629D9D19DE1F6E00BDF072 /* LaunchScreen.xib */,
 				3B629D9F19DE238100BDF072 /* Images.xcassets */,
+				3B491B8719E1D7CF0073EBEE /* Providers.plist */,
 			);
 			path = SimpleAuth;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 				3B629D9E19DE1F6E00BDF072 /* LaunchScreen.xib in Resources */,
 				3B629DA019DE238100BDF072 /* Images.xcassets in Resources */,
 				3B658435188892FE00D59100 /* InfoPlist.strings in Resources */,
+				3B491B8819E1D7CF0073EBEE /* Providers.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

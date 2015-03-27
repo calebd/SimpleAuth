@@ -14,6 +14,16 @@
 
 @implementation SimpleAuthBoxWebProvider
 
+#pragma mark - Initializers
+
+- (instancetype)initWithOptions:(NSDictionary *)options {
+    NSMutableDictionary *mutableOptions = [NSMutableDictionary dictionaryWithDictionary:options];
+    mutableOptions[SimpleAuthRedirectURIKey] = [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", options[@"client_id"]];
+    self = [super initWithOptions:[mutableOptions copy]];
+    return self;
+}
+
+
 #pragma mark - SimpleAuthProvider
 
 + (NSString *)type {
@@ -45,19 +55,19 @@
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
-     flattenMap:^(NSDictionary *response) {
-         NSArray *signals = @[
-             [self accountWithAccessToken:response],
-             [RACSignal return:response]
-         ];
-         return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
-     }]
-     subscribeNext:^(NSDictionary *response) {
-         completion(response, nil);
-     }
-     error:^(NSError *error) {
-         completion(nil, error);
-     }];
+        flattenMap:^(NSDictionary *response) {
+            NSArray *signals = @[
+                [self accountWithAccessToken:response],
+                [RACSignal return:response]
+            ];
+            return [self rac_liftSelector:@selector(dictionaryWithAccount:accessToken:) withSignalsFromArray:signals];
+        }]
+        subscribeNext:^(NSDictionary *response) {
+            completion(response, nil);
+        }
+        error:^(NSError *error) {
+            completion(nil, error);
+        }];
 }
 
 
@@ -98,17 +108,16 @@
 - (RACSignal *)accessTokenWithAuthorizationCode:(NSString *)code {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        // Build request
+        // Build parameters
         NSDictionary *parameters = @{
-                                     @"code" : code,
-                                     @"client_id" : self.options[@"client_id"],
-                                     @"client_secret" : self.options[@"client_secret"],                                     
-                                     @"redirect_uri" : [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", self.options[@"client_id"]],
-                                     @"grant_type" : @"authorization_code"
-                                     };
-        
-        NSLog(@"params = %@", parameters);
-        
+            @"code" : code,
+            @"client_id" : self.options[@"client_id"],
+            @"client_secret" : self.options[@"client_secret"],
+            @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
+            @"grant_type" : @"authorization_code"
+        };
+
+        // Build request
         NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
         NSURL *URL = [NSURL URLWithString:@"https://api.box.com/oauth2/token"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
@@ -118,25 +127,24 @@
         
         // Run request
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                   NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
-                                   NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                                   if ([indexSet containsIndex:statusCode] && data) {
-                                       NSError *parseError = nil;
-                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-                                       if (dictionary) {
-                                           [subscriber sendNext:dictionary];
-                                           [subscriber sendCompleted];
-                                       }
-                                       else {
-                                           [subscriber sendError:parseError];
-                                       }
-                                   }
-                                   else {
-                                       [subscriber sendError:connectionError];
-                                   }
-                               }];
-        
+            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                if ([indexSet containsIndex:statusCode] && data) {
+                    NSError *parseError = nil;
+                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                    if (dictionary) {
+                        [subscriber sendNext:dictionary];
+                        [subscriber sendCompleted];
+                    }
+                    else {
+                        [subscriber sendError:parseError];
+                    }
+                }
+                else {
+                    [subscriber sendError:connectionError];
+                }
+            }];
         return nil;
     }];
 }
@@ -158,24 +166,24 @@
         NSURL *URL = [NSURL URLWithString:URLString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
-         completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
-             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-             if ([indexSet containsIndex:statusCode] && data) {
-                 NSError *parseError = nil;
-                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-                 if (dictionary) {
-                     [subscriber sendNext:dictionary];
-                     [subscriber sendCompleted];
-                 }
-                 else {
-                     [subscriber sendError:parseError];
-                 }
-             }
-             else {
-                 [subscriber sendError:connectionError];
-             }
-         }];
+            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                if ([indexSet containsIndex:statusCode] && data) {
+                    NSError *parseError = nil;
+                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+                    if (dictionary) {
+                        [subscriber sendNext:dictionary];
+                        [subscriber sendCompleted];
+                    }
+                    else {
+                        [subscriber sendError:parseError];
+                    }
+                }
+                else {
+                    [subscriber sendError:connectionError];
+                }
+            }];
         return nil;
     }];
 }

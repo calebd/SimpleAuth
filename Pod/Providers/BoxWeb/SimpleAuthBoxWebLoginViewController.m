@@ -13,9 +13,7 @@
 #pragma mark - SimpleAuthWebViewController
 
 - (instancetype)initWithOptions:(NSDictionary *)options requestToken:(NSDictionary *)requestToken {
-    NSMutableDictionary *optionsCopy = options.mutableCopy;
-    optionsCopy[SimpleAuthRedirectURIKey] = [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", options[@"client_id"]];    
-    if ((self = [super initWithOptions:optionsCopy.copy requestToken:requestToken])) {
+    if ((self = [super initWithOptions:options requestToken:requestToken])) {
         self.title = @"Box";
     }
     return self;
@@ -25,7 +23,7 @@
 - (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
         @"client_id" : self.options[@"client_id"],
-        @"redirect_uri" : [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", self.options[@"client_id"]],
+        @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
         @"response_type" : @"code"
     };
     NSString *URLString = [NSString stringWithFormat:

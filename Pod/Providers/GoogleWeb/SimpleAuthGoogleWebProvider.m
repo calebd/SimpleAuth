@@ -40,6 +40,8 @@
     NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
     options[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     options[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
+    options[SimpleAuthRedirectURIKey] = @"http://localhost";
+    options[@"scope"] = @"email openid profile";
     return options;
 }
 

@@ -119,4 +119,11 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Pod/Providers/Strava'
   end
+
+s.subspec 'BoxWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Pod/Providers/BoxWeb'
+end
+
 end

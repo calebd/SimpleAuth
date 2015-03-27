@@ -65,18 +65,7 @@
 
 - (RACSignal *)authorizationCode {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-////            self.options[SimpleAuthRedirectURIKey] =
-////            
-////            [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", self.options[@"client_id"]];
-//
-//            
-//            NSMutableDictionary *options = self.options.mutableCopy;
-//            options[SimpleAuthRedirectURIKey] =
-//            
-//                        [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", self.options[@"client_id"]];
-//            
+        dispatch_async(dispatch_get_main_queue(), ^{                    
             SimpleAuthBoxWebLoginViewController *login = [[SimpleAuthBoxWebLoginViewController alloc] initWithOptions:self.options];
             login.completion = ^(UIViewController *login, NSURL *URL, NSError *error) {
                 SimpleAuthInterfaceHandler dismissBlock = self.options[SimpleAuthDismissInterfaceBlockKey];
@@ -113,8 +102,8 @@
         NSDictionary *parameters = @{
                                      @"code" : code,
                                      @"client_id" : self.options[@"client_id"],
-                                     @"client_secret" : self.options[@"client_secret"],
-                                     @"redirect_uri" : self.options[@"redirect_uri"],
+                                     @"client_secret" : self.options[@"client_secret"],                                     
+                                     @"redirect_uri" : [NSString stringWithFormat:@"boxsdk-%@://boxsdkoauth2redirect", self.options[@"client_id"]],
                                      @"grant_type" : @"authorization_code"
                                      };
         

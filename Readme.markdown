@@ -15,6 +15,7 @@ SimpleAuth currently has the following providers:
 - [Sina Weibo](https://github.com/calebd/SimpleAuth/wiki/SinaWeibo)
 - [Google](https://github.com/calebd/SimpleAuth/wiki/Google)
 - [Box](https://github.com/calebd/SimpleAuth/wiki/Box)
+- [OneDrive](https://github.com/calebd/SimpleAuth/wiki/OneDrive)
 
 ## Installing
 

@@ -126,4 +126,10 @@ s.subspec 'BoxWeb' do |ss|
     ss.source_files = 'Pod/Providers/BoxWeb'
 end
 
+  s.subspec 'OneDriveWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Pod/Providers/OneDriveWeb'
+  end
+
 end

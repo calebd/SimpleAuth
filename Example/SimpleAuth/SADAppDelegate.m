@@ -86,6 +86,8 @@
     // client_id and client_secret are required
     SimpleAuth.configuration[@"box-web"] = @{};
     
+    // client_id and client_secret are required
+    SimpleAuth.configuration[@"onedrive-web"] = @{};
 }
 
 

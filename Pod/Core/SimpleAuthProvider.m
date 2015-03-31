@@ -16,20 +16,19 @@
 
 @implementation SimpleAuthProvider
 
+#pragma mark - Properties
+
 @synthesize operationQueue = _operationQueue;
 
-#pragma mark - Public
-
-+ (NSString *)type {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
+- (NSOperationQueue *)operationQueue {
+    if (!_operationQueue) {
+        _operationQueue = [[NSOperationQueue alloc] init];
+    }
+    return _operationQueue;
 }
 
 
-+ (NSDictionary *)defaultOptions {
-    return @{};
-}
-
+#pragma mark - Initializers
 
 - (instancetype)initWithOptions:(NSDictionary *)options {
     if ((self = [super init])) {
@@ -39,18 +38,19 @@
 }
 
 
-- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+#pragma mark - Public
+
++ (NSString *)type {
     [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
++ (NSDictionary *)defaultOptions {
+    return @{};
+}
 
-#pragma mark - Accessors
-
-- (NSOperationQueue *)operationQueue {
-    if (!_operationQueue) {
-        _operationQueue = [NSOperationQueue new];
-    }
-    return _operationQueue;
+- (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 @end

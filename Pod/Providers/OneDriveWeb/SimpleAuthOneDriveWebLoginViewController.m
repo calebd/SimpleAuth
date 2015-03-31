@@ -37,11 +37,8 @@
 
 
 - (BOOL)isTargetRedirectURL:(NSURL *)URL {
-    NSString *match = @"?code=";
-    if ([URL.absoluteString rangeOfString:match].location != NSNotFound)
-        return YES;
-    
-    return NO;
+    NSRange range = [URL.absoluteString rangeOfString:@"?code=" options:NSCaseInsensitiveSearch];
+    return range.location != NSNotFound;
 }
 
 

@@ -23,6 +23,7 @@ PODS:
     - SimpleAuth/Instagram (= 0.3.7)
     - SimpleAuth/LinkedInWeb (= 0.3.7)
     - SimpleAuth/Meetup (= 0.3.7)
+    - SimpleAuth/OneDriveWeb (= 0.3.7)
     - SimpleAuth/SinaWeiboWeb (= 0.3.7)
     - SimpleAuth/Strava (= 0.3.7)
     - SimpleAuth/Trello (= 0.3.7)
@@ -60,6 +61,9 @@ PODS:
   - SimpleAuth/Meetup (0.3.7):
     - SimpleAuth/Core
     - SimpleAuth/UI
+  - SimpleAuth/OneDriveWeb (0.3.7):
+    - SimpleAuth/Core
+    - SimpleAuth/UI
   - SimpleAuth/SinaWeiboWeb (0.3.7):
     - SimpleAuth/Core
     - SimpleAuth/UI
@@ -92,14 +96,14 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   SimpleAuth:
-    :path: ..
+    :path: ".."
 
 SPEC CHECKSUMS:
-  CMDQueryStringSerialization: bc824b96c08a3277d00c71504e13c9fa18c6b451
-  cocoa-oauth: 418c70e6ce4130fa7ebdf05232018c8f391030d8
-  ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
-  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
-  ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
-  SimpleAuth: 734a26053961d20b496038724d74fdd0f353e04c
+  CMDQueryStringSerialization: 03c5d9847a4eaa2b3e4e439ce1ae24f914cc7fe1
+  cocoa-oauth: 1200a2170276a62a975f2786d505dab6e2db1fa8
+  ISO8601: f74aa93ae1264e5089614325ef44016f08c7ac6c
+  NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
+  ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
+  SimpleAuth: 46760ffb9be64be84381dbaa5ae5c57347db4c3d
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.1

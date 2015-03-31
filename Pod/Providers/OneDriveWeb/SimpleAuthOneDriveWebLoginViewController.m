@@ -37,7 +37,8 @@
 
 
 - (BOOL)isTargetRedirectURL:(NSURL *)URL {
-    if ([URL.absoluteString containsString:@"live.com/?code="])
+    NSString *match = @"?code=";
+    if ([URL.absoluteString rangeOfString:match].location != NSNotFound)
         return YES;
     
     return NO;

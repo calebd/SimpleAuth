@@ -132,4 +132,10 @@ end
     ss.source_files = 'Pod/Providers/OneDriveWeb'
   end
 
+  s.subspec 'GitHubWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.dependency 'SimpleAuth/UI'
+    ss.source_files = 'Pod/Providers/GitHubWeb'
+  end
+
 end

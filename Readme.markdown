@@ -16,6 +16,7 @@ SimpleAuth currently has the following providers:
 - [Google](https://github.com/calebd/SimpleAuth/wiki/Google)
 - [Box](https://github.com/calebd/SimpleAuth/wiki/Box)
 - [OneDrive](https://github.com/calebd/SimpleAuth/wiki/OneDrive)
+- [GitHub](https://github.com/calebd/SimpleAuth/wiki/GitHub)
 
 ## Installing
 

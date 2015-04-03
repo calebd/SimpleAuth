@@ -39,6 +39,7 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[super defaultOptions]];
     dictionary[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     dictionary[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
+    dictionary[@"scope"] = @"";
     return dictionary;
 }
 

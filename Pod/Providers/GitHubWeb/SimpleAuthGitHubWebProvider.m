@@ -118,7 +118,6 @@
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%@", @([requestData length])] forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody: requestData];
         
         // Run request

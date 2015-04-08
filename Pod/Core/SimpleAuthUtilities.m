@@ -7,9 +7,11 @@
 //
 
 #import "SimpleAuthUtilities.h"
+#import "SimpleAuth.h"
 
 NSString *SimpleAuthLocalizedString(NSString *key) {
-    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"SimpleAuth" withExtension:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithURL:URL];
-    return [bundle localizedStringForKey:key value:nil table:@"SimpleAuth"];
+    NSBundle *mainBundle = [NSBundle bundleForClass:[SimpleAuth class]];
+    NSURL *resourcesBundleURL = [mainBundle URLForResource:@"SimpleAuth" withExtension:@"bundle"];
+    NSBundle *resourcesBundle = [NSBundle bundleWithURL:resourcesBundleURL];
+    return NSLocalizedStringFromTableInBundle(key, nil, resourcesBundle, nil);
 }

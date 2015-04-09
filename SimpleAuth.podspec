@@ -136,6 +136,7 @@ end
     ss.dependency 'SimpleAuth/Core'
     ss.dependency 'SimpleAuth/UI'
     ss.source_files = 'Pod/Providers/GitHubWeb'
+    ss.private_header_files = 'Pod/Providers/GitHubWeb/*.h'
   end
 
 end

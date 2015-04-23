@@ -30,8 +30,8 @@
     [[[[self systemAccount]
         flattenMap:^RACStream *(ACAccount *account) {
             NSArray *signals = @[
-                [RACSignal return:account],
-                [self remoteAccountWithSystemAccount:account]
+                [self remoteAccountWithSystemAccount:account],
+                [RACSignal return:account]
             ];
             return [self rac_liftSelector:@selector(responseDictionaryWithRemoteAccount:systemAccount:) withSignalsFromArray:signals];
         }]

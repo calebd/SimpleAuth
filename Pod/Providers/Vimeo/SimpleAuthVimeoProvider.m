@@ -17,8 +17,29 @@
 #pragma mark - SimpleAuthProvider
 
 + (NSString *)type {
-    return @"dribbble";
+    return @"vimeo";
 }
+
++ (NSString *)authorizationHeaderWithClientID:(NSString *)clientID clientSecret:(NSString *)clientSecret
+{
+    NSString *base = [[clientID stringByAppendingString:@":"] stringByAppendingString:clientSecret];
+    NSData *plainData = [base dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String = [plainData base64EncodedStringWithOptions:0];
+    return [@"basic " stringByAppendingString:base64String];
+}
+
+
+NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
++ (NSString *)randomStringWithLength:(int)len
+{
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+    for ( NSInteger i = 0; i < len; i++ ) {
+        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform((u_int32_t)[letters length])]];
+    }
+    return randomString;
+}
+
 
 + (NSDictionary *)defaultOptions {
     
@@ -39,10 +60,10 @@
     options[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     options[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     options[SimpleAuthRedirectURIKey] = @"http://";
+    options[@"state"] = [self randomStringWithLength:20];
     
     return options;
 }
-
 
 - (void)authorizeWithCompletion:(SimpleAuthRequestHandler)completion {
     [[[self accessToken]
@@ -83,7 +104,7 @@
                     return;
                 }
 
-                if (![state isEqualToString:self.options["state"]]) {
+                if (![state isEqualToString:self.options[@"state"]]) {
                     [subscriber sendError:error];
                     return;
                 }
@@ -111,10 +132,13 @@
                                      @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
                                      };
         NSString *query = [CMDQueryStringSerialization queryStringWithDictionary:parameters];
+        NSString *authorizationHeader = [self.class authorizationHeaderWithClientID:self.options[@"client_id"]
+                                                                       clientSecret:self.options[@"client_secret"]];
         NSURL *URL = [NSURL URLWithString:@"https://api.vimeo.com/oauth/access_token"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         request.HTTPMethod = @"POST";
         request.HTTPBody = [query dataUsingEncoding:NSUTF8StringEncoding];
+        [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
         
         // Run request
         [NSURLConnection sendAsynchronousRequest:request queue:self.operationQueue
@@ -191,7 +215,7 @@
     dictionary[@"credentials"] = @{@"token" : accessToken[@"access_token"]};
     
     // User ID
-    dictionary[@"uid"] = account[@"id"];
+    dictionary[@"uid"] = account[@"uri"];
     
     // Raw response
     dictionary[@"extra"] = @{
@@ -201,8 +225,6 @@
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
     user[@"name"] = account[@"name"];
-    user[@"username"] = account[@"username"];
-    user[@"image"] = account[@"avatar_url"];
     dictionary[@"info"] = user;
     
     return dictionary;

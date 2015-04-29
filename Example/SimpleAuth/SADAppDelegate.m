@@ -88,6 +88,9 @@
     
     // client_id and client_secret are required
     SimpleAuth.configuration[@"onedrive-web"] = @{};
+    
+    // client_id and client_secret are required
+    SimpleAuth.configuration[@"dribbble"] = @{};
 }
 
 

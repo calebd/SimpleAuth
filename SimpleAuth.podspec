@@ -128,4 +128,10 @@ Pod::Spec.new do |s|
     ss.private_header_files = 'Pod/Providers/OneDriveWeb/*.h'
   end
 
+  s.subspec 'Dribbble' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.source_files = 'Pod/Providers/Dribbble'
+    ss.private_header_files = 'Pod/Providers/Dribbble/*.h'
+  end
+
 end

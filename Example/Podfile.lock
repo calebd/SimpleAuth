@@ -5,70 +5,71 @@ PODS:
     - NSData+Base64 (~> 1.0)
   - ISO8601 (0.1.3)
   - NSData+Base64 (1.0.0)
-  - ReactiveCocoa (2.4.7):
-    - ReactiveCocoa/UI (= 2.4.7)
-  - ReactiveCocoa/Core (2.4.7):
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
     - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.4.7)
-  - ReactiveCocoa/UI (2.4.7):
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
-  - SimpleAuth (0.3.8):
-    - SimpleAuth/BoxWeb (= 0.3.8)
-    - SimpleAuth/Core (= 0.3.8)
-    - SimpleAuth/DropboxWeb (= 0.3.8)
-    - SimpleAuth/Facebook (= 0.3.8)
-    - SimpleAuth/FacebookWeb (= 0.3.8)
-    - SimpleAuth/FoursquareWeb (= 0.3.8)
-    - SimpleAuth/GoogleWeb (= 0.3.8)
-    - SimpleAuth/Instagram (= 0.3.8)
-    - SimpleAuth/LinkedInWeb (= 0.3.8)
-    - SimpleAuth/Meetup (= 0.3.8)
-    - SimpleAuth/OneDriveWeb (= 0.3.8)
-    - SimpleAuth/SinaWeiboWeb (= 0.3.8)
-    - SimpleAuth/Strava (= 0.3.8)
-    - SimpleAuth/Trello (= 0.3.8)
-    - SimpleAuth/TripIt (= 0.3.8)
-    - SimpleAuth/Tumblr (= 0.3.8)
-    - SimpleAuth/Twitter (= 0.3.8)
-    - SimpleAuth/TwitterWeb (= 0.3.8)
-  - SimpleAuth/BoxWeb (0.3.8):
+  - SimpleAuth (0.3.9):
+    - SimpleAuth/BoxWeb (= 0.3.9)
+    - SimpleAuth/Core (= 0.3.9)
+    - SimpleAuth/DropboxWeb (= 0.3.9)
+    - SimpleAuth/Facebook (= 0.3.9)
+    - SimpleAuth/FacebookWeb (= 0.3.9)
+    - SimpleAuth/FoursquareWeb (= 0.3.9)
+    - SimpleAuth/GoogleWeb (= 0.3.9)
+    - SimpleAuth/Instagram (= 0.3.9)
+    - SimpleAuth/LinkedInWeb (= 0.3.9)
+    - SimpleAuth/Meetup (= 0.3.9)
+    - SimpleAuth/OneDriveWeb (= 0.3.9)
+    - SimpleAuth/SinaWeiboWeb (= 0.3.9)
+    - SimpleAuth/Strava (= 0.3.9)
+    - SimpleAuth/Trello (= 0.3.9)
+    - SimpleAuth/TripIt (= 0.3.9)
+    - SimpleAuth/Tumblr (= 0.3.9)
+    - SimpleAuth/Twitter (= 0.3.9)
+    - SimpleAuth/TwitterWeb (= 0.3.9)
+  - SimpleAuth/BoxWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/Core (0.3.8):
+  - SimpleAuth/Core (0.3.9):
     - CMDQueryStringSerialization
     - ReactiveCocoa
-  - SimpleAuth/DropboxWeb (0.3.8):
+  - SimpleAuth/DropboxWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/Facebook (0.3.8):
+  - SimpleAuth/Facebook (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/FacebookWeb (0.3.8):
+  - SimpleAuth/FacebookWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/FoursquareWeb (0.3.8):
+  - SimpleAuth/FoursquareWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/GoogleWeb (0.3.8):
+  - SimpleAuth/GoogleWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/Instagram (0.3.8):
+  - SimpleAuth/Instagram (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/LinkedInWeb (0.3.8):
+  - SimpleAuth/LinkedInWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/Meetup (0.3.8):
+  - SimpleAuth/Meetup (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/OneDriveWeb (0.3.8):
+  - SimpleAuth/OneDriveWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/SinaWeiboWeb (0.3.8):
+  - SimpleAuth/SinaWeiboWeb (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/Strava (0.3.8):
+  - SimpleAuth/Strava (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/Trello (0.3.8):
+  - SimpleAuth/Trello (0.3.9):
     - SimpleAuth/Core
-  - SimpleAuth/TripIt (0.3.8):
+  - SimpleAuth/TripIt (0.3.9):
     - cocoa-oauth
     - SimpleAuth/Core
-  - SimpleAuth/Tumblr (0.3.8):
+  - SimpleAuth/Tumblr (0.3.9):
     - cocoa-oauth
     - SimpleAuth/Core
-  - SimpleAuth/Twitter (0.3.8):
+  - SimpleAuth/Twitter (0.3.9):
     - cocoa-oauth
-  - SimpleAuth/TwitterWeb (0.3.8):
+    - SimpleAuth/Core
+  - SimpleAuth/TwitterWeb (0.3.9):
     - cocoa-oauth
     - SimpleAuth/Core
 
@@ -84,7 +85,7 @@ SPEC CHECKSUMS:
   cocoa-oauth: 1200a2170276a62a975f2786d505dab6e2db1fa8
   ISO8601: 8805b6cd6b2d0f7e594f7c5b50e8b00b51695ac0
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
-  ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
-  SimpleAuth: 94ac8f6f377c58ff836bc8f7525f76da8f46225b
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
+  SimpleAuth: bc7d594f90711a7e6ef7624dce5aa8c8b09770ab
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.36.4

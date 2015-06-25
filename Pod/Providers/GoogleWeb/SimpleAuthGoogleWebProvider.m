@@ -165,10 +165,6 @@
     dictionary[@"extra"] = @{
                              @"raw_info" : account
                              };
-    
-    // Location
-    NSString *location = account[@"location"][@"name"];
-    
     // User info
     NSMutableDictionary *user = [NSMutableDictionary new];
     if (account[@"email"]) {
@@ -177,16 +173,20 @@
     user[@"name"] = account[@"name"];
     user[@"first_name"] = account[@"given_name"];
     user[@"last_name"] = account[@"family_name"];
-    user[@"gender"] = account[@"gender"];
+    if (account[@"gender"]) {
+      user[@"gender"] = account[@"gender"];
+    }
     
     user[@"image"] = account[@"picture"];
-    if (location) {
-        user[@"location"] = location;
+    if (account[@"location"] && account[@"location"][@"name"]) {
+      user[@"location"] = account[@"location"][@"name"];
     }
     user[@"verified"] = account[@"verified_email"] ? @YES : @NO;
-    user[@"urls"] = @{
-                      @"Google +" : account[@"link"],
-                      };
+    if (account[@"link"]) {
+      user[@"urls"] = @{
+        @"Google +" : account[@"link"],
+      };
+    }
     
     dictionary[@"info"] = user;
     

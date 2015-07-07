@@ -16,6 +16,7 @@ SimpleAuth currently has the following providers:
 - [Google](https://github.com/calebd/SimpleAuth/wiki/Google)
 - [Box](https://github.com/calebd/SimpleAuth/wiki/Box)
 - [OneDrive](https://github.com/calebd/SimpleAuth/wiki/OneDrive)
+- [VKontakte](https://github.com/calebd/SimpleAuth/wiki/VKontakte)
 
 ## Installing
 
@@ -97,3 +98,4 @@ Special thanks to my friend [@soffes](https://twitter.com/soffes) for advising o
 - [mouhcine](https://github.com/mouhcine): Meetup provider
 - [iamabhiee](https://github.com/iamabhiee): LinkedIn provider
 - [aschuch](https://github.com/aschuch): Sina Weibo provider
+- [Mikhail_Kupriyanov](https://github.com/MikhailKupriyanov): VKontakte provider

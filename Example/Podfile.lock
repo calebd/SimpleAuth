@@ -31,6 +31,7 @@ PODS:
     - SimpleAuth/Tumblr (= 0.3.9)
     - SimpleAuth/Twitter (= 0.3.9)
     - SimpleAuth/TwitterWeb (= 0.3.9)
+    - SimpleAuth/VKontakteWeb (= 0.3.9)
   - SimpleAuth/BoxWeb (0.3.9):
     - SimpleAuth/Core
   - SimpleAuth/Core (0.3.9):
@@ -72,13 +73,15 @@ PODS:
   - SimpleAuth/TwitterWeb (0.3.9):
     - cocoa-oauth
     - SimpleAuth/Core
+  - SimpleAuth/VKontakteWeb (0.3.9):
+    - SimpleAuth/Core
 
 DEPENDENCIES:
   - SimpleAuth (from `..`)
 
 EXTERNAL SOURCES:
   SimpleAuth:
-    :path: ".."
+    :path: ..
 
 SPEC CHECKSUMS:
   CMDQueryStringSerialization: 03c5d9847a4eaa2b3e4e439ce1ae24f914cc7fe1
@@ -86,6 +89,6 @@ SPEC CHECKSUMS:
   ISO8601: 8805b6cd6b2d0f7e594f7c5b50e8b00b51695ac0
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
-  SimpleAuth: bc7d594f90711a7e6ef7624dce5aa8c8b09770ab
+  SimpleAuth: 84c0a98a8797f3b9400d699f3a2c7e3be5dde1ca
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.2

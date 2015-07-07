@@ -1,0 +1,10 @@
+/* 
+  SimpleAuth.strings
+  SimpleAuth
+
+  Created by Mikhail Kupriyanov on 7/7/15.
+ 
+*/
+
+// General strings
+"CANCEL" = "Отмена";

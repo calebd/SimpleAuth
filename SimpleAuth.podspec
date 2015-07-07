@@ -128,4 +128,10 @@ Pod::Spec.new do |s|
     ss.private_header_files = 'Pod/Providers/OneDriveWeb/*.h'
   end
 
+ s.subspec 'VKontakteWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.source_files = 'Pod/Providers/VKontakteWeb'
+    ss.private_header_files = 'Pod/Providers/VKontakteWeb/*.h'
+  end
+
 end

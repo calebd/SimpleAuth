@@ -2,8 +2,7 @@
 //  SimpleAuthVKontakteWebLoginViewController.m
 //  SimpleAuth
 //
-//  Created by Mike Cooper on 7/6/15.
-
+//  Created by Mikhail Kupriyanov on 7/7/15.
 //
 
 #import "SimpleAuthVKontakteWebLoginViewController.h"
@@ -21,10 +20,10 @@
 
 - (NSURLRequest *)initialRequest {
     NSDictionary *parameters = @{
-        @"client_id" : self.options[@"app_id"],
+        @"client_id" : self.options[@"client_id"],
         @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
         @"response_type" : @"token",
-        @"scope" : [self.options[@"permissions"] componentsJoinedByString:@","],
+        @"scope" : [self.options[@"permission"] componentsJoinedByString:@","],
         @"display" : @"mobile",
         @"v" : @"5.34"
     };

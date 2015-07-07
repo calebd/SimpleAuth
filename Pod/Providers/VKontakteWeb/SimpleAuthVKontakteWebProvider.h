@@ -2,7 +2,7 @@
 //  SimpleAuthVKontakteWebProvider.h
 //  SimpleAuth
 //
-//  Created by Caleb Davenport on 7/6/15.
+//  Created by Mikhail Kupriyanov on 7/7/15.
 //
 
 #import "SimpleAuthProvider.h"

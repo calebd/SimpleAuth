@@ -65,7 +65,10 @@
 - (RACSignal *)remoteAccountWithSystemAccount:(ACAccount *)account {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *URL = [NSURL URLWithString:@"https://graph.facebook.com/me"];
-        SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:URL parameters:nil];
+        NSDictionary *parameters = @{
+                                     @"fields" : @"name,last_name,verified,email,link"
+                                     };
+        SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:URL parameters:parameters];
         request.account = account;
         [request performRequestWithHandler:^(NSData *data, NSHTTPURLResponse *response, NSError *connectionError) {
             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 99)];

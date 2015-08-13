@@ -66,7 +66,7 @@
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *URL = [NSURL URLWithString:@"https://graph.facebook.com/me"];
         NSDictionary *parameters = @{
-                                     @"fields" : @"name,last_name,verified,email,link"
+                                     @"fields" : @"name,first_name,last_name,verified,email,location,link"
                                      };
         SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:URL parameters:parameters];
         request.account = account;

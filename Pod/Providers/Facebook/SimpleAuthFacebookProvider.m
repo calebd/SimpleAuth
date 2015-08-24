@@ -66,7 +66,7 @@
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *URL = [NSURL URLWithString:@"https://graph.facebook.com/me"];
         NSDictionary *parameters = @{
-            @"fields" : @"name,last_name,verified,email,link"
+            @"fields" : @"name,first_name,last_name,verified,email,location,link"
         };
         SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:URL parameters:parameters];
         request.account = account;
@@ -133,24 +133,24 @@
     dictionary[@"first_name"] = remoteAccount[@"first_name"];
     dictionary[@"last_name"] = remoteAccount[@"last_name"];
     dictionary[@"verified"] = remoteAccount[@"verified"] ?: @NO;
-    
+
     id email = remoteAccount[@"email"];
     if (email) {
         dictionary[@"email"] = email;
     }
-    
+
     id location = remoteAccount[@"location"][@"name"];
     if (location) {
         dictionary[@"location"] = location;
     }
-    
+
     dictionary[@"urls"] = @{
         @"Facebook": remoteAccount[@"link"]
     };
-    
+
     NSString *avatar = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", remoteAccount[@"id"]];
     dictionary[@"image"] = avatar;
-    
+
     return dictionary;
 }
 

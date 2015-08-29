@@ -62,6 +62,33 @@ static SimpleAuthProvider *__currentProvider = nil;
     }];
 }
 
++ (void)reAuthorize:(NSString *)type token:(NSString *)token completion:(SimpleAuthRequestHandler)completion {
+    [self reAuthorize:type options:nil token:token completion:completion];
+}
+
+
++ (void)reAuthorize:(NSString *)type options:(NSDictionary *)options token:(NSString *)token completion:(SimpleAuthRequestHandler)completion{
+    // Load the provider class
+    Class klass = [self providers][type];
+    NSAssert(klass, @"There is no class registered to handle %@ requests.", type);
+    
+    // Create options dictionary
+    NSDictionary *defaultOptions = [klass defaultOptions];
+    NSDictionary *registeredOptions = [self configuration][type];
+    NSMutableDictionary *resolvedOptions = [NSMutableDictionary new];
+    [resolvedOptions addEntriesFromDictionary:defaultOptions];
+    [resolvedOptions addEntriesFromDictionary:registeredOptions];
+    [resolvedOptions addEntriesFromDictionary:options];
+    
+    // Create the provider and run authorization
+    SimpleAuthProvider *provider = [(SimpleAuthProvider *)[klass alloc] initWithOptions:resolvedOptions];
+    [provider reAuthorizeWithToken:token completionHandler:^(id responseObject, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(responseObject, error);
+        });
+        [provider class]; // Kepp the provider around until the callback is complete
+    }];
+}
 
 + (BOOL)handleCallback:(NSURL *)URL {
     NSParameterAssert(URL != nil);

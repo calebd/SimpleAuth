@@ -144,7 +144,7 @@
         dictionary[@"location"] = location;
     }
     if (remoteAccount[@"verified"])
-        user[@"verified"] = remoteAccount[@"verified"];
+        dictionary[@"verified"] = remoteAccount[@"verified"];
     dictionary[@"urls"] = @{
         @"Facebook": remoteAccount[@"link"]
     };

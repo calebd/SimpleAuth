@@ -31,6 +31,7 @@ PODS:
     - SimpleAuth/Tumblr (= 0.3.9)
     - SimpleAuth/Twitter (= 0.3.9)
     - SimpleAuth/TwitterWeb (= 0.3.9)
+    - SimpleAuth/MailChimp (= 0.3.9)
   - SimpleAuth/BoxWeb (0.3.9):
     - SimpleAuth/Core
   - SimpleAuth/Core (0.3.9):
@@ -71,6 +72,8 @@ PODS:
     - SimpleAuth/Core
   - SimpleAuth/TwitterWeb (0.3.9):
     - cocoa-oauth
+    - SimpleAuth/Core
+  - SimpleAuth/MailChimp (0.3.9):
     - SimpleAuth/Core
 
 DEPENDENCIES:

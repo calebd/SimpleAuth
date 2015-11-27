@@ -128,4 +128,10 @@ Pod::Spec.new do |s|
     ss.private_header_files = 'Pod/Providers/OneDriveWeb/*.h'
   end
 
+  s.subspec 'MailChimp' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.source_files = 'Pod/Providers/MailChimp'
+    ss.private_header_files = 'Pod/Providers/MailChimp/*.h'
+  end
+
 end

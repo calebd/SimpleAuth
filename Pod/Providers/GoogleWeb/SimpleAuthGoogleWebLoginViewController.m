@@ -25,7 +25,8 @@
         @"client_id" : self.options[@"client_id"],
         @"redirect_uri" : self.options[SimpleAuthRedirectURIKey],
         @"response_type" : @"code",
-        @"scope" : self.options[@"scope"]
+        @"scope" : self.options[@"scope"],
+        @"access_type": self.options[@"access_type"]
     };
     NSString *URLString = [NSString stringWithFormat:
                            @"https://accounts.google.com/o/oauth2/auth?%@",

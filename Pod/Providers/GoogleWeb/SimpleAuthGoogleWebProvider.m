@@ -41,6 +41,7 @@
     options[SimpleAuthPresentInterfaceBlockKey] = presentBlock;
     options[SimpleAuthDismissInterfaceBlockKey] = dismissBlock;
     options[SimpleAuthRedirectURIKey] = @"http://localhost";
+    options[@"access_type"] = @"online";
     options[@"scope"] = @"email openid profile";
     return options;
 }
@@ -96,12 +97,19 @@
                                    NSString *token = dictionary[@"access_token"];
                                    if ([token length] > 0) {
                                        
-                                       NSDictionary *credentials = @{
-                                                                     @"access_token" : token,
-                                                                     @"expires" : [NSDate dateWithTimeIntervalSinceNow:[dictionary[@"expires_in"] doubleValue]],
-                                                                     @"token_type" : @"bearer",
-                                                                     @"id_token": dictionary[@"id_token"]
-                                                                     };
+                                       NSMutableDictionary *credentials = [NSMutableDictionary new];
+                                       NSDictionary *defaultCredentials = @{
+                                                                            @"access_token" : token,
+                                                                            @"expires" : [NSDate dateWithTimeIntervalSinceNow:[dictionary[@"expires_in"] doubleValue]],
+                                                                            @"token_type" : @"bearer",
+                                                                            @"id_token": dictionary[@"id_token"]
+                                                                            };
+                                       
+                                      [credentials addEntriesFromDictionary:defaultCredentials];
+                                       if (dictionary[@"refresh_token"]) {
+                                           NSDictionary *refreshToken = @{ @"refresh_token": dictionary[@"refresh_token"] };
+                                           [credentials addEntriesFromDictionary:refreshToken];
+                                       }
                                        
                                        [self userWithCredentials:credentials
                                                       completion:completion];
@@ -153,10 +161,7 @@
     dictionary[@"provider"] = [[self class] type];
     
     // Credentials
-    dictionary[@"credentials"] = @{
-                                   @"token" : credentials[@"access_token"],
-                                   @"expires_at" : credentials[@"expires"]
-                                   };
+    dictionary[@"credentials"] = credentials;
     
     // User ID
     dictionary[@"uid"] = account[@"id"];
@@ -189,6 +194,7 @@
                       };
     
     dictionary[@"info"] = user;
+    
     
     return dictionary;
 }

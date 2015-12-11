@@ -51,6 +51,7 @@
     
     // app_id is required
     SimpleAuth.configuration[@"facebook"] = @{};
+    // app_secret optional required for re-authorization of token
     SimpleAuth.configuration[@"facebook-web"] = @{};
 	
     // client_id and redirect_uri are required
@@ -88,6 +89,9 @@
     
     // client_id and client_secret are required
     SimpleAuth.configuration[@"onedrive-web"] = @{};
+    
+    // client_id is required
+    SimpleAuth.configuration[@"vkontakte-web"] = @{};
 }
 
 

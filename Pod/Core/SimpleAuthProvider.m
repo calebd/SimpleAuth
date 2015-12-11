@@ -53,4 +53,9 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)reAuthorizeWithToken:(NSString *)token completionHandler:(SimpleAuthRequestHandler)completion {
+    // Provider doesn't have a re authorize token method setup revert back to standard authorization
+    [self authorizeWithCompletion:completion];
+}
+
 @end

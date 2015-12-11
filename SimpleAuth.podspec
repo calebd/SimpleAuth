@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.source_files = 'Pod/Core'
     ss.public_header_files = 'Pod/Core/SimpleAuth.h', 'Pod/Core/SimpleAuthDefines.h'
-    ss.dependency 'ReactiveCocoa'
+    ss.dependency 'ReactiveCocoa', '~>2.5'
     ss.dependency 'CMDQueryStringSerialization'
 
     ss.ios.frameworks = 'UIKit'
@@ -126,6 +126,12 @@ Pod::Spec.new do |s|
     ss.dependency 'SimpleAuth/Core'
     ss.source_files = 'Pod/Providers/OneDriveWeb'
     ss.private_header_files = 'Pod/Providers/OneDriveWeb/*.h'
+  end
+
+ s.subspec 'VKontakteWeb' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.source_files = 'Pod/Providers/VKontakteWeb'
+    ss.private_header_files = 'Pod/Providers/VKontakteWeb/*.h'
   end
 
 end

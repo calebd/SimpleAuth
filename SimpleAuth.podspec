@@ -128,4 +128,9 @@ Pod::Spec.new do |s|
     ss.private_header_files = 'Pod/Providers/OneDriveWeb/*.h'
   end
 
+  s.subspec 'ConstantContact' do |ss|
+    ss.dependency 'SimpleAuth/Core'
+    ss.source_files = 'Pod/Providers/ConstantContact'
+    ss.private_header_files = 'Pod/Providers/ConstantContact/*.h'
+  end
 end

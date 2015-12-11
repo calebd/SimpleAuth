@@ -15,6 +15,7 @@ PODS:
   - SimpleAuth (0.3.9):
     - SimpleAuth/BoxWeb (= 0.3.9)
     - SimpleAuth/Core (= 0.3.9)
+    - SimpleAuth/ConstantContact (= 0.3.9)
     - SimpleAuth/DropboxWeb (= 0.3.9)
     - SimpleAuth/Facebook (= 0.3.9)
     - SimpleAuth/FacebookWeb (= 0.3.9)
@@ -36,6 +37,8 @@ PODS:
   - SimpleAuth/Core (0.3.9):
     - CMDQueryStringSerialization
     - ReactiveCocoa
+  - SimpleAuth/ConstantContact (0.3.9):
+    - SimpleAuth/Core
   - SimpleAuth/DropboxWeb (0.3.9):
     - SimpleAuth/Core
   - SimpleAuth/Facebook (0.3.9):

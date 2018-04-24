@@ -25,11 +25,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    self.webView.frame = self.view.bounds;
-    [self.view addSubview:self.webView];
+    [self setupWebView];
 }
 
+- (void)setupWebView {
+    [self.view addSubview:self.webView];
+    
+    self.webView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.webView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor].active = YES;
+    [self.webView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.webView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor].active = YES;
+    [self.webView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -102,7 +111,6 @@
 - (UIWebView *)webView {
     if (!_webView) {
         _webView = [UIWebView new];
-        _webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         _webView.delegate = self;
     }
     return _webView;
